@@ -1,0 +1,6 @@
+{
+    "nextion": {
+        "com": "/dev/sttS4",
+        "baudrate": 115200
+    }
+}
