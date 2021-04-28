@@ -1,0 +1,10 @@
+{
+    "nextion": {
+        "com": "/dev/ttyS4",
+        "baudrate": 115200,
+        "startup_commands" : [
+            "thsp=30",
+            "thup=1"
+        ]
+    }
+}
