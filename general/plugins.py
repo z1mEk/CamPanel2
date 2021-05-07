@@ -1,6 +1,5 @@
-import logging
 import types
-from plugins import bms, waterLevel, updateHmi
+from plugins import bms, waterLevel, updateHmi, alerts, automation
 
 async def pluginsInit():
     for name, val in globals().items():

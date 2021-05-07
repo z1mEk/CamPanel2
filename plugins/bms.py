@@ -7,6 +7,8 @@ class data:
     remainingCapacity = 0
     temperature = 0
     RSOC = 0
+    class status:
+        pass
 
 class plugin:
     name = 'Daly BMS'

@@ -1,4 +1,3 @@
-import logging
 from hmi import hmi
 
 class TGlobal:
