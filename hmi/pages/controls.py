@@ -5,12 +5,12 @@ class ClassProperties(type):
     _val = None
     @property
     def val(cls):
-        #await hmi.client.get(self.name + '.val')
+        #await hmi.client.get(cls.name + '.val')
         return cls._val
         
     @val.setter
     def val(cls, value):
-        #await hmi.client.set(self.name + '.val', value)
+        #await hmi.client.set(cls.name + '.val', value)
         cls._val = value
 
 class TGlobal(object, metaclass=ClassProperties):   
