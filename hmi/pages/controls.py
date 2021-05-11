@@ -2,23 +2,17 @@ from hmi import hmi
 
 class TGlobal:
     name = None
-    _i = 3
-
-    def get_i(self):
-        return type(self)._i
-
-    def set_i(self, val):
-        type(self)._i = val
-
-    i = property(get_i, set_i)   
+    _val = 0 
     
-    @classmethod
     async def getVal(self):
-        return await hmi.client.get(self.name + '.val')
+        type(self)._val = await hmi.client.get(self.name + '.val')
+        return type(self)._val
 
-    @classmethod
     async def setVal(self, value:int):
-        await hmi.client.set(self.name + '.val', value)   
+        await hmi.client.set(self.name + '.val', value) 
+        type(self)._val = value
+        
+    val = property(getVal, setVal)  
 
     @classmethod
     async def getTxt(self):
