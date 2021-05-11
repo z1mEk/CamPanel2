@@ -5,7 +5,7 @@ class ClassProperties(type):
     _val = None
     @property
     def val(cls):
-        #await hmi.client.get(cls.name + '.val')
+        #cls._val = await hmi.client.get(cls.name + '.val')
         return cls._val
         
     @val.setter
