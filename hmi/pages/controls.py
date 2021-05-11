@@ -3,6 +3,8 @@ from hmi import hmi
 class ClassProperties(type):
     name = None
     _val = None
+    _txt = None
+    
     @property
     def val(self):
         print("get", self.name, self._val)
@@ -12,6 +14,16 @@ class ClassProperties(type):
     def val(self, value):
         print("set", self.name, value)
         self._val = value
+        
+    @property
+    def txt(self):
+        print("get", self.name, self._txt)
+        return self._txt
+        
+    @txt.setter
+    def txt(self, value):
+        print("set", self.name, value)
+        self._txt = value 
 
 class TGlobal(object, metaclass=ClassProperties):   
     @classmethod
