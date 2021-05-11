@@ -1,8 +1,19 @@
 from hmi import hmi
 
-class TGlobal:
+class ClassProperties(type):
     name = None
-    
+    _val = None
+    @property
+    def val(cls):
+        #await hmi.client.get(self.name + '.val')
+        return cls._val
+        
+    @val.setter
+    def val(cls, value):
+        #await hmi.client.set(self.name + '.val', value)
+        cls._val = value
+
+class TGlobal(object, metaclass=ClassProperties):   
     @classmethod
     async def getVal(self):
         return await hmi.client.get(self.name + '.val')
