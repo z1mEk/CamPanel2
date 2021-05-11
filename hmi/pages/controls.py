@@ -4,14 +4,14 @@ class ClassProperties(type):
     name = None
     _val = None
     @property
-    def val(cls):
-        #cls._val = await hmi.client.get(cls.name + '.val')
-        return cls._val
+    def val(self):
+        print("get", self.name, self._val)
+        return self._val
         
     @val.setter
-    def val(cls, value):
-        #await hmi.client.set(cls.name + '.val', value)
-        cls._val = value
+    def val(self, value):
+        print("set", self.name, value)
+        self._val = value
 
 class TGlobal(object, metaclass=ClassProperties):   
     @classmethod
