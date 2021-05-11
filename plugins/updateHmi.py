@@ -17,8 +17,8 @@ class plugin:
     @classmethod
     async def updateWaterLevel(self, interval):
         while True:
-            await page0.j0.setVal(plugins.waterLevel.data.whiteWater)
-            await page0.j1.setVal(plugins.waterLevel.data.greyWater)
+            await page0.j0.setVal(plugins.waterLevel.data.whiteWaterLevel)
+            await page0.j1.setVal(plugins.waterLevel.data.greyWaterLevel)
             await page0.t2.setTxt('{}%'.format(plugins.waterLevel.data.whiteWaterLevel))
             await page0.t3.setTxt('{}%'.format(plugins.waterLevel.data.greyWaterLevel))
             await asyncio.sleep(interval)            
