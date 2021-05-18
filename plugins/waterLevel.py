@@ -8,7 +8,6 @@ class data:
     tempGreyWater = 0
 
 class plugin:
-    name = 'Water Level'
 
     @classmethod
     async def readData(self, interval):
@@ -20,5 +19,5 @@ class plugin:
     @classmethod
     def initialize(self):
         loop = asyncio.get_event_loop()
-        loop.create_task(self.readData(10))
+        loop.create_task(self.readData(1))
         loop.run_forever

@@ -1,111 +1,28 @@
+from os import name
 from hmi import hmi
+from general import helper
 
+#region Global controls
 class ClassProperties(type):
     name = None
-    _val = None
-    _txt = None
     
     @property
     def val(self):
-        print("get", self.name, self._val)
-        return self._val
+        return helper.RunAsync(hmi.client.get(self.name + '.val'))
         
     @val.setter
     def val(self, value):
-        print("set", self.name, value)
-        self._val = value
-        
+        helper.RunAsync(hmi.client.set(self.name + '.val', value))
+
     @property
     def txt(self):
-        print("get", self.name, self._txt)
-        return self._txt
+        return helper.RunAsync(hmi.client.get(self.name + '.txt'))
         
     @txt.setter
     def txt(self, value):
-        print("set", self.name, value)
-        self._txt = value 
-
-class TGlobal(object, metaclass=ClassProperties):   
-    @classmethod
-    async def getVal(self):
-        return await hmi.client.get(self.name + '.val')
-
-    @classmethod
-    async def setVal(self, value:int):
-        await hmi.client.set(self.name + '.val', value) 
-
-    @classmethod
-    async def getTxt(self):
-        return await hmi.client.get(self.name + '.txt')
+        helper.RunAsync(hmi.client.set(self.name + '.txt', value))     
         
-    @classmethod
-    async def setTxt(self, value:str):
-        await hmi.client.set(self.name + '.txt', value)        
-
-    @classmethod
-    async def getFont(self):
-        return await hmi.client.get(self.name + '.font')
-
-    @classmethod
-    async def setFont(self, value:int):
-        await hmi.client.set(self.name + '.font', value) 
-
-    @classmethod
-    async def getBco(self):
-        return await hmi.client.get(self.name + '.bco')
-
-    @classmethod
-    async def setBco(self, value:int):
-        await hmi.client.set(self.name + '.bco', value) 
-
-    @classmethod
-    async def getPco(self):
-        return await hmi.client.get(self.name + '.pco')
-
-    @classmethod
-    async def setPco(self, value:int):
-        await hmi.client.set(self.name + '.pco', value)  
-
-    @classmethod
-    async def getXcen(self):
-        return await hmi.client.get(self.name + '.xcen')
-
-    @classmethod
-    async def setXcen(self, value:int):
-        await hmi.client.set(self.name + '.xcen', value)        
-
-    @classmethod
-    async def getYcen(self):
-        return await hmi.client.get(self.name + '.xcen')
-
-    @classmethod
-    async def setYcen(self, value:int):
-        await hmi.client.set(self.name + '.xcen', value)    
-
-    @classmethod
-    async def getIsbr(self):
-        return await hmi.client.get(self.name + '.isb')
-
-    @classmethod
-    async def setIsb(self, value:int):
-        await hmi.client.set(self.name + '.isb', value)   
-
-    @classmethod
-    async def getSpax(self):
-        return await hmi.client.get(self.name + '.spax')
-
-    @classmethod
-    async def setSpax(self, value:int):
-        await hmi.client.set(self.name + '.spax', value)     
-
-    @classmethod
-    async def getSpay(self):
-        return await hmi.client.get(self.name + '.spay')
-
-    @classmethod
-    async def setSpay(self, value:int):
-        await hmi.client.set(self.name + '.spay', value)                                 
-
+class TGlobal(object, metaclass=ClassProperties):   
     @classmethod
     async def onTouch(self):
         pass
@@ -113,6 +30,7 @@ class TGlobal(object, metaclass=ClassProperties):
     @classmethod
     async def onRelease(self):
         pass
+#endregion
 
 class TButton(TGlobal):
     pass
@@ -121,13 +39,7 @@ class TDualStateButton(TGlobal):
     pass
 
 class TText(TGlobal):
-    @classmethod
-    async def setPw(self, value:int):
-        await hmi.client.set(self.name + '.pw', value)        
-
-    @classmethod
-    async def getPw(self) -> int:
-        return await hmi.client.get(self.name + '.pw')
+    pass
 
 class TScrollingText(TGlobal):
     pass

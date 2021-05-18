@@ -2,22 +2,23 @@ import random
 import asyncio
 
 class data:
-    current = 0
+    currentMiliAmper = 0
+    currentAmper = 0
+    totalMiliVoltage = 0
     totalVoltage = 0
     remainingCapacity = 0
     temperature = 0
     RSOC = 0
-    class status:
-        pass
 
 class plugin:
-    name = 'Daly BMS'
 
     @classmethod
     async def readData(self, interval):
         while True:
-            data.current = random.randint(0, 50000)
-            data.totalVoltage = random.randint(12000, 15000)
+            data.currentMiliAmper = random.randint(0, 50000)
+            data.currentAmper = data.currentMiliAmper / 1000
+            data.totalMiliVoltage = random.randint(12000, 15000)
+            data.totalVoltage = data.totalMiliVoltage / 1000
             data.remainingCapacity = random.randint(0, 120000)
             data.temperature = random.randint(10, 30)
             data.RSOC = random.randint(0, 100)
@@ -27,5 +28,5 @@ class plugin:
     @classmethod
     def initialize(self):
         loop = asyncio.get_event_loop()      
-        loop.create_task(self.readData(10))
+        loop.create_task(self.readData(1))
         loop.run_forever

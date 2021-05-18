@@ -1,4 +1,4 @@
-import asynctio
+import asyncio
 
 def RunAsync(proc):
-  return asyncio.get_event_loop().run_until_complete(proc)
+  return asyncio.ensure_future(proc)
