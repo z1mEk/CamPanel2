@@ -1,7 +1,6 @@
 import asyncio
 
 class plugin:
-    name = 'Alerts'
 
     @classmethod
     def initialize(self):

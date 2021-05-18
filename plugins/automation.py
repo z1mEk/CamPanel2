@@ -1,7 +1,6 @@
 import asyncio
 
 class plugin:
-    name = 'Automation'
 
     @classmethod
     def initialize(self):

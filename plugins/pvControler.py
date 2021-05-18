@@ -21,7 +21,6 @@ class data:
         status = 0
 
 class plugin:
-    name = 'PV Controler'
 
     @classmethod
     def initialize(self):
