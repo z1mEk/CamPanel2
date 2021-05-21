@@ -26,3 +26,9 @@ async def setWakeUpSerial(value:bool = False):
 
 async def isSleeping():
     return await hmi.client.is_sleeping()
+
+async def getProperty(component:str, property:str):
+    return await hmi.client.get(component + "." + property)
+
+async def setProperty(component:str, property:str, val):
+    await hmi.client.set(component + "." + property, val)

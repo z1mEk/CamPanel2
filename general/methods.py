@@ -1,1 +1,1 @@
-# events of general
+# methods of general

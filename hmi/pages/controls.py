@@ -1,5 +1,4 @@
-from os import name
-from hmi import hmi
+from hmi import methods
 from general import helper
 
 #region Global controls
@@ -8,19 +7,19 @@ class ClassProperties(type):
     
     @property
     def val(self):
-        return helper.RunAsync(hmi.client.get(self.name + '.val'))
+        return helper.RunAsync(methods.getProperty(self.name, 'val'))
         
     @val.setter
     def val(self, value):
-        helper.RunAsync(hmi.client.set(self.name + '.val', value))
+        helper.RunAsync(methods.setProperty(self.name, 'val', value))
 
     @property
     def txt(self):
-        return helper.RunAsync(hmi.client.get(self.name + '.txt'))
+        return helper.RunAsync(methods.getProperty(self.name, 'txt'))
         
     @txt.setter
     def txt(self, value):
-        helper.RunAsync(hmi.client.set(self.name + '.txt', value))     
+        helper.RunAsync(methods.setProperty(self.name, 'txt', value))    
         
 class TGlobal(object, metaclass=ClassProperties):   
     @classmethod
