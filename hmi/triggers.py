@@ -1,6 +1,6 @@
 from hmi.pages import page0, page1
 
-### definition of call name for nextion's components. "call_back" procedure must by exists in hmi.pages.page0... ###
+### definition of call name for nextion's components. "call_back" ###
 components_touch_event = [
         #page0
         {"page_id": 0, "component_id": 9, "touch_event": 1, "call_back": page0.b0.onTouch},
