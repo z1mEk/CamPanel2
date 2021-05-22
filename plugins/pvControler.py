@@ -1,4 +1,5 @@
 import asyncio
+import random
 
 class data:
     class pv:
@@ -23,6 +24,14 @@ class data:
 class plugin:
 
     @classmethod
+    async def readData(self, interval):
+        while True:
+            data.pv.voltage = random.randint(12, 40)
+            data.pv.current = random.randint(0, 20)
+            await asyncio.sleep(interval)  
+
+    @classmethod
     def initialize(self):
-        loop = asyncio.get_event_loop()      
+        loop = asyncio.get_event_loop()    
+        loop.create_task(self.readData(1))  
         loop.run_forever

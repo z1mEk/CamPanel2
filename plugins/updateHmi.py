@@ -15,6 +15,14 @@ class plugin:
     async def updateWaterLevel(self, interval):
         while True:
             page0.j0.val = plugins.waterLevel.data.whiteWaterLevel
+
+            print(page0.j0.val)
+
+            if plugins.waterLevel.data.whiteWaterLevel < 50:
+                page0.j0.pco = 63488
+            else:
+                page0.j0.pco = 2047
+
             page0.j1.val = plugins.waterLevel.data.greyWaterLevel
             page0.t2.txt = '{}%'.format(plugins.waterLevel.data.whiteWaterLevel)
             page0.t3.txt = '{}%'.format(plugins.waterLevel.data.greyWaterLevel)

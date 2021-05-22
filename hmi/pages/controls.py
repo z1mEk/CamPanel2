@@ -11,7 +11,7 @@ class ClassProperties(type):
         return helper.RunAsync(hmi.client.get(self.name + '.val'))
         
     @val.setter
-    def val(self, value):
+    def val(self, value:int):
         helper.RunAsync(hmi.client.set(self.name + '.val', value))
 
     @property
@@ -19,8 +19,16 @@ class ClassProperties(type):
         return helper.RunAsync(hmi.client.get(self.name + '.txt'))
         
     @txt.setter
-    def txt(self, value):
+    def txt(self, value:str):
         helper.RunAsync(hmi.client.set(self.name + '.txt', value))     
+
+    @property
+    def pco(self):
+        return helper.RunAsync(hmi.client.get(self.name + '.pco'))
+        
+    @pco.setter
+    def pco(self, value:int):
+        helper.RunAsync(hmi.client.set(self.name + '.pco', value))          
         
 class TGlobal(object, metaclass=ClassProperties):   
     @classmethod
