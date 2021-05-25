@@ -50,10 +50,6 @@ class ControlMethods:
     @classmethod
     async def onRelease(self):
         pass
-
-    @classmethod
-    async def onChange(self)
-        pass
 #endregion
 
 #region MetaClass combine

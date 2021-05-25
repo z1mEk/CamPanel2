@@ -2,10 +2,15 @@ import serial
 import ayncio
 from enum import Enum
 
-class RelayName(Enum):
+class RelayValue(Enum):
     RELAY0 = 0
     RELAY1 = 1
     RELAY2 = 2
+    RELAY3 = 3
+    RELAY4 = 4
+    RELAY5 = 5
+    RELAY6 = 6
+    RELAY7 = 7
 
 class RelayState(Enum):
     OFF = 0
@@ -65,7 +70,7 @@ class modbusRelays:
             crcHigh = self.CRCTableLow[index]
         return (crcHigh << 8 | crcLow)
 
-    async def setState(self, numberRelay:RelayName, value:RelayState):
+    async def setState(self, numberRelay:RelayValue, value:RelayState):
         adress = 0x01 if (numberRelay < 8) else 0x02
         cmd = [address, 0x05, 0, numberRelay, 0, value if (value == 0) else 0xFF, 0, 0]
         crc = self.CRC(cmd[0:6])
@@ -76,19 +81,15 @@ class modbusRelays:
         pass
 
 class data:
-    relay0 = 0
-    relay1 = 0
-    relay2 = 0
-    relay3 = 0
-    relay4 = 0
-    relay5 = 0
-    relay6 = 0
-    relay7 = 0
+    pass
 
 class plugin:
+    @classmethod
+    def readData(self, interval:int):
+        pass
 
     @classmethod
     def initialize(self):
         loop = asyncio.get_event_loop()      
-        #loop.create_task(self.readData(1))
+        loop.create_task(self.readData(1))
         loop.run_forever            
