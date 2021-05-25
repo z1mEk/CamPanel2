@@ -2,8 +2,10 @@ from hmi import methods
 from general import helper
 
 #region Global controls
-class ClassProperties(type):
+class ClassName:
     name = None
+
+class ClassProperties(type, ClassName):
     
     @property
     def val(self):

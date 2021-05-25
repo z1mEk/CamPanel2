@@ -18,7 +18,7 @@ class plugin:
 
             print(page0.j0.val)
 
-            if plugins.waterLevel.data.whiteWaterLevel < 50:
+            if page0.j0.val < 50:
                 page0.j0.pco = 63488
             else:
                 page0.j0.pco = 2047
