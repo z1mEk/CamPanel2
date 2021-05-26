@@ -1,6 +1,6 @@
+from asyncio.events import set_event_loop
 from hmi import methods as hmiMethods
 from general import methods
-import asyncio
 
 #region Properties
 class ClassName(type, object):
@@ -12,7 +12,7 @@ class ValProperty(ClassName):
         return methods.RunAsync(hmiMethods.getProperty(self.name, 'val'))
         
     @val.setter
-    def val(self, value):
+    def val(self, value:int):
         methods.RunAsync(hmiMethods.setProperty(self.name, 'val', value))
 
 class TxtProperty(ClassName):
@@ -21,8 +21,17 @@ class TxtProperty(ClassName):
         return methods.RunAsync(hmiMethods.getProperty(self.name, 'txt'))
         
     @txt.setter
-    def txt(self, value):
+    def txt(self, value:txt):
         methods.RunAsync(hmiMethods.setProperty(self.name, 'txt', value))
+
+class FontProperty(ClassName):
+    @property
+    def font(self):
+        return methods.RunAsync(hmiMethods.getProperty(self.name, 'font'))
+        
+    @font.setter
+    def font(self, value:int):
+        methods.RunAsync(hmiMethods.setProperty(self.name, 'font', value))        
 
 class ColourProperty(ClassName):
     @property
@@ -30,7 +39,7 @@ class ColourProperty(ClassName):
         return methods.RunAsync(hmiMethods.getProperty(self.name, 'pco'))
         
     @pco.setter
-    def pco(self, value):
+    def pco(self, value:int):
         methods.RunAsync(hmiMethods.setProperty(self.name, 'pco', value))
 
     @property
@@ -38,7 +47,7 @@ class ColourProperty(ClassName):
         return methods.RunAsync(hmiMethods.getProperty(self.name, 'bco'))
         
     @bco.setter
-    def bco(self, value):
+    def bco(self, value:int):
         methods.RunAsync(hmiMethods.setProperty(self.name, 'bco', value))   
 #endregion     
 
@@ -54,22 +63,22 @@ class ControlMethods:
 #endregion
 
 #region MetaClass combine
-class TButtonMeta(TxtProperty, ColourProperty, ControlMethods):
+class TButtonMeta(TxtProperty, ColourProperty, FontProperty, ControlMethods):
     pass
       
 class TDualStateButtonMeta(ValProperty, TxtProperty, ColourProperty, ControlMethods):
     pass      
 
-class TTextMeta(TxtProperty, ColourProperty, ControlMethods):
+class TTextMeta(TxtProperty, ColourProperty, FontProperty, ControlMethods):
     pass 
 
-class TScrollingTextMeta(TxtProperty, ColourProperty, ControlMethods):
+class TScrollingTextMeta(TxtProperty, ColourProperty, FontProperty, ControlMethods):
     pass
 
-class TNumberMeta(ValProperty, ColourProperty, ControlMethods):
+class TNumberMeta(ValProperty, ColourProperty, FontProperty, ControlMethods):
     pass
 
-class TXFloatMeta(ValProperty, ColourProperty, ControlMethods):
+class TXFloatMeta(ValProperty, ColourProperty, FontProperty, ControlMethods):
     pass
 
 class TProgressBarMeta(ValProperty, ColourProperty, ControlMethods):

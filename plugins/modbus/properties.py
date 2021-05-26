@@ -1,4 +1,5 @@
 from plugins.modbus.modbus import ModbusRelays
+from enum import Enum
 from general import methods
 
 class Relay(Enum):

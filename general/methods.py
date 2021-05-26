@@ -1,10 +1,7 @@
 # methods of general
-import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 
 def RunAsync(proc):
-    #return asyncio.ensure_future(proc)
-    onceRunLoop = asyncio.new_event_loop()
-    #result = onceRunLoop.run_until_complete(proc)
-    #onceRunLoop.close()
-    return onceRunLoop.run_until_complete(proc)
-
+    loop = nest_asyncio.asyncio.get_event_loop()
+    return loop.run_until_complete(proc)

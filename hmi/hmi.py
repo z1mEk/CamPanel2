@@ -1,6 +1,6 @@
 import asyncio
 from config import config
-from nextion import Nextion, EventType, client
+from nextion import Nextion, EventType#, client
 from hmi import methods, events, triggers
  
 def callbackExecute(data):
@@ -24,6 +24,8 @@ def eventHandler(type_, data):
         asyncio.ensure_future(events.onStartUp())
 
 async def startupCommands():
+    await methods.wakeUp()
+    asyncio.sleep(2)
     for comm in config.data.nextion.startup_commands:
         await methods.command(comm)
 

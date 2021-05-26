@@ -1,5 +1,4 @@
 from serial import serial
-from enum import Enum
 from plugins.modbus.properties import State, Relay
 
 class CRC:
