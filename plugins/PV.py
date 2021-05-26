@@ -1,6 +1,5 @@
 import asyncio
 import random
-from general import loop
 
 class data:
     class pv:
@@ -33,6 +32,6 @@ class plugin:
 
     @classmethod
     def initialize(cls):
-        #loop = asyncio.get_event_loop()    
-        loop.loop.create_task(cls.readData(1))  
+        loop = asyncio.get_event_loop()    
+        loop.create_task(cls.readData(1))  
         #loop.run_forever

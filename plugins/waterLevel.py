@@ -1,6 +1,5 @@
 import random
 import asyncio
-from general import loop
 
 class data:
     whiteWaterLevel = 0
@@ -19,7 +18,7 @@ class plugin:
 
     @classmethod
     def initialize(cls):
-        #loop = asyncio.get_event_loop()
-        loop.loop.create_task(cls.readData(1))
+        loop = asyncio.get_event_loop()
+        loop.create_task(cls.readData(1))
         #loop.run_forever
 

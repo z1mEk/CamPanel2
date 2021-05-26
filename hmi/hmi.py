@@ -1,6 +1,6 @@
 import asyncio
 from config import config
-from nextion import Nextion, EventType
+from nextion import Nextion, EventType, client
 from hmi import methods, events, triggers
  
 def callbackExecute(data):

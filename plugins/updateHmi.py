@@ -1,6 +1,6 @@
 import asyncio
 from hmi.pages import page0
-from general import plugins, loop
+from general import plugins
 
 class plugin:
 
@@ -33,7 +33,7 @@ class plugin:
 
     @classmethod
     def initialize(cls):
-        #loop = asyncio.get_event_loop()      
-        loop.loop.create_task(cls.updateBMS(1))
-        loop.loop.create_task(cls.updateWaterLevel(1))
+        loop = asyncio.get_event_loop()      
+        loop.create_task(cls.updateBMS(1))
+        loop.create_task(cls.updateWaterLevel(1))
         #loop.run_forever
