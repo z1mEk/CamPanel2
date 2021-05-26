@@ -21,3 +21,4 @@ class plugin:
         loop = asyncio.get_event_loop()
         loop.create_task(self.readData(1))
         loop.run_forever
+

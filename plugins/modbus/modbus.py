@@ -2,7 +2,7 @@ from serial import serial
 from enum import Enum
 
 class CRC:
-    def __init__:
+    def __init__(self):
         self.CRCTableHigh = [
             0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
             0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
@@ -44,7 +44,7 @@ class CRC:
             0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42, 0x43, 0x83, 0x41, 0x81, 0x80,
             0x40
         ]
-    self.serial = serial.Serial("/dev/ttyUSB0",9600)
+    serial = serial.Serial("/dev/ttyUSB0",9600)
 
     def calculate(self, data):
         crcHigh, crcLow = 0xff, 0xff
@@ -76,8 +76,8 @@ class ModbusRelays:
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         self.serial.write(cmd)     
 
-    async def getRelayState(self, Relay:Relay):
-        cmd = [relay[0], 0x05, 0, relay[1], 0xFF, value if (value == 0) else 0xFF, 0, 0]
+    async def getRelayState(self, relay:Relay):
+        cmd = [relay[0], 0x05, 0, relay[1], 0xFF, 0, 0, 0]
         crc = CRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         self.serial.write(cmd)

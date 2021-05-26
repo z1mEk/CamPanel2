@@ -16,12 +16,12 @@ class plugin:
         while True:
             page0.j0.val = plugins.waterLevel.data.whiteWaterLevel
 
-            print(page0.j0.val)
+            # print(page0.j0.val)
 
-            if page0.j0.val < 50:
-                page0.j0.pco = 63488
-            else:
-                page0.j0.pco = 2047
+            #if page0.j0.val < 50:
+            #    page0.j0.pco = 63488
+            #else:
+            #    page0.j0.pco = 2047
 
             page0.j1.val = plugins.waterLevel.data.greyWaterLevel
             page0.t2.txt = '{}%'.format(plugins.waterLevel.data.whiteWaterLevel)

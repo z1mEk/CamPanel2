@@ -2,8 +2,7 @@ from hmi.pages import controls
 from hmi import hmi, methods
 
 async def Show():
-    #await hmi.client.command('page 0')
-    await methods.command('page page0')
+    await hmi.client.command('page 0')
 
 class b0(controls.TButton):
     name = 'page0.b0'

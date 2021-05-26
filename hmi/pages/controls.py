@@ -1,12 +1,12 @@
 from hmi import methods
 from general import helper
+import asyncio
 
-#region Global controls
-class ClassName:
+#region Properties
+class ClassName(type, object):
     name = None
 
-class ClassProperties(type, ClassName):
-    
+class ValProperty(ClassName):
     @property
     def val(self):
         return helper.RunAsync(methods.getProperty(self.name, 'val'))
@@ -15,15 +15,35 @@ class ClassProperties(type, ClassName):
     def val(self, value):
         helper.RunAsync(methods.setProperty(self.name, 'val', value))
 
+class TxtProperty(ClassName):
     @property
     def txt(self):
         return helper.RunAsync(methods.getProperty(self.name, 'txt'))
         
     @txt.setter
     def txt(self, value):
-        helper.RunAsync(methods.setProperty(self.name, 'txt', value))         
-      
-class TGlobal(object, metaclass=ClassProperties):   
+        helper.RunAsync(methods.setProperty(self.name, 'txt', value))
+
+class ColourProperty(ClassName):
+    @property
+    def pco(self):
+        return helper.RunAsync(methods.getProperty(self.name, 'pco'))
+        
+    @pco.setter
+    def pco(self, value):
+        helper.RunAsync(methods.setProperty(self.name, 'pco', value))
+
+    @property
+    def bco(self):
+        return helper.RunAsync(methods.getProperty(self.name, 'bco'))
+        
+    @bco.setter
+    def bco(self, value):
+        helper.RunAsync(methods.setProperty(self.name, 'bco', value))   
+#endregion     
+
+#region Methods
+class ControlMethods:
     @classmethod
     async def onTouch(self):
         pass
@@ -33,32 +53,66 @@ class TGlobal(object, metaclass=ClassProperties):
         pass
 #endregion
 
-class TButton(TGlobal):
+#region MetaClass combine
+class TButtonMeta(TxtProperty, ColourProperty, ControlMethods):
+    pass
+      
+class TDualStateButtonMeta(ValProperty, TxtProperty, ColourProperty, ControlMethods):
+    pass      
+
+class TTextMeta(TxtProperty, ColourProperty, ControlMethods):
+    pass 
+
+class TScrollingTextMeta(TxtProperty, ColourProperty, ControlMethods):
     pass
 
-class TDualStateButton(TGlobal):
+class TNumberMeta(ValProperty, ColourProperty, ControlMethods):
     pass
 
-class TText(TGlobal):
+class TXFloatMeta(ValProperty, ColourProperty, ControlMethods):
     pass
 
-class TScrollingText(TGlobal):
+class TProgressBarMeta(ValProperty, ColourProperty, ControlMethods):
     pass
 
-class TNumber(TGlobal):
+class TSliderMeta(ValProperty, ColourProperty, ControlMethods):
     pass
 
-class TXFloat(TGlobal):
+class TCheckBoxMeta(ValProperty, ColourProperty, ControlMethods):
     pass
 
-class TProgressBar(TGlobal):
+class TRadioMeta(ValProperty, ColourProperty, ControlMethods):
+    pass
+#endregion
+
+#region Global controlls class
+class TButton(metaclass=TButtonMeta):
     pass
 
-class TSlider(TGlobal):
+class TDualStateButton(metaclass=TDualStateButtonMeta):
     pass
 
-class TCheckBox(TGlobal):
+class TText(metaclass=TTextMeta):
     pass
 
-class TRadio(TGlobal):
+class TScrollingText(metaclass=TScrollingTextMeta):
     pass
+
+class TNumber(metaclass=TNumberMeta):
+    pass
+
+class TXFloat(metaclass=TXFloatMeta):
+    pass
+
+class TProgressBar(metaclass=TProgressBarMeta):
+    pass
+
+class TSlider(metaclass=TSliderMeta):
+    pass
+
+class TCheckBox(metaclass=TCheckBoxMeta):
+    pass
+
+class TRadio(metaclass=TRadioMeta):
+    pass
+#endregion

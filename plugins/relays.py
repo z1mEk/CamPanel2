@@ -1,5 +1,6 @@
-import ayncio
-from plugins.relays import ModbusRelays
+import asyncio
+from plugins.modbus.modbus import Relay
+from plugins.modbus.properties import relayMeta
 
 class data:
     class relay0(metaclass=relayMeta):
@@ -22,7 +23,7 @@ class data:
         relay = Relay.RELAY4
         pass
 
-    class relay5(metaclass=relayMeta):,
+    class relay5(metaclass=relayMeta):
         relay = Relay.RELAY5
         pass
 
@@ -43,4 +44,4 @@ class plugin:
     def initialize(self):
         loop = asyncio.get_event_loop()      
         loop.create_task(self.readData(1))
-        loop.run_forever            
+        loop.run_forever 
