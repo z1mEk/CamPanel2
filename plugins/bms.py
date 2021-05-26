@@ -1,5 +1,6 @@
 import random
 import asyncio
+from general import loop
 
 class data:
     currentMiliAmper = 0
@@ -13,7 +14,7 @@ class data:
 class plugin:
 
     @classmethod
-    async def readData(self, interval):
+    async def readData(cls, interval):
         while True:
             data.currentMiliAmper = random.randint(0, 50000)
             data.currentAmper = data.currentMiliAmper / 1000
@@ -22,11 +23,10 @@ class plugin:
             data.remainingCapacity = random.randint(0, 120000)
             data.temperature = random.randint(10, 30)
             data.RSOC = random.randint(0, 100)
-            await asyncio.sleep(interval)
-       
+            await asyncio.sleep(interval)       
 
     @classmethod
-    def initialize(self):
-        loop = asyncio.get_event_loop()      
-        loop.create_task(self.readData(1))
-        loop.run_forever
+    def initialize(cls):
+        #loop = asyncio.get_event_loop()      
+        loop.loop.create_task(cls.readData(1))
+        #loop.run_forever

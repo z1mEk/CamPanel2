@@ -1,18 +1,18 @@
 import asyncio
 from hmi.pages import page0
-from general import plugins
+from general import plugins, loop
 
 class plugin:
 
     @classmethod
-    async def updateBMS(self, interval):
+    async def updateBMS(cls, interval):
         while True:
             page0.t4.txt = '{}'.format(plugins.bms.data.totalVoltage)
             page0.t5.txt = '{}'.format(plugins.bms.data.RSOC)
             await asyncio.sleep(interval)
 
     @classmethod
-    async def updateWaterLevel(self, interval):
+    async def updateWaterLevel(cls, interval):
         while True:
             page0.j0.val = plugins.waterLevel.data.whiteWaterLevel
 
@@ -32,8 +32,8 @@ class plugin:
         
 
     @classmethod
-    def initialize(self):
-        loop = asyncio.get_event_loop()      
-        loop.create_task(self.updateBMS(1))
-        loop.create_task(self.updateWaterLevel(1))
-        loop.run_forever
+    def initialize(cls):
+        #loop = asyncio.get_event_loop()      
+        loop.loop.create_task(cls.updateBMS(1))
+        loop.loop.create_task(cls.updateWaterLevel(1))
+        #loop.run_forever

@@ -1,5 +1,5 @@
-from hmi import methods
-from general import helper
+from hmi import methods as hmiMethods
+from general import methods
 import asyncio
 
 #region Properties
@@ -9,47 +9,47 @@ class ClassName(type, object):
 class ValProperty(ClassName):
     @property
     def val(self):
-        return helper.RunAsync(methods.getProperty(self.name, 'val'))
+        return methods.RunAsync(hmiMethods.getProperty(self.name, 'val'))
         
     @val.setter
     def val(self, value):
-        helper.RunAsync(methods.setProperty(self.name, 'val', value))
+        methods.RunAsync(hmiMethods.setProperty(self.name, 'val', value))
 
 class TxtProperty(ClassName):
     @property
     def txt(self):
-        return helper.RunAsync(methods.getProperty(self.name, 'txt'))
+        return methods.RunAsync(hmiMethods.getProperty(self.name, 'txt'))
         
     @txt.setter
     def txt(self, value):
-        helper.RunAsync(methods.setProperty(self.name, 'txt', value))
+        methods.RunAsync(hmiMethods.setProperty(self.name, 'txt', value))
 
 class ColourProperty(ClassName):
     @property
     def pco(self):
-        return helper.RunAsync(methods.getProperty(self.name, 'pco'))
+        return methods.RunAsync(hmiMethods.getProperty(self.name, 'pco'))
         
     @pco.setter
     def pco(self, value):
-        helper.RunAsync(methods.setProperty(self.name, 'pco', value))
+        methods.RunAsync(hmiMethods.setProperty(self.name, 'pco', value))
 
     @property
     def bco(self):
-        return helper.RunAsync(methods.getProperty(self.name, 'bco'))
+        return methods.RunAsync(hmiMethods.getProperty(self.name, 'bco'))
         
     @bco.setter
     def bco(self, value):
-        helper.RunAsync(methods.setProperty(self.name, 'bco', value))   
+        methods.RunAsync(hmiMethods.setProperty(self.name, 'bco', value))   
 #endregion     
 
 #region Methods
 class ControlMethods:
     @classmethod
-    async def onTouch(self):
+    async def onTouch(cls):
         pass
         
     @classmethod
-    async def onRelease(self):
+    async def onRelease(cls):
         pass
 #endregion
 
