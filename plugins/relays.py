@@ -1,37 +1,37 @@
 import asyncio
 from plugins.modbus.modbus import Relay
-from plugins.modbus.properties import relayMeta
+from plugins.modbus.properties import TRelay
 
 class data:
-    class relay0(metaclass=relayMeta):
+    class relay0(TRelay):
         relay = Relay.RELAY0
         pass
 
-    class relay1(metaclass=relayMeta):
+    class relay1(TRelay):
         relay = Relay.RELAY1
         pass
 
-    class relay2(metaclass=relayMeta):
+    class relay2(TRelay):
         relay = Relay.RELAY2
         pass
 
-    class relay3(metaclass=relayMeta):
+    class relay3(TRelay):
         relay = Relay.RELAY3
         pass
 
-    class relay4(metaclass=relayMeta):
+    class relay4(TRelay):
         relay = Relay.RELAY4
         pass
 
-    class relay5(metaclass=relayMeta):
+    class relay5(TRelay):
         relay = Relay.RELAY5
         pass
 
-    class relay6(metaclass=relayMeta):
+    class relay6(TRelay):
         relay = Relay.RELAY6
         pass
 
-    class relay7(metaclass=relayMeta):
+    class relay7(TRelay):
         relay = Relay.RELAY7
         pass
 

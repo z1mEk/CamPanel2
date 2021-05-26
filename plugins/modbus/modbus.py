@@ -1,5 +1,6 @@
 from serial import serial
 from enum import Enum
+from plugins.modbus.properties import State, Relay
 
 class CRC:
     def __init__(self):
@@ -54,20 +55,6 @@ class CRC:
             crcLow  = crcHigh ^ self.CRCTableHigh[index]
             crcHigh = self.CRCTableLow[index]
         return (crcHigh << 8 | crcLow)
-
-class Relay(Enum):
-    RELAY0 = (0,0)
-    RELAY1 = (0,1)
-    RELAY2 = (0,2)
-    RELAY3 = (0,3)
-    RELAY4 = (0,4)
-    RELAY5 = (0,5)
-    RELAY6 = (0,6)
-    RELAY7 = (0,7)
-
-class State(Enum):
-    OFF = 0
-    ON = 0xFF
 
 class ModbusRelays:
     async def setRelayState(self, relay:Relay, value:State):
