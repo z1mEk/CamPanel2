@@ -12,7 +12,7 @@ class Relay(Enum):
     RELAY7 = (0,7)
 
 class State(Enum):
-    OFF = 0
+    OFF = 0x00
     ON = 0xFF
 
 class relayMeta(type):
