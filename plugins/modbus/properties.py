@@ -1,5 +1,5 @@
-from plugins.modbus.modbus import Relay, State, ModbusRelays
-from general import helper
+from plugins.modbus.modbus import ModbusRelays
+from general import methods
 
 class Relay(Enum):
     RELAY0 = (0,0)
@@ -20,11 +20,11 @@ class relayMeta(type):
 
     @property
     def value(self):
-        return helper.RunAsync(ModbusRelays.getRelayState(self.relay))
+        return methods.RunAsync(ModbusRelays.getRelayState(self.relay))
         
     @value.setter
     def value(self, value:State):
-        helper.RunAsync(ModbusRelays.setRelayState(self.relay, value))
+        methods.RunAsync(ModbusRelays.setRelayState(self.relay, value))
         
 class TRelay(metaclass=relayMeta):
     pass
