@@ -25,12 +25,11 @@ def eventHandler(type_, data):
 
 async def startupCommands():
     await methods.wakeUp()
-    asyncio.sleep(2)
     for comm in config.data.nextion.startup_commands:
         await methods.command(comm)
 
-async def create():
+async def create(event_loop):
     global client
-    client = Nextion(config.data.nextion.com, config.data.nextion.baudrate, eventHandler)
+    client = Nextion(config.data.nextion.com, config.data.nextion.baudrate, eventHandler, event_loop)
     await client.connect()
     await startupCommands()

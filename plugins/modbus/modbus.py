@@ -1,5 +1,4 @@
-from serial import serial
-from plugins.modbus.properties import State, Relay
+from serial import Serial
 
 class CRC:
     def __init__(self):
@@ -44,7 +43,6 @@ class CRC:
             0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42, 0x43, 0x83, 0x41, 0x81, 0x80,
             0x40
         ]
-    serial = serial.Serial("/dev/ttyUSB0",9600)
 
     def calculate(self, data):
         crcHigh, crcLow = 0xff, 0xff
@@ -54,17 +52,3 @@ class CRC:
             crcLow  = crcHigh ^ self.CRCTableHigh[index]
             crcHigh = self.CRCTableLow[index]
         return (crcHigh << 8 | crcLow)
-
-class ModbusRelays:
-    async def setRelayState(self, relay:Relay, value:State):
-        cmd = [relay[0], 0x05, 0, relay[1], 0, value if (value == 0) else 0xFF, 0, 0]
-        crc = CRC.calculate(cmd[0:6])
-        cmd[6], cmd[7] = crc & 0xFF, crc >> 8
-        self.serial.write(cmd)     
-
-    async def getRelayState(self, relay:Relay):
-        cmd = [relay[0], 0x05, 0, relay[1], 0xFF, 0, 0, 0]
-        crc = CRC.calculate(cmd[0:6])
-        cmd[6], cmd[7] = crc & 0xFF, crc >> 8
-        self.serial.write(cmd)
-        return self.serial.read(cmd)

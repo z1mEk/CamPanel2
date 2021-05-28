@@ -1,4 +1,3 @@
-from asyncio.tasks import sleep
 from hmi import methods
 
 async def onStartUp():

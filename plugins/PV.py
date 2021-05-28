@@ -31,6 +31,5 @@ class plugin:
             await asyncio.sleep(interval)  
 
     @classmethod
-    def initialize(cls):
-        loop = asyncio.get_event_loop()    
-        loop.create_task(cls.readData(1))  
+    def initialize(cls, event_loop):
+        event_loop.create_task(cls.readData(1))  

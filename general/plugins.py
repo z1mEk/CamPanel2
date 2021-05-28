@@ -1,7 +1,7 @@
 import types
 from plugins import bms, waterLevel, updateHmi
 
-async def pluginsInit():
+async def pluginsInit(event_loop):
     for name, val in globals().items():
         if isinstance(val, types.ModuleType) and 'plugin' in dir(val) and 'initialize' in dir(val.plugin):
-            val.plugin.initialize()
+            val.plugin.initialize(event_loop)

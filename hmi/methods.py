@@ -24,7 +24,7 @@ async def setTimeToSleep(value:int):
 async def setWakeUpSerial(value:bool = False):
     await command('thup={}'.format(0 if value else 1))
 
-async def isSleeping():
+async def isSleeping() -> bool:
     return await hmi.client.is_sleeping()
 
 async def getProperty(component:str, property:str):

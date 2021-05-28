@@ -1,39 +1,40 @@
 import asyncio
-from plugins.modbus.modbus import Relay
-from plugins.modbus.properties import TRelay
+from plugins.modbus.properties import TRelay, RelayAddress
 
-class data:
-    class relay0(TRelay):
-        relay = Relay.RELAY0
-        pass
+class relay0(TRelay):
+    address = RelayAddress.RELAY0
 
-    class relay1(TRelay):
-        relay = Relay.RELAY1
-        pass
+    @classmethod
+    async def onChange(cls, value):
+        print("onChange")
 
-    class relay2(TRelay):
-        relay = Relay.RELAY2
-        pass
+class relay1(TRelay):
+    address = RelayAddress.RELAY1
+    pass
 
-    class relay3(TRelay):
-        relay = Relay.RELAY3
-        pass
+class relay2(TRelay):
+    address = RelayAddress.RELAY2
+    pass
 
-    class relay4(TRelay):
-        relay = Relay.RELAY4
-        pass
+class relay3(TRelay):
+    address = RelayAddress.RELAY3
+    pass
 
-    class relay5(TRelay):
-        relay = Relay.RELAY5
-        pass
+class relay4(TRelay):
+    address = RelayAddress.RELAY4
+    pass
 
-    class relay6(TRelay):
-        relay = Relay.RELAY6
-        pass
+class relay5(TRelay):
+    address = RelayAddress.RELAY5
+    pass
 
-    class relay7(TRelay):
-        relay = Relay.RELAY7
-        pass
+class relay6(TRelay):
+    address = RelayAddress.RELAY6
+    pass
+
+class relay7(TRelay):
+    address = RelayAddress.RELAY7
+    pass
 
 class plugin:
     @classmethod
@@ -41,6 +42,5 @@ class plugin:
         pass
 
     @classmethod
-    def initialize(cls):
-        loop = asyncio.get_event_loop()      
-        loop.create_task(cls.readData(1))
+    def initialize(cls, event_loop):   
+        event_loop.create_task(cls.readData(1))
