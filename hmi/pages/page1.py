@@ -11,21 +11,19 @@ class b0(controls.TButton):
 
 class bt0(controls.TDualStateButton):
     name = 'page1.bt0'
-
+    
     @classmethod
     async def onRelease(cls):
         relays.relay0.val = cls.val
-        print(relays.relay0.address, relays.relay0.val)
-        pass
+        print(relays.data.relay0.address, relays.data.data.relay0.val)
 
 class bt1(controls.TDualStateButton):
     name = 'page1.bt1'
 
     @classmethod
     async def onRelease(cls):
-        relays.relay1.val = cls.val
-        print(relays.relay1.address, relays.relay1.val)
-        pass
+        relays.data.relay1.val = cls.val
+        print(relays.data.relay1.address, relays.data.relay1.val)
 
 class bt2(controls.TDualStateButton):
     name = 'page1.bt2'
