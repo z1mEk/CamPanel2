@@ -99,8 +99,9 @@ class data:
 
 class plugin:
     @classmethod
-    def readData(cls, interval:int):
-        pass
+    async def readData(cls, interval):
+        while True:
+            await asyncio.sleep(interval)  
 
     @classmethod
     def initialize(cls, event_loop):   
