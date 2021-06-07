@@ -10,5 +10,13 @@
     "relays": {
         "com": "/dev/ttyS7",
         "baudrate": 9600
+    },
+    "epsolar": {
+        "com": "/dev/ttyS5",
+        "baudrate": 9600
+    },
+    "bms": {
+        "com": "/dev/ttyS3",
+        "baudrate": 9600
     }
 }
