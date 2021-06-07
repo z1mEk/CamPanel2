@@ -48,13 +48,13 @@ class modbusCRC:
         ]
 
     @classmethod
-    def calculate(self, data):
+    def calculate(cls, data):
         crcHigh, crcLow = 0xff, 0xff
         index = 0
         for byte in data:
             index = crcLow ^ byte
-            crcLow  = crcHigh ^ self.CRCTableHigh[index]
-            crcHigh = self.CRCTableLow[index]
+            crcLow  = crcHigh ^ cls.CRCTableHigh[index]
+            crcHigh = cls.CRCTableLow[index]
         return (crcHigh << 8 | crcLow)
 
 class RelayAddress(Enum):
@@ -132,7 +132,8 @@ class relayMethod(metaclass=relayMeta):
         cls.reconnect()
         TRelay.srl.write(cmd)
         buffor = TRelay.srl.read(6) 
-        return [int(x) for x in list(format(buffor[3], '08b'))]
+        TRelay.currentStates = [int(x) for x in list(format(buffor[3], '08b'))]
+        return TRelay.currentStates
 
     @classmethod
     async def getRelayState(cls):
@@ -141,6 +142,7 @@ class relayMethod(metaclass=relayMeta):
         
 class TRelay(relayMethod):
     srl:Serial = None
+    currentStates:list = None
     pass
 
 class data:
@@ -180,6 +182,7 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         while True:
+            cls.getRelayStates() 
             await asyncio.sleep(interval)  
 
     @classmethod
