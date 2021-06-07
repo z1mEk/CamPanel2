@@ -35,13 +35,13 @@ class plugin:
             await asyncio.sleep(interval) 
         
     @classmethod
-    def onStart(cls):
+    async def onStart(cls):
         page0.t6.txt = "V"
         page0.t7.txt = "%"
 
     @classmethod
-    def initialize(cls,  event_loop):  
-        cls.onStart()
+    def initialize(cls, event_loop):  
+        event_loop.create_task(cls.onStart())
         event_loop.create_task(cls.updateBMS(1))
         event_loop.create_task(cls.updateWaterLevel(1))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
