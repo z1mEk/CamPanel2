@@ -6,5 +6,9 @@
             "thsp=30",
             "thup=1"
         ]
+    },
+    "relays": {
+        "com": "/dev/ttyS7",
+        "baudrate": 9600
     }
 }

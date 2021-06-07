@@ -1,5 +1,5 @@
 import types
-from plugins import bms, water, updateHmi
+from plugins import bms, water, updateHmi, relays
 
 async def pluginsInit(event_loop):
     for name, val in globals().items():

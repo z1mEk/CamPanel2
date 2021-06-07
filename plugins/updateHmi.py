@@ -16,7 +16,9 @@ class plugin:
     async def updateWaterLevel(cls, interval):
         while True:
             page0.j0.val = plugins.water.data.whiteWaterLevel
+            page0.j0.pco = helper.RGB2NextionColour(0, 255, 255) if plugins.water.data.whiteWaterLevel > 20 else helper.RGB2NextionColour(255, 0, 0)
             page0.j1.val = plugins.water.data.greyWaterLevel
+            page0.j1.pco = helper.RGB2NextionColour(0, 255, 255) if plugins.water.data.greyWaterLevel < 80 else helper.RGB2NextionColour(255, 0, 0)
             page0.t2.txt = '{}%'.format(plugins.water.data.whiteWaterLevel)
             page0.t3.txt = '{}%'.format(plugins.water.data.greyWaterLevel)
             await asyncio.sleep(interval)            
