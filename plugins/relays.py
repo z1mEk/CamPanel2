@@ -121,7 +121,7 @@ class relayMethod(metaclass=relayMeta):
         TRelay.srl.write(cmd)
 
     @classmethod
-    async def getRelayStates(cls):
+    async def getRelayStates(cls) -> list:
         cmd = [0, 0, 0, 0, 0, 0, 0, 0]
         cmd[0] = cls.address.value[0]
         cmd[1] = 0x01
@@ -136,46 +136,46 @@ class relayMethod(metaclass=relayMeta):
         return TRelay.currentStates
 
     @classmethod
-    async def getRelayState(cls):
+    async def getRelayState(cls) -> int:
         ret = await cls.getRelayStates(cls)
         return ret[cls.address.value[1]] 
         
-class TRelay(relayMethod):
+class TRelay(relayMethod, RelayAddress):
     srl:Serial = None
     currentStates:list = None
     pass
 
 class data:
     class relay0(TRelay):
-        address = RelayAddress.RELAY0
+        address = TRelay.RELAY0
         pass
 
     class relay1(TRelay):
-        address = RelayAddress.RELAY1
+        address = TRelay.RELAY1
         pass
 
     class relay2(TRelay):
-        address = RelayAddress.RELAY2
+        address = TRelay.RELAY2
         pass
 
     class relay3(TRelay):
-        address = RelayAddress.RELAY3
+        address = TRelay.RELAY3
         pass
 
     class relay4(TRelay):
-        address = RelayAddress.RELAY4
+        address = TRelay.RELAY4
         pass
 
     class relay5(TRelay):
-        address = RelayAddress.RELAY5
+        address = TRelay.RELAY5
         pass
 
     class relay6(TRelay):
-        address = RelayAddress.RELAY6
+        address = TRelay.RELAY6
         pass
 
     class relay7(TRelay):
-        address = RelayAddress.RELAY7
+        address = TRelay.RELAY7
         pass
 
 class plugin:
