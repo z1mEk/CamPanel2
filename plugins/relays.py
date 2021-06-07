@@ -138,10 +138,6 @@ class relayMethod(metaclass=relayMeta):
     async def getRelayState(cls):
         ret = await cls.getRelayStates(cls)
         return ret[cls.address.value[1]] 
-
-    @classmethod
-    async def onChange(cls, value):
-        pass
         
 class TRelay(relayMethod):
     srl:Serial = None
