@@ -98,27 +98,46 @@ class relayMethod(metaclass=relayMeta):
             TRelay.srl = Serial(config.data.relays.com, config.data.relays.baudrate)        
     
     @classmethod
-    async def setRelayState(cls, value):
-        cmd = [cls.address.value[0], 0x05, 0, cls.address.value[1], value if (value == 0) else 0xFF, 0, 0, 0]
+    async def setRelayState(cls, value:int):
+        cmd = [0, 0, 0, 0, 0, 0, 0, 0]
+        cmd[0] = cls.address.value[0]
+        cmd[1] = 0x05
+        cmd[3] = cls.address.value[1]
+        cmd[4] = value if (value == 0) else 0xFF
         crc = modbusCRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         cls.reconnect()
         TRelay.srl.write(cmd)
-        # ret = TRelay.srl.read(8)
-        # if cmd != [x for x in ret]:
-        #     print("Niezgodność!")
-        # else:
-        #     print("Zgodność!")
+        
+    @classmethod
+    async def setRelayStates(cls, states:list):
+        cmd = [0, 0, 0, 0, 0, 0, 0, 0]
+        cmd[0] = cls.address.value[0]
+        cmd[1] = 0x0f
+        cmd[5] = int("".join(str(i) for i in states), 2)
+        crc = modbusCRC.calculate(cmd[0:6])
+        cmd[6], cmd[7] = crc & 0xFF, crc >> 8
+        cls.reconnect()
+        TRelay.srl.write(cmd)
+
+    @classmethod
+    async def getRelayStates(cls):
+        cmd = [0, 0, 0, 0, 0, 0, 0, 0]
+        cmd[0] = cls.address.value[0]
+        cmd[1] = 0x01
+        cmd[3] = 0xff
+        cmd[5] = 0x01
+        crc = modbusCRC.calculate(cmd[0:6])
+        cmd[6], cmd[7] = crc & 0xFF, crc >> 8
+        cls.reconnect()
+        TRelay.srl.write(cmd)
+        buffor = TRelay.srl.read(6) 
+        return [int(x) for x in list(format(buffor[3], '08b'))]
 
     @classmethod
     async def getRelayState(cls):
-        cmd = [cls.address.value[0], 0x05, 0, cls.address.value[1], 0xFF, 0, 0, 0]
-        crc = modbusCRC.calculate(cmd[0:6])
-        cmd[6], cmd[7] = crc & 0xFF, crc >> 8
-        cls.reconnect()
-        TRelay.srl.write(cmd)
-        ret = TRelay.srl.read(8) 
-        return ret
+        ret = await cls.getRelayStates(cls)
+        return ret[cls.address.value[1]] 
 
     @classmethod
     async def onChange(cls, value):
