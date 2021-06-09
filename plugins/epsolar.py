@@ -1,3 +1,7 @@
+'''
+https://pypi.org/project/epsolar-tracer/
+pip3 install epsolar-tracer
+'''
 import asyncio
 import random
 

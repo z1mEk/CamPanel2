@@ -1,3 +1,7 @@
+'''
+https://pypi.org/project/nextion/
+pip3 install nextion
+'''
 import asyncio
 from config import config
 from nextion import Nextion, EventType#, client

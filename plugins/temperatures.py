@@ -1,3 +1,8 @@
+'''
+sudo pip3 install w1thermsensor
+https://github.com/timofurrer/w1thermsensor
+https://bigl.es/ds18b20-temperature-sensor-with-python-raspberry-pi/
+'''
 import asyncio
 import random
 
