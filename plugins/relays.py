@@ -121,7 +121,7 @@ class relayMethod(metaclass=relayMeta):
         TRelay.srl.write(cmd)
 
     @classmethod
-    async def getRelayStates(cls) -> list:
+    async def getRelayState(cls) -> int:
         cmd = [0, 0, 0, 0, 0, 0, 0, 0]
         cmd[0] = cls.address.value[0]
         cmd[1] = 0x01
@@ -131,58 +131,53 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         cls.reconnect()
         TRelay.srl.write(cmd)
-        buffor = TRelay.srl.read(6) 
-        TRelay.currentStates = [int(x) for x in list(format(buffor[3], '08b'))]
-        return TRelay.currentStates
-
-    @classmethod
-    async def getRelayState(cls) -> int:
-        ret = await cls.getRelayStates(cls)
-        return ret[cls.address.value[1]] 
+        buffor = TRelay.srl.read(6)   
+        data.currentStates = buffor      
+        return buffor[cls.address.value[1]] 
         
-class TRelay(relayMethod, RelayAddress):
+class TRelay(relayMethod):
     srl:Serial = None
-    currentStates:list = None
     pass
 
 class data:
+    currentStates:list = None
+    
     class relay0(TRelay):
-        address = TRelay.RELAY0
+        address = RelayAddress.RELAY0
         pass
 
     class relay1(TRelay):
-        address = TRelay.RELAY1
+        address = RelayAddress.RELAY1
         pass
 
     class relay2(TRelay):
-        address = TRelay.RELAY2
+        address = RelayAddress.RELAY2
         pass
 
     class relay3(TRelay):
-        address = TRelay.RELAY3
+        address = RelayAddress.RELAY3
         pass
 
     class relay4(TRelay):
-        address = TRelay.RELAY4
+        address = RelayAddress.RELAY4
         pass
 
     class relay5(TRelay):
-        address = TRelay.RELAY5
+        address = RelayAddress.RELAY5
         pass
 
     class relay6(TRelay):
-        address = TRelay.RELAY6
+        address = RelayAddress.RELAY6
         pass
 
     class relay7(TRelay):
-        address = TRelay.RELAY7
+        address = RelayAddress.RELAY7
         pass
 
 class plugin:
     @classmethod
     async def readData(cls, interval):
         while True:
-            cls.getRelayStates() 
             await asyncio.sleep(interval)  
 
     @classmethod

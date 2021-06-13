@@ -26,12 +26,12 @@ class plugin:
     @classmethod
     async def updateDualStateButtonValue(cls, interval):
         while True:
-            page1.bt0.val = plugins.relays.TRelay.currentStates[0]
-            page1.bt1.val = plugins.relays.TRelay.currentStates[1]
-            page1.bt2.val = plugins.relays.TRelay.currentStates[2]
-            page1.bt3.val = plugins.relays.TRelay.currentStates[3]
-            page1.bt4.val = plugins.relays.TRelay.currentStates[4]
-            page1.bt5.val = plugins.relays.TRelay.currentStates[5]
+            # page1.bt0.val = plugins.relays.data.currentStates[0]
+            # page1.bt1.val = plugins.relays.data.currentStates[1]
+            # page1.bt2.val = plugins.relays.data.currentStates[2]
+            # page1.bt3.val = plugins.relays.data.currentStates[3]
+            # page1.bt4.val = plugins.relays.data.currentStates[4]
+            # page1.bt5.val = plugins.relays.data.currentStates[5]
             await asyncio.sleep(interval) 
         
     @classmethod
