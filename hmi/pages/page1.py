@@ -1,6 +1,7 @@
 from hmi.pages import controls
 from hmi import hmi
 from plugins import relays
+import asyncio
 
 async def Show():
     await hmi.client.command('page 1')
@@ -15,6 +16,7 @@ class bt0(controls.TDualStateButton):
     @classmethod
     async def onRelease(cls):
         relays.data.relay0.val = cls.val
+        pass
 
 class bt1(controls.TDualStateButton):
     name = 'page1.bt1'
@@ -22,6 +24,7 @@ class bt1(controls.TDualStateButton):
     @classmethod
     async def onRelease(cls):
         relays.data.relay1.val = cls.val
+        pass
 
 class bt2(controls.TDualStateButton):
     name = 'page1.bt2'

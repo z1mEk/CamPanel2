@@ -99,6 +99,7 @@ class relayMethod(metaclass=relayMeta):
     
     @classmethod
     async def setRelayState(cls, value:int):
+        print(value)
         cmd = [0, 0, 0, 0, 0, 0, 0, 0]
         cmd[0] = cls.address.value[0]
         cmd[1] = 0x05
