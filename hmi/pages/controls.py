@@ -5,6 +5,11 @@ from general import methods
 class BaseControl(type, object):
     name = None
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Setting the name based on the current module and class name.
+        self.name = f'{self.__module__.split(".")[-1]}.{self.__class__.__name__.lower()}'    
+
     def _getAtrr(self, attr):
         return methods.RunAsync(hmiMethods.getProperty(self.name, attr))
 
