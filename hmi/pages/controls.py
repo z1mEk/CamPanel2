@@ -11,9 +11,14 @@ class BaseControl(type, object):
 
         if module_name == "__init__":
             module_name = os.path.basename(os.path.dirname(module.__file__))
+            
+        base_class_name = bases[0].__name__ if bases else None
 
-        dct['name'] = f"{module_name}.{name}"
-        return super().__new__(cls, name, bases, dct)   
+        dct['page'] = module_name
+        dct['name'] = name
+        dct['fullname'] = f"{module_name}.{name}"
+        dct['type'] = base_class_name
+        return super().__new__(cls, name, bases, dct)  
 
     def _getAtrr(self, attr):
         return methods.RunAsync(hmiMethods.getProperty(self.name, attr))
