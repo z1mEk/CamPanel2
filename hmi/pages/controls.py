@@ -83,7 +83,7 @@ class ControlMethods:
 class TButtonMeta(
     TxtProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     FontProperty,
     ControlMethods
 ):
@@ -93,7 +93,7 @@ class TDualStateButtonMeta(
     ValProperty,
     TxtProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     ControlMethods
 ):
     pass
@@ -102,7 +102,7 @@ class TTextMeta(
     TxtProperty,
     ColourProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     XcenProperty,
     ControlMethods):
     pass
@@ -110,7 +110,7 @@ class TTextMeta(
 class TScrollingTextMeta(
     TxtProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     FontProperty,
     ControlMethods
 ):
@@ -119,7 +119,7 @@ class TScrollingTextMeta(
 class TNumberMeta(
     ValProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     FontProperty,
     ControlMethods
 ):
@@ -128,7 +128,7 @@ class TNumberMeta(
 class TXFloatMeta(
     ValProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     FontProperty,
     ControlMethods
 ):
@@ -137,7 +137,7 @@ class TXFloatMeta(
 class TProgressBarMeta(
     ValProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     ControlMethods
 ):
     pass
@@ -145,14 +145,15 @@ class TProgressBarMeta(
 class TSliderMeta(
     ValProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     ControlMethods
 ):
     pass
 
 class TCheckBoxMeta(
     ValProperty,
-    ColourProperty,
+    ColourPropertyPco,
+    ColourPropertyBco,
     ControlMethods
 ):
     pass
@@ -160,7 +161,7 @@ class TCheckBoxMeta(
 class TRadioMeta(
     ValProperty,
     ColourPropertyPco,
-	ColourPropertyBco,
+    ColourPropertyBco,
     ControlMethods
 ):
     pass
