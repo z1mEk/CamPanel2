@@ -3,7 +3,7 @@ import sys
 from hmi import methods as hmiMethods
 from general import methods
 
-#region Properties
+#region Base Control
 class BaseControl(type, object):
     def __new__(cls, name, bases, dct):
         module = sys.modules[dct['__module__']]
@@ -11,165 +11,163 @@ class BaseControl(type, object):
 
         if module_name == "__init__":
             module_name = os.path.basename(os.path.dirname(module.__file__))
-            
+
         base_class_name = bases[0].__name__ if bases else None
 
         dct['page'] = module_name
         dct['name'] = name
         dct['fullname'] = f"{module_name}.{name}"
         dct['type'] = base_class_name
-        return super().__new__(cls, name, bases, dct)  
+        return super().__new__(cls, name, bases, dct)
 
-    def _getAtrr(self, attr):
+    def _get_attr(self, attr):
         return methods.RunAsync(hmiMethods.getProperty(self.fullname, attr))
 
-    def _setAttr(self, attr, value):
+    def _set_attr(self, attr, value):
         methods.RunAsync(hmiMethods.setProperty(self.fullname, attr, value))
 
-class ValProperty(BaseControl):
-    @property
-    def val(self):
-        return self._getAtrr('val')
-        
-    @val.setter
-    def val(self, value:int):
-        self._setAttr('val', value)
+#endregion
 
-class TxtProperty(BaseControl):
-    @property
-    def txt(self):
-        return self._getAtrr('txt')
-        
-    @txt.setter
-    def txt(self, value:txt):
-        self._setAttr('txt', value)
-
-class FontProperty(BaseControl):
-    @property
-    def font(self):
-        return self._getAtrr('font')
-        
-    @font.setter
-    def font(self, value:int):
-        self._setAttr('font', value)
-
-class XcenProperty(BaseControl):
-    @property
-    def xcen(self):
-        return self._getAtrr('xcen')
-        
-    @xcen.setter
-    def xcen(self, value:int):
-        self._setAttr('xcen', value)
-
-class ColourProperty(BaseControl):
-    @property
-    def pco(self):
-        return self._getAtrr('pco')
-        
-    @pco.setter
-    def pco(self, value:int):
-        self._setAttr('pco', value)
+#region Properties
+class PropertyMixin(BaseControl):
+    def __init__(self, attr_name):
+        self._attr_name = attr_name
 
     @property
-    def bco(self):
-        return self._getAtrr('bco')
-        
-    @bco.setter
-    def bco(self, value:int):
-        self._setAttr('bco', value)
-#endregion     
+    def value(self):
+        return self._get_attr(self._attr_name)
+
+    @value.setter
+    def value(self, value):
+        self._set_attr(self._attr_name, value)
+
+class ValProperty(PropertyMixin):
+    def __init__(self):
+        super().__init__('val')
+
+class TxtProperty(PropertyMixin):
+    def __init__(self):
+        super().__init__('txt')
+
+class FontProperty(PropertyMixin):
+    def __init__(self):
+        super().__init__('font')
+
+class XcenProperty(PropertyMixin):
+    def __init__(self):
+        super().__init__('xcen')
+
+class ColourPropertyPco(PropertyMixin):
+    def __init__(self):
+        super().__init__('pco')
+		
+class ColourPropertyBco(PropertyMixin):
+    def __init__(self):
+        super().__init__('bco')
+
+#endregion
 
 #region Methods
 class ControlMethods:
     @classmethod
-    async def onTouch(cls):
+    async def on_touch(cls):
         pass
-        
+
     @classmethod
-    async def onRelease(cls):
+    async def on_release(cls):
         pass
+
 #endregion
 
 #region MetaClass combine
 class TButtonMeta(
-            TxtProperty,
-            ColourProperty,
-            FontProperty,
-            ControlMethods
-        ):
+    TxtProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    FontProperty,
+    ControlMethods
+):
     pass
-      
+
 class TDualStateButtonMeta(
-            ValProperty,
-            TxtProperty,
-            ColourProperty,
-            ControlMethods
-        ):
-    pass      
+    ValProperty,
+    TxtProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    ControlMethods
+):
+    pass
 
 class TTextMeta(
-            TxtProperty,
-            ColourProperty,
-            FontProperty,
-            XcenProperty,
-            ControlMethods):
-    pass 
+    TxtProperty,
+    ColourProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    XcenProperty,
+    ControlMethods):
+    pass
 
 class TScrollingTextMeta(
-            TxtProperty,
-            ColourProperty,
-            FontProperty,
-            ControlMethods
-        ):
+    TxtProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    FontProperty,
+    ControlMethods
+):
     pass
 
 class TNumberMeta(
-            ValProperty,
-            ColourProperty,
-            FontProperty,
-            ControlMethods
-        ):
+    ValProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    FontProperty,
+    ControlMethods
+):
     pass
 
 class TXFloatMeta(
-            ValProperty,
-            ColourProperty,
-            FontProperty,
-            ControlMethods
-        ):
+    ValProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    FontProperty,
+    ControlMethods
+):
     pass
 
 class TProgressBarMeta(
-            ValProperty,
-            ColourProperty,
-            ControlMethods
-        ):
+    ValProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    ControlMethods
+):
     pass
 
 class TSliderMeta(
-            ValProperty,
-            ColourProperty,
-            ControlMethods
-        ):
+    ValProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    ControlMethods
+):
     pass
 
 class TCheckBoxMeta(
-            ValProperty,
-            ColourProperty,
-            ControlMethods
-        ):
+    ValProperty,
+    ColourProperty,
+    ControlMethods
+):
     pass
 
 class TRadioMeta(
-            ValProperty,
-            ColourProperty,
-            ControlMethods
-        ):
+    ValProperty,
+    ColourPropertyPco,
+	ColourPropertyBco,
+    ControlMethods
+):
     pass
+
 #endregion
 
-#region Global controll classes
+#region Global control classes
 class TButton(metaclass=TButtonMeta):
     pass
 
@@ -199,4 +197,5 @@ class TCheckBox(metaclass=TCheckBoxMeta):
 
 class TRadio(metaclass=TRadioMeta):
     pass
+
 #endregion
