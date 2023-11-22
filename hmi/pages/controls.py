@@ -21,10 +21,10 @@ class BaseControl(type, object):
         return super().__new__(cls, name, bases, dct)  
 
     def _getAtrr(self, attr):
-        return methods.RunAsync(hmiMethods.getProperty(self.name, attr))
+        return methods.RunAsync(hmiMethods.getProperty(self.fullname, attr))
 
     def _setAttr(self, attr, value):
-        methods.RunAsync(hmiMethods.setProperty(self.name, attr, value))
+        methods.RunAsync(hmiMethods.setProperty(self.fullname, attr, value))
 
 class ValProperty(BaseControl):
     @property
