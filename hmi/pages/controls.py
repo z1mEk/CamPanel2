@@ -1,14 +1,19 @@
+import os
+import sys
 from hmi import methods as hmiMethods
 from general import methods
 
 #region Properties
 class BaseControl(type, object):
-    name = None
+    def __new__(cls, name, bases, dct):
+        module = sys.modules[dct['__module__']]
+        module_name = os.path.splitext(os.path.basename(module.__file__))[0]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Setting the name based on the current module and class name.
-        self.name = f'{self.__module__.split(".")[-1]}.{self.__class__.__name__.lower()}'    
+        if module_name == "__init__":
+            module_name = os.path.basename(os.path.dirname(module.__file__))
+
+        dct['name'] = f"{module_name}.{name}"
+        return super().__new__(cls, name, bases, dct)   
 
     def _getAtrr(self, attr):
         return methods.RunAsync(hmiMethods.getProperty(self.name, attr))
