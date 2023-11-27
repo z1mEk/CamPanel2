@@ -46,23 +46,23 @@
             <tbody>
                 <tr>
                     <td>White Water Level</td>
-                    <td class="right-align">$Vue{waterLevel.whiteWaterLevel}%</td>
+                    <td class="right-align">Vue{waterLevel.whiteWaterLevel}%</td>
                 </tr>
                 <tr>
                     <td>Grey Water Level</td>
-                    <td class="right-align">$Vue{waterLevel.greyWaterLevel}%</td>
+                    <td class="right-align">Vue{waterLevel.greyWaterLevel}%</td>
                 </tr>
                 <tr>
                     <td>Total Voltage</td>
-                    <td class="right-align">$Vue{bms.totalVoltage}V</td>
+                    <td class="right-align">Vue{bms.totalVoltage}V</td>
                 </tr>
                 <tr>
                     <td>Current Amper</td>
-                    <td class="right-align">$Vue{bms.currentAmper}A</td>
+                    <td class="right-align">Vue{bms.currentAmper}A</td>
                 </tr>
                 <tr>
                     <td>RSOC</td>
-                    <td class="right-align">$Vue{bms.RSOC}%</td>
+                    <td class="right-align">Vue{bms.RSOC}%</td>
                 </tr>
             </tbody>
         </table>
@@ -75,7 +75,7 @@
                 waterLevel: {},
                 bms: {}
             },
-            delimiters: ['$Vue{', '}'],
+            delimiters: ['Vue{', '}'],
             methods: {
                 saveRsoc: function () {
                     const dataToSend = {
