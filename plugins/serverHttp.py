@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, send_from_directory
 from threading import Thread
 from plugins import waterLevel, dalyBms
 from hmi import methods as hmiMethods
@@ -42,11 +42,15 @@ def getIndex():
 
 @app.route('/css/<file_name>')
 def getCss(file_name):
-    return render_template(f'css/{file_name}')
+    return send_from_directory(os.path.join(TEMPLATES_DIR, 'css'), file_name)
 
 @app.route('/js/<file_name>')
 def getJs(file_name):
-    return render_template(f'js/{file_name}')
+    return send_from_directory(os.path.join(TEMPLATES_DIR, 'js'), file_name)
+
+@app.route('/fonts/<file_name>')
+def getFonts(file_name):
+    return send_from_directory(os.path.join(TEMPLATES_DIR, 'fonts'), file_name)
 
 @app.route('/set', methods=['GET'])
 def set_rsoc():
@@ -58,4 +62,3 @@ def set_rsoc():
 def wakeup():
     generalMethods.RunAsync(hmiMethods.wakeUp())
     return jsonify({"success": True})
-
