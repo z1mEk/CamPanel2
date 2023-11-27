@@ -1,6 +1,6 @@
 import asyncio
 from hmi.pages import page0, page1
-from general import plugins
+from plugins import dalyBms, waterLevel
 from hmi import methods, helper
 
 class plugin:
@@ -8,19 +8,19 @@ class plugin:
     @classmethod
     async def updateBMS(cls, interval):
         while True:
-            page0.t4.txt = '{}'.format(plugins.bms.data.totalVoltage)
-            page0.t5.txt = '{}'.format(plugins.bms.data.RSOC)
+            page0.t4.txt = '{}'.format(dalyBms.data.totalVoltage)
+            page0.t5.txt = '{}'.format(dalyBms.data.RSOC)
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateWaterLevel(cls, interval):
         while True:
-            page0.j0.val = plugins.water.data.whiteWaterLevel
-            page0.j0.pco = helper.RGB2NextionColour(0, 255, 255) if plugins.water.data.whiteWaterLevel > 20 else helper.RGB2NextionColour(255, 0, 0)
-            page0.j1.val = plugins.water.data.greyWaterLevel
-            page0.j1.pco = helper.RGB2NextionColour(0, 255, 255) if plugins.water.data.greyWaterLevel < 80 else helper.RGB2NextionColour(255, 0, 0)
-            page0.t2.txt = '{}%'.format(plugins.water.data.whiteWaterLevel)
-            page0.t3.txt = '{}%'.format(plugins.water.data.greyWaterLevel)
+            page0.j0.val = waterLevel.data.whiteWaterLevel
+            page0.j0.pco = helper.RGB2NextionColour(0, 255, 255) if waterLevel.data.whiteWaterLevel > 20 else helper.RGB2NextionColour(255, 0, 0)
+            page0.j1.val = waterLevel.data.greyWaterLevel
+            page0.j1.pco = helper.RGB2NextionColour(0, 255, 255) if waterLevel.data.greyWaterLevel < 80 else helper.RGB2NextionColour(255, 0, 0)
+            page0.t2.txt = '{}%'.format(waterLevel.data.whiteWaterLevel)
+            page0.t3.txt = '{}%'.format(waterLevel.data.greyWaterLevel)
             await asyncio.sleep(interval)      
 
     @classmethod
@@ -35,13 +35,7 @@ class plugin:
             await asyncio.sleep(interval) 
         
     @classmethod
-    async def onStart(cls):
-        page0.t6.txt = "V"
-        page0.t7.txt = "%"
-
-    @classmethod
     def initialize(cls, event_loop):  
-        event_loop.create_task(cls.onStart())
         event_loop.create_task(cls.updateBMS(1))
         event_loop.create_task(cls.updateWaterLevel(1))
-        event_loop.create_task(cls.updateDualStateButtonValue(1))
+        #event_loop.create_task(cls.updateDualStateButtonValue(1))

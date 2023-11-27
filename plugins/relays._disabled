@@ -71,12 +71,12 @@ class relayMeta(type):
     address = None
 
     @property
-    def val(self):
-        return methods.RunAsync(self.getRelayState())
+    async def val(self):
+        return await self.getRelayState()
         
     @val.setter
-    def val(self, value):
-        methods.RunAsync(self.setRelayState(value))
+    async def val(self, value):
+        await self.setRelayState(value)
 
 class relayMethod(metaclass=relayMeta):
 

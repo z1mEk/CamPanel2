@@ -4,6 +4,7 @@ import asyncio
 class data:
     whiteWaterLevel = 0
     greyWaterLevel = 0
+    nazwa = ""
 
 class plugin:
 

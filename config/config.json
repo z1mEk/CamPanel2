@@ -1,9 +1,9 @@
 {
     "nextion": {
-        "com": "/dev/ttyS4",
+        "com": "/dev/ttyS3",
         "baudrate": 115200,
         "startup_commands" : [
-            "thsp=30",
+            "thsp=60",
             "thup=1"
         ]
     },
@@ -16,7 +16,7 @@
         "baudrate": 9600
     },
     "bms": {
-        "com": "/dev/ttyS3",
+        "com": "/dev/ttyS4",
         "baudrate": 9600
     }
 }

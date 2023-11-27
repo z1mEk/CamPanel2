@@ -32,3 +32,12 @@ async def getProperty(component:str, property:str):
 
 async def setProperty(component:str, property:str, val):
     await hmi.client.set(component + "." + property, val)
+
+async def getPageId(page_name:str):
+    return await hmi.client.get_page_id(page_name)
+
+async def getComponentId(page_name:str, component_name:str):
+    return await hmi.client.get_component_id(page_name, component_name)
+
+async def show(page_id:int):
+    await command(f"page {page_id}")
