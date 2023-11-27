@@ -28,10 +28,10 @@ async def isSleeping() -> bool:
     return await hmi.client.is_sleeping()
 
 async def getProperty(component:str, property:str):
-    return await hmi.client.get(component + "." + property)
+    return await hmi.client.get(f"{component}.{property}")
 
 async def setProperty(component:str, property:str, val):
-    await hmi.client.set(component + "." + property, val)
+    await hmi.client.set(f"{component}.{property}", val)
 
 async def getPageId(page_name:str):
     return await hmi.client.get_page_id(page_name)

@@ -16,7 +16,9 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         while True:
-
+            data.temp1 = random.randint(-30, 30)
+            data.temp2 = random.randint(-30, 30)
+            data.temp3 = random.randint(-30, 30)
             await asyncio.sleep(interval)  
 
     @classmethod

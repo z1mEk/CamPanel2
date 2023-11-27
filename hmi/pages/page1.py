@@ -1,50 +1,45 @@
 import asyncio
-from hmi import controls, methods
+from hmi import methods as hmiMethods
+from hmi.controls import TButton, TDualStateButton
 #from plugins import relays
 
 async def Show():
-    await methods.show(1)
+    await hmiMethods.show(1)
 
-class b0(controls.TButton):
-    @classmethod
-    async def onTouch(cls):
-        pass
+class b0(TButton):
+    pass 
 
-    @classmethod
-    async def onTouch(cls):
-        #relays.data.relay0.val = cls.val
-        pass   
-
-class bt0(controls.TDualStateButton):
+class bt0(TDualStateButton):
     @classmethod
     async def onRelease(cls):
-        print("Jakiesi cosi!")
+        #relays.data.relay0.val = cls.val
+        pass
 
-class bt1(controls.TDualStateButton):
+class bt1(TDualStateButton):
     @classmethod
     async def onRelease(cls):
         #relays.data.relay1.val = cls.val
         pass
 
-class bt2(controls.TDualStateButton):
+class bt2(TDualStateButton):
     @classmethod
     async def onRelease(cls):
         #relays.data.relay2.val = cls.val
         pass
 
-class bt3(controls.TDualStateButton):
+class bt3(TDualStateButton):
     @classmethod
     async def onRelease(cls):
         #relays.data.relay3.val = cls.val
         pass
 
-class bt4(controls.TDualStateButton):
+class bt4(TDualStateButton):
     @classmethod
     async def onRelease(cls):
         #relays.data.relay4.val = cls.val
         pass
 
-class bt5(controls.TDualStateButton):
+class bt5(TDualStateButton):
     @classmethod
     async def onRelease(cls):
         #relays.data.relay5.val = cls.val

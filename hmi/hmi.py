@@ -5,7 +5,7 @@ pip3 install nextion
 import asyncio
 from general import config_loader
 from nextion import Nextion, EventType, client
-from hmi import methods, events, triggers
+from hmi import methods as hmiMethods, events as hmiEvents, triggers
  
 def callbackExecute(data):
     print("callbackExecute()")
@@ -19,28 +19,32 @@ def eventHandler(type_, data):
     if type_ == EventType.TOUCH:
         callbackExecute(data)
     elif type_ == EventType.TOUCH_COORDINATE:
-        asyncio.ensure_future(events.onTouchCoordinate(data))
+        asyncio.ensure_future(hmiEvents.onTouchCoordinate(data))
     elif type_ == EventType.TOUCH_IN_SLEEP:
-        asyncio.ensure_future(events.onTouchInSleep(data))
+        asyncio.ensure_future(hmiEvents.onTouchInSleep(data))
     elif type_ == EventType.AUTO_SLEEP:
-        asyncio.ensure_future(events.onAutoSleep())
+        asyncio.ensure_future(hmiEvents.onAutoSleep())
     elif type_ == EventType.AUTO_WAKE:
-        asyncio.ensure_future(events.onAutoWake())         
+        asyncio.ensure_future(hmiEvents.onAutoWake())         
     elif type_ == EventType.STARTUP:
-        asyncio.ensure_future(events.onStartUp())
+        asyncio.ensure_future(hmiEvents.onStartUp())
 
 async def startupCommands():
     print("Startup commands")
-    await methods.wakeUp()
+    await hmiMethods.wakeUp()
     for comm in config_loader.data.nextion.startup_commands:
         print(comm)
-        await methods.command(comm)
+        await hmiMethods.command(comm)
 
 async def create(event_loop):
     global client
     print(f"Nextion create()")
     print(f"Nextion port: {config_loader.data.nextion.com}")
     print(f"Nextion baudrate: {config_loader.data.nextion.baudrate}")
-    client = Nextion(config_loader.data.nextion.com, config_loader.data.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=1, encoding="utf-8")
-    await client.connect()
-    await startupCommands()
+
+    try:
+        client = Nextion(config_loader.data.nextion.com, config_loader.data.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
+        await client.connect()
+        await startupCommands()
+    except Exception as e:
+        print(f"Wystąpił problem z połączeniem z ekranem Nextion: {e}")

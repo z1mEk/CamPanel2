@@ -1,5 +1,3 @@
-from hmi import methods
-
 async def onStartUp():
     print("startup")
 

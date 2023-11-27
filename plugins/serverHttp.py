@@ -1,11 +1,11 @@
-from flask import Flask, jsonify, request, render_template, send_from_directory
+from flask import Flask, jsonify, request, render_template
 from threading import Thread
 from plugins import waterLevel, dalyBms
-from hmi import methods as methodsHmi
-from general import methods
+from hmi import methods as hmiMethods
+from general import methods as generalMethods
 import os
 
-TEMPLATES_DIR = os.path.join('plugins', 'html_templates')
+TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
 
 class plugin:
@@ -56,6 +56,6 @@ def set_rsoc():
 
 @app.route('/wakeup', methods=['GET'])
 def wakeup():
-    methods.RunAsync(methodsHmi.wakeUp())
+    generalMethods.RunAsync(hmiMethods.wakeUp())
     return jsonify({"success": True})
 

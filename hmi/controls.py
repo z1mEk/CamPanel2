@@ -1,6 +1,6 @@
 import os, sys
 from hmi import methods as hmiMethods
-from general import methods
+from general import methods as generalMethods
 
 #region Base Control
 class BaseControl(type, object):
@@ -17,74 +17,74 @@ class BaseControl(type, object):
 
         return super().__new__(cls, name, bases, dct)
 
-    def _getAtrr(self, attr):
-        return methods.RunAsync(hmiMethods.getProperty(self.fullname, attr))
+    def getAtrr(self, attr):
+        return generalMethods.RunAsync(hmiMethods.getProperty(self.fullname, attr))
 
-    def _setAttr(self, attr, value):
-        methods.RunAsync(hmiMethods.setProperty(self.fullname, attr, value))
+    def setAttr(self, attr, value):
+        generalMethods.RunAsync(hmiMethods.setProperty(self.fullname, attr, value))
 
     @property
     def page_id(self):
-        return methods.RunAsync(hmiMethods.getPageId(self.page))
+        return generalMethods.RunAsync(hmiMethods.getPageId(self.page))
         
     @property
     def component_id(self):
-        return methods.RunAsync(hmiMethods.getComponentId(self.page, self.name)) 
+        return generalMethods.RunAsync(hmiMethods.getComponentId(self.page, self.name)) 
 #endregion
 
 #region Properties
 class ValProperty(BaseControl):
     @property
     def val(self):
-        return self._getAtrr('val')
+        return self.getAtrr('val')
         
     @val.setter
     def val(self, value:int):
-        self._setAttr("val", value)
+        self.setAttr("val", value)
 
 class TxtProperty(BaseControl):
     @property
     def txt(self):
-        return self._getAtrr('txt')
+        return self.getAtrr('txt')
         
     @txt.setter
     def txt(self, value:txt):
-        self._setAttr('txt', value)
+        self.setAttr('txt', value)
 
 class FontProperty(BaseControl):
     @property
     def font(self):
-        return self._getAtrr('font')
+        return self.getAtrr('font')
         
     @font.setter
     def font(self, value:int):
-        self._setAttr('font', value)
+        self.setAttr('font', value)
 
 class XcenProperty(BaseControl):
     @property
     def xcen(self):
-        return self._getAtrr('xcen')
+        return self.getAtrr('xcen')
         
     @xcen.setter
     def xcen(self, value:int):
-        self._setAttr('xcen', value)
+        self.setAttr('xcen', value)
 
 class ColourProperty(BaseControl):
     @property
     def pco(self):
-        return self._getAtrr('pco')
+        return self.getAtrr('pco')
         
     @pco.setter
     def pco(self, value:int):
-        self._setAttr('pco', value)
+        self.setAttr('pco', value)
 
     @property
     def bco(self):
-        return self._getAtrr('bco')
+        return self.getAtrr('bco')
         
     @bco.setter
     def bco(self, value:int):
-        self._setAttr('bco', value)
+        self.setAttr('bco', value)
 #endregion     
 
 #region Methods

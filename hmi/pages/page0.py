@@ -1,35 +1,36 @@
 import asyncio
-from hmi import controls, methods
+from hmi import methods as hmiMethods
+from hmi.controls import TButton, TProgressBar, TText
 
 async def Show():
-    await methods.show(0)
+    await hmiMethods.show(0)
 
-class b0(controls.TButton):
+class b0(TButton):
     pass
 
-class j0(controls.TProgressBar):
+class j0(TProgressBar):
     pass
 
-class j1(controls.TProgressBar):
+class j1(TProgressBar):
     pass
 
-class t1(controls.TText):
+class t1(TText):
     pass
 
-class t2(controls.TText):
+class t2(TText):
     pass
 
-class t3(controls.TText):
+class t3(TText):
     pass
 
-class t4(controls.TText):
+class t4(TText):
     pass
 
-class t5(controls.TText):
+class t5(TText):
     pass
  
-class t6(controls.TText):
+class t6(TText):
     pass
 
-class t7(controls.TText): 
+class t7(TText): 
     pass
