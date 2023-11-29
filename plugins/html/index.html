@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="pl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="css/materialize.min.css" rel="stylesheet">
     <link href="css/materialize-icon.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="css/style.css" rel="stylesheet">
     <script src="js/materialize.min.js"></script>
     <script src="js/vue.min.js" type="text/javascript"></script>
     <script src="js/axios.min.js" type="text/javascript"></script>
     <title>CamPanel</title>
 </head>
-
 <body>
     <!-- Navbar -->
     <nav>
         <div class="nav-wrapper blue">
-            <a href="#" class="brand-logo">CamPanel</a>
+            <a href="#" class="brand-logo">Smart Kamper</a>
             <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -30,8 +26,6 @@
     <!-- Mobile Navbar -->
     <ul class="sidenav" id="mobile-nav">
         <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
     </ul>
 
     <!-- Content -->
@@ -39,65 +33,145 @@
         <table>
             <thead>
                 <tr>
-                    <th>Parameter</th>
-                    <th>Value</th>
+                    <th>Parametr</th>
+                    <th style="min-width: 100px;">Wartość</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>White Water Level</td>
-                    <td class="right-align">Vue{waterLevel.whiteWaterLevel}%</td>
+                    <td>Poziom akumulatora</td>
+                    <td class="right-align">
+                        <div class="level-widget">
+                            <div class="level-widget-icon">
+                                <div class="batery-body level-body" :style="{ width: bms.RSOC + '%' }"></div>
+                            </div>
+                            <div class="level-widget-level" id="BateryLevel">Vue{ bms.RSOC }%</div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Grey Water Level</td>
-                    <td class="right-align">Vue{waterLevel.greyWaterLevel}%</td>
-                </tr>
-                <tr>
-                    <td>Total Voltage</td>
+                    <td>Napięcie akumulatora</td>
                     <td class="right-align">Vue{bms.totalVoltage}V</td>
                 </tr>
                 <tr>
-                    <td>Current Amper</td>
+                    <td>Prąd (natężenie)</td>
                     <td class="right-align">Vue{bms.currentAmper}A</td>
                 </tr>
                 <tr>
-                    <td>RSOC</td>
-                    <td class="right-align">Vue{bms.RSOC}%</td>
+                    <td>Poziom wody czystej</td>
+                    <td class="right-align">
+                        <div class="level-widget">
+                            <div class="level-widget-icon">
+                                <div class="white-water-body level-body" :style="{ width: waterLevel.whiteWaterLevel + '%' }"></div>
+                            </div>
+                            <div class="level-widget-level" id="WhiteWaterLevel">Vue{ waterLevel.whiteWaterLevel }%</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Poziom wody szarej</td>
+                    <td class="right-align">
+                        <div class="level-widget">
+                            <div class="level-widget-icon">
+                                <div class="grey-water-body level-body" :style="{ width: waterLevel.greyWaterLevel + '%' }"></div>
+                            </div>
+                            <div class="level-widget-level" id="GreyWaterLevel">Vue{ waterLevel.greyWaterLevel }%</div>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
+        <!-- Przyciski do sterowania przekaźnikami -->
+        <div class="container margin-top-10">
+            <div class="row">
+                <div class="col s4">
+                    <div class="switch">
+                        <label>
+                          Off
+                          <input type="checkbox" v-model="relays[0]" @change="setRelay(0)">
+                          <span class="lever"></span>
+                          On
+                        </label>
+                      </div>
+                </div>
+                <div class="col s4">
+                    <div class="switch">
+                        <label>
+                          Off
+                          <input type="checkbox" v-model="relays[1]" @change="setRelay(1)">
+                          <span class="lever"></span>
+                          On
+                        </label>
+                      </div>
+                </div>
+                <div class="col s4">
+                    <div class="switch">
+                        <label>
+                          Off
+                          <input type="checkbox" v-model="relays[2]" @change="setRelay(2)">
+                          <span class="lever"></span>
+                          On
+                        </label>
+                      </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <div class="switch">
+                        <label>
+                          Off
+                          <input type="checkbox" v-model="relays[3]" @change="setRelay(3)">
+                          <span class="lever"></span>
+                          On
+                        </label>
+                      </div>
+                </div>
+                <div class="col s4">
+                    <div class="switch">
+                        <label>
+                          Off
+                          <input type="checkbox" v-model="relays[4]" @change="setRelay(4)">
+                          <span class="lever"></span>
+                          On
+                        </label>
+                      </div>
+                </div>
+                <div class="col s4">
+                    <div class="switch">
+                        <label>
+                          Off
+                          <input type="checkbox" v-model="relays[5]" @change="setRelay(5)">
+                          <span class="lever"></span>
+                          On
+                        </label>
+                      </div>
+                </div>
+            </div>
+        </div>
     </div>
-
     <script>
         new Vue({
             el: '#app',
             data: {
                 waterLevel: {},
-                bms: {}
+                bms: {},
+                relays: []
             },
             delimiters: ['Vue{', '}'],
             methods: {
-                saveRsoc: function () {
-                    const dataToSend = {
-                        rsoc: this.bms.RSOC
-                    };
-
-                    axios.get('/set', { params: dataToSend })
-                        .then(response => {
-                            console.log('Response from server:', response.data);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                },
-                updateRsoc: function (event) {
-                    this.bms.RSOC = event.target.value;
-                },
                 fetchData: async function () {
                     try {
                         const response = await axios.get('/getData');
                         this.waterLevel = response.data.waterLevel;
                         this.bms = response.data.bms;
+                        this.relays = response.data.relays;
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                },
+                setRelay: async function (relayNumber) {
+                    try {
+                        await axios.get('/setrelay/relay' + relayNumber + '/1');
                     } catch (error) {
                         console.error('Error:', error);
                     }
@@ -106,14 +180,11 @@
             mounted: function () {
                 this.fetchData();
                 setInterval(this.fetchData, 2000);
+                
+                var elems = document.querySelectorAll('.sidenav');
+                var instances = M.Sidenav.init(elems);
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('.sidenav');
-            var instances = M.Sidenav.init(elems);
         });
     </script>
 </body>
-
 </html>

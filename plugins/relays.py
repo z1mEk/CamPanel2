@@ -1,8 +1,9 @@
-import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 from enum import Enum
-from config import config
+from general import config_loader
 from serial.serialposix import Serial
-from general import methods
+from general import methods as generalMethods
 
 class modbusCRC:
     CRCTableHigh = [
@@ -71,35 +72,40 @@ class relayMeta(type):
     address = None
 
     @property
-    async def val(self):
-        return await self.getRelayState()
+    def val(self):
+        return self.getRelayState()
         
     @val.setter
-    async def val(self, value):
-        await self.setRelayState(value)
+    def val(self, value):
+        self.setRelayState(value)
 
 class relayMethod(metaclass=relayMeta):
 
     @classmethod
-    async def toggle(cls):
-        cls.val = 0 if cls.val == 0 else 1
+    def toggle(cls):
+        if cls.val == 0:
+            cls.val = 1 
+        else:
+            cls.val = 0
 
     @classmethod
-    async def on(cls):
+    def on(cls):
         cls.val = 1
 
     @classmethod
-    async def off(cls):
+    def off(cls):
         cls.val = 0
 
     @classmethod
     def reconnect(cls):
-        if TRelay.srl == None:
-            TRelay.srl = Serial(config.data.relays.com, config.data.relays.baudrate)        
+        try:
+            if TRelay.srl == None:
+                TRelay.srl = Serial(config_loader.data.relays.com, config_loader.data.relays.baudrate)    
+        except Exception as e:
+            print(f"Wystąpił problem z połączeniem z relay: {e}")
     
     @classmethod
-    async def setRelayState(cls, value:int):
-        print(value)
+    def setRelayState(cls, value:int):
         cmd = [0, 0, 0, 0, 0, 0, 0, 0]
         cmd[0] = cls.address.value[0]
         cmd[1] = 0x05
@@ -109,79 +115,63 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         cls.reconnect()
         TRelay.srl.write(cmd)
-        
-    @classmethod
-    async def setRelayStates(cls, states:list):
-        cmd = [0, 0, 0, 0, 0, 0, 0, 0]
-        cmd[0] = cls.address.value[0]
-        cmd[1] = 0x0f
-        cmd[5] = int("".join(str(i) for i in states), 2)
-        crc = modbusCRC.calculate(cmd[0:6])
-        cmd[6], cmd[7] = crc & 0xFF, crc >> 8
-        cls.reconnect()
-        TRelay.srl.write(cmd)
+        data.relaysState[cls.address.value[1]] = value
 
     @classmethod
-    async def getRelayState(cls) -> int:
+    def getRelayState(cls) -> int:
+        return data.relaysState[cls.address.value[1]]
+        
+class TRelay(relayMethod):
+    srl:Serial = None
+
+class data:
+
+    relaysState = None
+ 
+    class relay0(TRelay):
+        address = RelayAddress.RELAY0
+
+    class relay1(TRelay):
+        address = RelayAddress.RELAY1
+
+    class relay2(TRelay):
+        address = RelayAddress.RELAY2
+
+    class relay3(TRelay):
+        address = RelayAddress.RELAY3
+
+    class relay4(TRelay):
+        address = RelayAddress.RELAY4
+
+    class relay5(TRelay):
+        address = RelayAddress.RELAY5
+
+    class relay6(TRelay):
+        address = RelayAddress.RELAY6
+
+    class relay7(TRelay):
+        address = RelayAddress.RELAY7
+
+    relays = [relay0, relay1, relay2, relay3, relay4, relay5, relay6, relay7]
+
+class plugin:
+
+    @classmethod
+    async def readData(cls, interval):
         cmd = [0, 0, 0, 0, 0, 0, 0, 0]
-        cmd[0] = cls.address.value[0]
+        cmd[0] = 0x00
         cmd[1] = 0x01
         cmd[3] = 0xff
         cmd[5] = 0x01
         crc = modbusCRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
-        cls.reconnect()
+        relayMethod.reconnect()
         TRelay.srl.write(cmd)
-        buffor = TRelay.srl.read(6)   
-        data.currentStates = buffor      
-        return buffor[cls.address.value[1]] 
-        
-class TRelay(relayMethod):
-    srl:Serial = None
-    pass
-
-class data:
-    currentStates:list = None
-    
-    class relay0(TRelay):
-        address = RelayAddress.RELAY0
-        pass
-
-    class relay1(TRelay):
-        address = RelayAddress.RELAY1
-        pass
-
-    class relay2(TRelay):
-        address = RelayAddress.RELAY2
-        pass
-
-    class relay3(TRelay):
-        address = RelayAddress.RELAY3
-        pass
-
-    class relay4(TRelay):
-        address = RelayAddress.RELAY4
-        pass
-
-    class relay5(TRelay):
-        address = RelayAddress.RELAY5
-        pass
-
-    class relay6(TRelay):
-        address = RelayAddress.RELAY6
-        pass
-
-    class relay7(TRelay):
-        address = RelayAddress.RELAY7
-        pass
-
-class plugin:
-    @classmethod
-    async def readData(cls, interval):
-        while True:
-            await asyncio.sleep(interval)  
+        buffer = TRelay.srl.read(6)
+        data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
+        print(data.relaysState)
+        await nest_asyncio.asyncio.sleep(interval)  
 
     @classmethod
     def initialize(cls, event_loop): 
-        relayMethod.reconnect()
         event_loop.create_task(cls.readData(1))

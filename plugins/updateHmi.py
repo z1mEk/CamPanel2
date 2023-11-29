@@ -1,6 +1,7 @@
-import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 from hmi.pages import page0, page1
-from plugins import dalyBms, waterLevel
+from plugins import dalyBms, waterLevel, relays
 from hmi import helper
 
 class plugin:
@@ -10,7 +11,7 @@ class plugin:
         while True:
             page0.t4.txt = '{}'.format(dalyBms.data.totalVoltage)
             page0.t5.txt = '{}'.format(dalyBms.data.RSOC)
-            await asyncio.sleep(interval)
+            await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
     async def updateWaterLevel(cls, interval):
@@ -21,21 +22,21 @@ class plugin:
             page0.j1.pco = helper.RGB2NextionColour(0, 255, 255) if waterLevel.data.greyWaterLevel < 80 else helper.RGB2NextionColour(255, 0, 0)
             page0.t2.txt = '{}%'.format(waterLevel.data.whiteWaterLevel)
             page0.t3.txt = '{}%'.format(waterLevel.data.greyWaterLevel)
-            await asyncio.sleep(interval)      
+            await nest_asyncio.asyncio.sleep(interval)      
 
     @classmethod
     async def updateDualStateButtonValue(cls, interval):
         while True:
-            # page1.bt0.val = relays.data.currentStates[0]
-            # page1.bt1.val = relays.data.currentStates[1]
-            # page1.bt2.val = relays.data.currentStates[2]
-            # page1.bt3.val = relays.data.currentStates[3]
-            # page1.bt4.val = relays.data.currentStates[4]
-            # page1.bt5.val = relays.data.currentStates[5]
-            await asyncio.sleep(interval) 
+            page1.bt0.val = relays.data.relay0.val
+            page1.bt1.val = relays.data.relay1.val
+            page1.bt2.val = relays.data.relay2.val
+            page1.bt3.val = relays.data.relay3.val
+            page1.bt4.val = relays.data.relay4.val
+            page1.bt5.val = relays.data.relay5.val
+            await nest_asyncio.asyncio.sleep(interval) 
         
     @classmethod
     def initialize(cls, event_loop):  
         event_loop.create_task(cls.updateBMS(1))
         event_loop.create_task(cls.updateWaterLevel(1))
-        #event_loop.create_task(cls.updateDualStateButtonValue(1))
+        event_loop.create_task(cls.updateDualStateButtonValue(1))

@@ -1,5 +1,6 @@
 import random
-import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 
 class data:
     whiteWaterLevel = 0
@@ -12,7 +13,7 @@ class plugin:
         while True:
             data.whiteWaterLevel = random.randint(0, 100)
             data.greyWaterLevel = random.randint(0, 100)
-            await asyncio.sleep(interval)       
+            await nest_asyncio.asyncio.sleep(interval)       
 
     @classmethod
     def initialize(cls, event_loop):

@@ -2,32 +2,33 @@
 https://pypi.org/project/nextion/
 pip3 install nextion
 '''
-import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 from general import config_loader
 from nextion import Nextion, EventType, client
 from hmi import methods as hmiMethods, events as hmiEvents, triggers
  
 def callbackExecute(data):
-    print("callbackExecute()")
+    #print("callbackExecute()")
     func = next((item for item in triggers.components_touch_event \
         if (item["page_id"], item["component_id"], item["touch_event"]) \
             == (data.page_id, data.component_id, data.touch_event)), None)
-    asyncio.ensure_future(func["call_back"]())
+    nest_asyncio.asyncio.ensure_future(func["call_back"]())
 
 def eventHandler(type_, data):
-    print("eventHandler()")
+    #print("eventHandler()")
     if type_ == EventType.TOUCH:
         callbackExecute(data)
     elif type_ == EventType.TOUCH_COORDINATE:
-        asyncio.ensure_future(hmiEvents.onTouchCoordinate(data))
+        nest_asyncio.asyncio.ensure_future(hmiEvents.onTouchCoordinate(data))
     elif type_ == EventType.TOUCH_IN_SLEEP:
-        asyncio.ensure_future(hmiEvents.onTouchInSleep(data))
+        nest_asyncio.asyncio.ensure_future(hmiEvents.onTouchInSleep(data))
     elif type_ == EventType.AUTO_SLEEP:
-        asyncio.ensure_future(hmiEvents.onAutoSleep())
+        nest_asyncio.asyncio.ensure_future(hmiEvents.onAutoSleep())
     elif type_ == EventType.AUTO_WAKE:
-        asyncio.ensure_future(hmiEvents.onAutoWake())         
+        nest_asyncio.asyncio.ensure_future(hmiEvents.onAutoWake())         
     elif type_ == EventType.STARTUP:
-        asyncio.ensure_future(hmiEvents.onStartUp())
+        nest_asyncio.asyncio.ensure_future(hmiEvents.onStartUp())
 
 async def startupCommands():
     print("Startup commands")

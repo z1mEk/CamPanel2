@@ -1,4 +1,5 @@
-import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 from hmi import methods as hmiMethods
 from hmi.controls import TButton, TProgressBar, TText
 

@@ -2,7 +2,8 @@
 https://pypi.org/project/epsolar-tracer/
 pip3 install epsolar-tracer
 '''
-import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 import random
 
 class data:
@@ -32,7 +33,7 @@ class plugin:
         while True:
             data.pv.voltage = random.randint(12, 40)
             data.pv.current = random.randint(0, 20)
-            await asyncio.sleep(interval)  
+            await nest_asyncio.asyncio.sleep(interval)  
 
     @classmethod
     def initialize(cls, event_loop):

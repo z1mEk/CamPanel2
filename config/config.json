@@ -8,7 +8,7 @@
         ]
     },
     "relays": {
-        "com": "/dev/ttyS7",
+        "com": "/dev/ttyS4",
         "baudrate": 9600
     },
     "epsolar": {

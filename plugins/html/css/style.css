@@ -5,3 +5,40 @@
 .icon-block .material-icons {
     font-size: inherit;
 }
+
+.level-widget {
+    display: flex;
+    /* align-items: right; */
+    font-family: Arial, sans-serif;
+}
+
+.level-widget-icon {
+    width: 70%;
+    height: 20px;
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0px;
+}
+
+.level-body {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.white-water-body {
+    background-color: #90cfda;
+}
+
+.grey-water-body {
+    background-color: #6c6f74;
+}
+
+.batery-body {
+    background-color: #28b124;
+}
+
+.level-widget-level {
+    margin-left: auto;
+}

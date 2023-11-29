@@ -3,7 +3,8 @@ sudo pip3 install w1thermsensor
 https://github.com/timofurrer/w1thermsensor
 https://bigl.es/ds18b20-temperature-sensor-with-python-raspberry-pi/
 '''
-import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 import random
 
 class data:
@@ -19,7 +20,7 @@ class plugin:
             data.temp1 = random.randint(-30, 30)
             data.temp2 = random.randint(-30, 30)
             data.temp3 = random.randint(-30, 30)
-            await asyncio.sleep(interval)  
+            await nest_asyncio.asyncio.sleep(interval)  
 
     @classmethod
     def initialize(cls, event_loop):

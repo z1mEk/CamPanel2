@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, request, render_template, send_from_directory
 from threading import Thread
-from plugins import waterLevel, dalyBms
+from plugins import waterLevel, dalyBms, relays
 from hmi import methods as hmiMethods
 from general import methods as generalMethods
 import os
+from hmi.pages import page0
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
@@ -32,7 +33,8 @@ def get_waterLevel():
             "totalVoltage": dalyBms.data.totalVoltage,
             "currentAmper": dalyBms.data.currentAmper,
             "RSOC": dalyBms.data.RSOC
-        }
+        },
+        "relays": relays.data.relaysState
     }
     return jsonify(response)
 
@@ -52,11 +54,10 @@ def getJs(file_name):
 def getFonts(file_name):
     return send_from_directory(os.path.join(TEMPLATES_DIR, 'fonts'), file_name)
 
-@app.route('/set', methods=['GET'])
-def set_rsoc():
-    rsoc = request.args.get('rsoc')
-    dalyBms.data.RSOC = rsoc
-    return jsonify({"success": True, "message": f"RSOC set to {rsoc}", "rsoc": rsoc})
+@app.route('/setrelay/relay<relay>/<value>')
+def set_relay(relay, value):
+    relays.data.relays[int(relay)].toggle()
+    return jsonify({"success": True, "message": f"set relay{relay} = {value}"})
 
 @app.route('/wakeup', methods=['GET'])
 def wakeup():
