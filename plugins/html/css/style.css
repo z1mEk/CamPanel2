@@ -1,21 +1,15 @@
-.icon-block {
-   padding: 0 15px;
-}
-
-.icon-block .material-icons {
-    font-size: inherit;
-}
-
 .level-widget {
     display: flex;
-    /* align-items: right; */
     font-family: Arial, sans-serif;
+    max-width: 300px; /* Dodaj max-width dla .level-widget */
+    margin: 0 auto; /* Centruj .level-widget */
 }
 
 .level-widget-icon {
-    width: 70%;
-    height: 20px;
-    background-color: #ddd;
+    position: relative;
+    width: 60px;
+    height: 90px;
+    background: linear-gradient(to right, #aaa, #ddd, #aaa); /* Dodaj gradient od lewej do prawej */
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 0px;
@@ -23,22 +17,20 @@
 
 .level-body {
     width: 100%;
-    height: 100%;
+    height: 50%;
     border-radius: 4px;
+    position: absolute;
+    bottom: 0;
 }
 
 .white-water-body {
-    background-color: #90cfda;
-}
-
-.grey-water-body {
-    background-color: #6c6f74;
-}
-
-.batery-body {
-    background-color: #28b124;
+    background: linear-gradient(to right, #709fca, #addbe4, #709fca); /* Dodaj gradient od lewej do prawej */
 }
 
 .level-widget-level {
-    margin-left: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Dodaj nową właściwość z-index, aby była na wierzchu */
 }

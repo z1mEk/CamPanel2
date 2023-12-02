@@ -4,7 +4,6 @@ from plugins import waterLevel, dalyBms, relays
 from hmi import methods as hmiMethods
 from general import methods as generalMethods
 import os
-from hmi.pages import page0
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
