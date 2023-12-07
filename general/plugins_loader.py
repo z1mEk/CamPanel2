@@ -1,15 +1,13 @@
-import os
 import importlib
+from general.config_loader import config
 
 async def pluginsInit(event_loop):
-    plugin_directory = "./plugins"
-    plugin_files = [f[:-3] for f in os.listdir(plugin_directory) if f.endswith(".py") and not f.startswith("__")]
 
-    print(f"Available plugins: {plugin_files}")
-    print(f"Plugins initialize: ")
+    plugin_files = config.plugins
 
-    for plugin_file in plugin_files:
-        module_name = plugin_file
+    print(f"Plugins initialize: {plugin_files}")
+
+    for module_name in plugin_files:
         if module_name in plugin_files:
             module = importlib.import_module(f"plugins.{module_name}")
             module.plugin.initialize(event_loop)

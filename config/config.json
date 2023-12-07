@@ -1,4 +1,11 @@
 {
+    "plugins": [
+        "relays",
+        "dalyBms",
+        "waterLevel",
+        "updateHmi",
+        "serverHttp"
+    ],
     "nextion": {
         "com": "/dev/ttyS3",
         "baudrate": 115200,
