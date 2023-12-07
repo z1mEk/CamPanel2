@@ -4,7 +4,7 @@ pip3 install nextion
 '''
 import nest_asyncio
 nest_asyncio.apply()
-from general import config_loader
+from general.config_loader import config
 from nextion import Nextion, EventType, client
 from hmi import methods as hmiMethods, events as hmiEvents, triggers
  
@@ -31,18 +31,18 @@ def eventHandler(type_, data):
 async def startupCommands():
     print("Startup commands")
     await hmiMethods.wakeUp()
-    for comm in config_loader.data.nextion.startup_commands:
+    for comm in config.nextion.startup_commands:
         print(comm)
         await hmiMethods.command(comm)
 
 async def create(event_loop):
     global client
     print(f"Nextion create()")
-    print(f"Nextion port: {config_loader.data.nextion.com}")
-    print(f"Nextion baudrate: {config_loader.data.nextion.baudrate}")
+    print(f"Nextion port: {config.nextion.com}")
+    print(f"Nextion baudrate: {config.nextion.baudrate}")
 
     try:
-        client = Nextion(config_loader.data.nextion.com, config_loader.data.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
+        client = Nextion(config.nextion.com, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
         await client.connect()
         await startupCommands()
     except Exception as e:
