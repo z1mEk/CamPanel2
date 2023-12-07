@@ -3,7 +3,6 @@ nest_asyncio.apply()
 from enum import Enum
 from general.config_loader import config
 from serial.serialposix import Serial
-from general import methods as generalMethods
 
 class modbusCRC:
     CRCTableHigh = [

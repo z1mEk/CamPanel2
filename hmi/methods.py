@@ -54,17 +54,5 @@ async def setProperty(component:str, property:str, val):
     except Exception as e:
         print(f"Wystąpił problem z połączeniem z ekranem Nextion: {e}")
 
-async def getPageId(page_name:str):
-    try:
-        return await hmi.client.get_page_id(page_name)
-    except Exception as e:
-        print(f"Wystąpił problem z połączeniem z ekranem Nextion: {e}")
-
-async def getComponentId(page_name:str, component_name:str):
-    try:
-        return await hmi.client.get_component_id(page_name, component_name)
-    except Exception as e:
-        print(f"Wystąpił problem z połączeniem z ekranem Nextion: {e}")
-
 async def show(page_id:int):
     await command(f"page {page_id}")

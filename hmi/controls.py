@@ -23,13 +23,6 @@ class BaseControl(type, object):
     def setAttr(self, attr, value):
         generalMethods.RunAsync(hmiMethods.setProperty(self.fullname, attr, value))
 
-    @property
-    def page_id(self):
-        return generalMethods.RunAsync(hmiMethods.getPageId(self.page))
-        
-    @property
-    def component_id(self):
-        return generalMethods.RunAsync(hmiMethods.getComponentId(self.page, self.name)) 
 #endregion
 
 #region Properties

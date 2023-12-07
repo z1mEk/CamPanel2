@@ -2,7 +2,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from hmi.pages import page0, page1
 from plugins import dalyBms, waterLevel, relays
-from hmi import helper
+from hmi import helper, methods as hmiMethods
 
 class plugin:
 
