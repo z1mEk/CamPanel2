@@ -9,14 +9,12 @@ from nextion import Nextion, EventType, client
 from hmi import methods as hmiMethods, events as hmiEvents, triggers
  
 def callbackExecute(data):
-    #print("callbackExecute()")
     func = next((item for item in triggers.components_touch_event \
         if (item["page_id"], item["component_id"], item["touch_event"]) \
             == (data.page_id, data.component_id, data.touch_event)), None)
     nest_asyncio.asyncio.ensure_future(func["call_back"]())
 
 def eventHandler(type_, data):
-    #print("eventHandler()")
     if type_ == EventType.TOUCH:
         callbackExecute(data)
     elif type_ == EventType.TOUCH_COORDINATE:

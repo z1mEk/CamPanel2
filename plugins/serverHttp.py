@@ -12,7 +12,7 @@ class plugin:
 
     @classmethod
     def start_flask_server(cls):
-        app.run(host='0.0.0.0', port=5000)
+        app.run(host='0.0.0.0', port=8080)
 
     @classmethod
     def initialize(cls, event_loop):
@@ -30,8 +30,12 @@ def get_waterLevel():
         "bms":
         {
             "totalVoltage": dalyBms.data.totalVoltage,
+            "totalVoltageDisplay": dalyBms.data.totalVoltageDisplay,
+            "currentMilliamper": dalyBms.data.currentMiliAmper,
             "currentAmper": dalyBms.data.currentAmper,
-            "RSOC": dalyBms.data.RSOC
+            "currentDisplay": dalyBms.data.currentDisplay,
+            "RSOC": dalyBms.data.RSOC,
+            "RSOCDisplay": dalyBms.data.RSOCDisplay
         },
         "relays": relays.data.relaysState
     }

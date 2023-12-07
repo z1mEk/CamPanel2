@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Vuetify CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.5.10/dist/vuetify.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-    <!-- Vue.js CDN -->
+    <link href="fonts/materialdesignicons-webfont.ttf" rel="stylesheet">
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="css/vuetify.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <script src="js/vue.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.5.10/dist/vuetify.js"></script>
+    <script src="js/vuetify.min.js"></script>
     <title>CamPanel</title>
 </head>
+
 <body>
     <div id="app">
         <v-app>
@@ -32,31 +33,106 @@
 
             <v-main>
                 <v-container fluid>
-                    <!-- Vuetify v-data-table -->
-                    <v-row>
-                        <v-col>
-                            <v-data-table :items="tableData" :headers="tableHeaders" class="elevation-1">
-                                <template v-slot:items="props">
-                                    <td>Vue{ props.item.param }</td>
-                                    <td>Vue{ props.item.value }</td>
-                                </template>
-                            </v-data-table>
+                    <v-simple-table>
+                        <template v-slot:default>
+                            <thead>
+                                <tr>
+                                    <th class="text-left">
+                                        Nazwa parametru
+                                    </th>
+                                    <th class="text-end">
+                                        Wartość
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Poziom naładowania</td>
+                                    <td class="text-end">
+                                        <v-progress-linear v-model="bms.RSOC" height="25" background-color="green lighten-3" color="green">
+                                            <strong>Vue{ bms.RSOC }%</strong>
+                                        </v-progress-linear>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Napięcie akumulatora</td>
+                                    <td class="text-end">Vue{ bms.totalVoltageDisplay }</td>
+                                </tr>
+                                <tr>
+                                    <td>Natężenie prądu</td>
+                                    <td class="text-end">Vue{ bms.currentDisplay }</td>
+                                </tr>
+                                <tr>
+                                    <td>Poziom wody czystej</td>
+                                    <td class="text-end">
+                                        <v-progress-linear v-model="waterLevel.whiteWaterLevel" height="25" background-color="blue lighten-3" color="blue">
+                                            <strong>Vue{ waterLevel.whiteWaterLevel }%</strong>
+                                        </v-progress-linear>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Poziom wody szarej</td>
+                                    <td class="text-end">
+                                        <v-progress-linear v-model="waterLevel.greyWaterLevel" height="25" background-color="grey lighten-3" color="grey">
+                                            <strong>Vue{ waterLevel.greyWaterLevel }%</strong>
+                                        </v-progress-linear>
+                                    </td>
+                                </tr>
+                                <tr v-for="(relay, index) in relays" :key="index">
+                                    <td>Przekaźnik nr Vue{ index }</td>
+                                    <td><v-switch v-model="relay" @change="setRelay(index)"></td>
+                                </tr>
+                            </tbody>
+                        </template>
+                    </v-simple-table>
+
+                    <!-- <v-row>
+                        <v-col cols="6">
+                            <v-card class="pa-2">
+                                <v-row>
+                                    <v-col>
+                                        <div class="level-widget-icon">
+                                            <div :class="
+                                            {
+                                                'battery-body-critical':  bms.RSOC <= 20,
+                                                'battery-body-warning':  bms.RSOC > 20 && bms.RSOC <= 40,
+                                                'battery-body-ok': bms.RSOC > 40
+                                            }
+                                            " class="level-body" :style="{ height: bms.RSOCDisplay }"></div>
+                                            <div class="level-widget-text">Vue{ bms.RSOCDisplay }</div>
+                                        </div>
+                                    </v-col>
+                                    <v-col>
+                                        <div class="text-end">Vue{ bms.totalVoltageDisplay }</div>
+                                        <div class="text-end">Vue{ bms.currentDisplay }</div>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="6">
+                            <v-card class="pa-2">
+                                    <v-row>
+                                        <v-col cols="6">
+                                            <div class="level-widget-icon">
+                                                <div class="white-water-body level-body" :style="{ height: waterLevel.whiteWaterLevel + '%' }"></div>
+                                                <div class="level-widget-text">Vue{ waterLevel.whiteWaterLevel }%</div>
+                                            </div>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <div class="level-widget-icon">
+                                                <div class="grey-water-body level-body" :style="{ height: waterLevel.greyWaterLevel + '%' }"></div>
+                                                <div class="level-widget-text">Vue{ waterLevel.greyWaterLevel }%</div>
+                                            </div>
+                                        </v-col>
+                                    </v-row>
+                            </v-card>
                         </v-col>
                     </v-row>
-                    <!-- <div class="level-widget"> -->
-                        <div class="level-widget-icon">
-                            <div class="white-water-body level-body" :style="{ height: waterLevel.whiteWaterLevel + '%' }"></div>
-                            <div class="level-widget-level" id="WhiteWaterLevel">Vue{ waterLevel.whiteWaterLevel }%</div>
-                        </div>
-                    <!-- </div> -->
-                    <!-- Example v-switch -->
                     <v-row>
-                        <v-col v-for="(relay, index) in relays" :key="index" cols="12" md="4">
+                        <v-col v-for="(relay, index) in relays" :key="index" cols="3">
                             <v-switch v-model="relay" @change="setRelay(index)">
-                                Vue{ relay ? 'On' : 'Off' }
-                            </v-switch>
                         </v-col>
-                    </v-row>
+                    </v-row> -->
                 </v-container>
             </v-main>
         </v-app>
@@ -71,13 +147,8 @@
                 waterLevel: {},
                 bms: {},
                 relays: [],
-                tableData: [],
-                tableHeaders: [
-                    { text: 'Parametr', value: 'param' },
-                    { text: 'Wartość', value: 'value' }
-                ]
             },
-			delimiters: ['Vue{', '}'],
+            delimiters: ['Vue{', '}'],
             methods: {
                 fetchData: function () {
                     fetch('/getData')
@@ -86,13 +157,6 @@
                             this.waterLevel = data.waterLevel;
                             this.bms = data.bms;
                             this.relays = data.relays;
-                            // Assuming you have similar structure for your table data
-                            this.tableData = [
-                                { param: 'Poziom akumulatora', value: `${this.bms.RSOC}%` },
-                                { param: 'Napięcie akumulatora', value: `${this.bms.totalVoltage}V` },
-                                { param: 'Prąd (natężenie)', value: `${this.bms.currentAmper}A` },
-                                // Add other rows as needed
-                            ];
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -112,4 +176,5 @@
         });
     </script>
 </body>
+
 </html>

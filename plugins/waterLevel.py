@@ -7,8 +7,8 @@ nest_asyncio.apply()
 
 class data:
     mcp = None
-    whiteWaterLevel = -1
-    greyWaterLevel = -1
+    whiteWaterLevel = 56
+    greyWaterLevel = 23
 
 class plugin:
 

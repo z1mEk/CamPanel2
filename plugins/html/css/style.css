@@ -1,16 +1,9 @@
-.level-widget {
-    display: flex;
-    font-family: Arial, sans-serif;
-    max-width: 300px; /* Dodaj max-width dla .level-widget */
-    margin: 0 auto; /* Centruj .level-widget */
-}
-
 .level-widget-icon {
     position: relative;
     width: 60px;
     height: 90px;
-    background: linear-gradient(to right, #aaa, #ddd, #aaa); /* Dodaj gradient od lewej do prawej */
-    border: 1px solid #ccc;
+    background: #ddd;
+    border: 1px solid #aaa;
     border-radius: 4px;
     padding: 0px;
 }
@@ -23,14 +16,32 @@
     bottom: 0;
 }
 
-.white-water-body {
-    background: linear-gradient(to right, #709fca, #addbe4, #709fca); /* Dodaj gradient od lewej do prawej */
+.battery-body-ok {
+    background: #0f0;
 }
 
-.level-widget-level {
+.battery-body-warning {
+    background: #ff0;
+}
+
+.battery-body-critical {
+    background: #f00;
+}
+
+.white-water-body {
+    background: #8dbbe6;
+}
+
+.grey-water-body {
+    background: #8f959b;
+}
+
+.level-widget-text {
+    font-weight: bolder;
+    font-size: large;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1; /* Dodaj nową właściwość z-index, aby była na wierzchu */
+    z-index: 1;
 }
