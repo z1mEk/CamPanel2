@@ -49,7 +49,7 @@
                                 <tr>
                                     <td>Poziom naładowania</td>
                                     <td class="text-end">
-                                        <v-progress-linear v-model="bms.RSOC" height="25" background-color="green lighten-3" color="green">
+                                        <v-progress-linear v-model="bms.RSOC" height="25" background-color="green lighten-3" color="green lighten-2">
                                             <strong>Vue{ bms.RSOC }%</strong>
                                         </v-progress-linear>
                                     </td>
@@ -65,7 +65,7 @@
                                 <tr>
                                     <td>Poziom wody czystej</td>
                                     <td class="text-end">
-                                        <v-progress-linear v-model="waterLevel.whiteWaterLevel" height="25" background-color="blue lighten-3" color="blue">
+                                        <v-progress-linear v-model="waterLevel.whiteWaterLevel" height="25" background-color="blue lighten-4" color="blue lighten-2">
                                             <strong>Vue{ waterLevel.whiteWaterLevel }%</strong>
                                         </v-progress-linear>
                                     </td>
@@ -73,7 +73,7 @@
                                 <tr>
                                     <td>Poziom wody szarej</td>
                                     <td class="text-end">
-                                        <v-progress-linear v-model="waterLevel.greyWaterLevel" height="25" background-color="grey lighten-3" color="grey">
+                                        <v-progress-linear v-model="waterLevel.greyWaterLevel" height="25" background-color="grey lighten-4" color="grey lighten-2">
                                             <strong>Vue{ waterLevel.greyWaterLevel }%</strong>
                                         </v-progress-linear>
                                     </td>
@@ -163,7 +163,7 @@
                         });
                 },
                 setRelay: function (relayNumber) {
-                    fetch('/setrelay/relay' + relayNumber + '/1')
+                    fetch('/setrelay/relay' + relayNumber + '/toggle')
                         .catch(error => {
                             console.error('Error:', error);
                         });
