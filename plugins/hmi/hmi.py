@@ -6,7 +6,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from general.config_loader import config
 from nextion import Nextion, EventType, client
-from hmi import methods as hmiMethods, events as hmiEvents, triggers
+from plugins.hmi import events as hmiEvents, methods as hmiMethods, triggers
  
 def callbackExecute(data):
     func = next((item for item in triggers.components_touch_event \

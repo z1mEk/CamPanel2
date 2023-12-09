@@ -1,4 +1,4 @@
-from hmi import hmi
+from plugins.hmi import hmi
 
 async def wakeUp():
     try:
