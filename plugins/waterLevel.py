@@ -4,6 +4,7 @@ pip3 install EasyMCP2221
 import nest_asyncio
 import EasyMCP2221
 nest_asyncio.apply()
+import random
 
 class data:
     mcp = None
@@ -19,6 +20,9 @@ class plugin:
                 values = data.mcp.ADC_read()
                 data.whiteWaterLevel = values[0] / 1024 * 100
                 data.greyWaterLevel = values[1] / 1024 * 100
+            else:
+                data.whiteWaterLevel = random.randint(1, 100)
+                data.greyWaterLevel = random.randint(1, 100)
 
             await nest_asyncio.asyncio.sleep(interval)       
 

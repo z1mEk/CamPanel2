@@ -43,7 +43,11 @@ async def create(event_loop):
 
     try:
         client = Nextion(config.nextion.com, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
-        await client.connect()
-        await startupCommands()
+        if client != None:
+            await client.connect()
+            await startupCommands()
+        else:
+            client = None
+            create()
     except Exception as e:
         print(f"Wystąpił problem z połączeniem z ekranem Nextion: {e}")

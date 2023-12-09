@@ -1,5 +1,6 @@
 import nest_asyncio
 nest_asyncio.apply()
+import random
 
 class data:
     currentMiliAmper = 0
@@ -13,7 +14,7 @@ class data:
     remainingCapacity = 0
     temperature = 0
 
-    RSOC = 50
+    RSOC = 30
     RSOCDisplay = ""
 
 class plugin:
@@ -41,7 +42,7 @@ class plugin:
 
             data.temperature = 21
 
-            #data.RSOC = 72
+            data.RSOC = random.randint(1, 100)
             data.RSOCDisplay = "{:.0f}%".format(data.RSOC)
             await nest_asyncio.asyncio.sleep(interval)       
 
