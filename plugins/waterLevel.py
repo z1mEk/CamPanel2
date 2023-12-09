@@ -23,7 +23,7 @@ class plugin:
             await nest_asyncio.asyncio.sleep(interval)       
 
     @classmethod
-    def initialize(cls, event_loop):
+    async def initialize(cls, event_loop):
         if data.mcp == None:
             try:
                 data.mcp = EasyMCP2221.Device()

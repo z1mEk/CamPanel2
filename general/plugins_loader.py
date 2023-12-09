@@ -10,5 +10,5 @@ async def pluginsInit(event_loop):
     for module_name in plugin_files:
         if module_name in plugin_files:
             module = importlib.import_module(f"plugins.{module_name}")
-            module.plugin.initialize(event_loop)
+            await module.plugin.initialize(event_loop)
             print(f"Loaded: {module}")

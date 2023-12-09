@@ -1,7 +1,10 @@
+'''
+pip3 install flask
+'''
 from flask import Flask, jsonify, request, render_template, send_from_directory
 from threading import Thread
 from plugins import waterLevel, dalyBms, relays
-from hmi import methods as hmiMethods, hmi
+from hmi import methods as hmiMethods
 from general import methods as generalMethods
 import os
 
@@ -15,7 +18,7 @@ class plugin:
         app.run(host='0.0.0.0', port=8080)
 
     @classmethod
-    def initialize(cls, event_loop):
+    async def initialize(cls, event_loop):
         thread = Thread(target=cls.start_flask_server)
         thread.start()
 
@@ -60,10 +63,4 @@ def getFonts(file_name):
 @app.route('/setrelay/relay<relay>/toggle')
 def set_relay(relay):
     relays.data.relays[int(relay)].toggle()
-    return jsonify({"success": True, "message": f"relay{relay} toggle {relays.data.relays[int(relay)].val}"})
-
-@app.route('/wakeup', methods=['GET'])
-def wakeup():
-    generalMethods.RunAsync(hmiMethods.wakeUp())
-    generalMethods.RunAsync(hmiMethods.show(0))
     return jsonify({"success": True})

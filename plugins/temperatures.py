@@ -23,5 +23,5 @@ class plugin:
             await nest_asyncio.asyncio.sleep(interval)  
 
     @classmethod
-    def initialize(cls, event_loop):
+    async def initialize(cls, event_loop):
         event_loop.create_task(cls.readData(1))  

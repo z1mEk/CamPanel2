@@ -13,7 +13,7 @@ class data:
     remainingCapacity = 0
     temperature = 0
 
-    RSOC = 0
+    RSOC = 50
     RSOCDisplay = ""
 
 class plugin:
@@ -41,10 +41,10 @@ class plugin:
 
             data.temperature = 21
 
-            data.RSOC = 75
+            #data.RSOC = 72
             data.RSOCDisplay = "{:.0f}%".format(data.RSOC)
             await nest_asyncio.asyncio.sleep(interval)       
 
     @classmethod
-    def initialize(cls, event_loop):     
+    async def initialize(cls, event_loop):     
         event_loop.create_task(cls.readData(1))

@@ -118,6 +118,7 @@ class relayMethod(metaclass=relayMeta):
         if cls.reconnect():
             TRelay.srl.write(cmd)
             data.relaysState[cls.address.value[1]] = value
+            cls.onRelayChange(cls.address.value[1], value)
 
     @classmethod
     def getRelaysState(cls):
@@ -138,45 +139,81 @@ class relayMethod(metaclass=relayMeta):
         if data.relaysState == None:
             cls.getRelaysState(cls)
         return data.relaysState[cls.address.value[1]]
+    
+    @classmethod
+    def onRelayChange(cls, relayIndex, value):
+        print(f"Relay change: index={relayIndex}, value={value}")
         
 class TRelay(relayMethod):
     srl:Serial = None
 
 class data:
 
-    relaysState = [0,0,0,0,0,0,0,0]
+    relaysState = None
  
     class relay0(TRelay):
         address = RelayAddress.RELAY0
         caption = "Relay 1"
 
+        @classmethod
+        def onRelayChange(cls, relayIndex, value):
+            return super().onRelayChange(relayIndex, value)
+
     class relay1(TRelay):
         address = RelayAddress.RELAY1
         caption = "Relay 2"
+
+        @classmethod
+        def onRelayChange(cls, relayIndex, value):
+            return super().onRelayChange(relayIndex, value)
 
     class relay2(TRelay):
         address = RelayAddress.RELAY2
         caption = "Relay 3"
 
+        @classmethod
+        def onRelayChange(cls, relayIndex, value):
+            return super().onRelayChange(relayIndex, value)
+
     class relay3(TRelay):
         address = RelayAddress.RELAY3
         caption = "Relay 4"
+
+        @classmethod
+        def onRelayChange(cls, relayIndex, value):
+            return super().onRelayChange(relayIndex, value)        
 
     class relay4(TRelay):
         address = RelayAddress.RELAY4
         caption = "Relay 5"
 
+        @classmethod
+        def onRelayChange(cls, relayIndex, value):
+            return super().onRelayChange(relayIndex, value)        
+
     class relay5(TRelay):
         address = RelayAddress.RELAY5
         caption = "Relay 6"
+
+        @classmethod
+        def onRelayChange(cls, relayIndex, value):
+            return super().onRelayChange(relayIndex, value)        
 
     class relay6(TRelay):
         address = RelayAddress.RELAY6
         caption = "Relay 7"
 
+        @classmethod
+        def onRelayChange(cls, relayIndex, value):
+            return super().onRelayChange(relayIndex, value)        
+
     class relay7(TRelay):
         address = RelayAddress.RELAY7
         caption = "Relay 8"
+
+        @classmethod
+        def onRelayChange(cls, relayIndex, value):
+            return super().onRelayChange(relayIndex, value)        
 
     relays = [relay0, relay1, relay2, relay3, relay4, relay5, relay6, relay7]
 
@@ -187,5 +224,5 @@ class plugin:
         relayMethod.getRelaysState()
 
     @classmethod
-    def initialize(cls, event_loop): 
+    async def initialize(cls, event_loop): 
         event_loop.create_task(cls.readData(1))

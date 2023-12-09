@@ -55,5 +55,5 @@ class plugin:
             nest_asyncio.asyncio.ensure_future(cls.handle_client(client_sock, event_loop))
 
     @classmethod
-    def initialize(cls, event_loop):
-        event_loop.run_until_complete(cls.start_bluetooth_server(event_loop))
+    async def initialize(cls, event_loop):
+        event_loop.create_task(cls.start_bluetooth_server(event_loop))
