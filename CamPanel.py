@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import nest_asyncio
 nest_asyncio.apply()
 from general import events as generalEvents, plugins_loader

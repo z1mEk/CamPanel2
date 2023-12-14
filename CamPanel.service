@@ -1,0 +1,10 @@
+[Unit]
+Description=CamPanel
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/CamPanel2/CamPanel.py
+Restart=always
+User=pi
+
+[Install]
+WantedBy=default.target
