@@ -3,8 +3,10 @@
 import nest_asyncio
 nest_asyncio.apply()
 from general import events as generalEvents, plugins_loader
+import daemon
 
-event_loop = nest_asyncio.asyncio.get_event_loop()
-nest_asyncio.asyncio.ensure_future(generalEvents.onRun(event_loop))
-nest_asyncio.asyncio.ensure_future(plugins_loader.pluginsInit(event_loop))
-event_loop.run_forever()
+with daemon.DaemonContext():
+    event_loop = nest_asyncio.asyncio.get_event_loop()
+    nest_asyncio.asyncio.ensure_future(generalEvents.onRun(event_loop))
+    nest_asyncio.asyncio.ensure_future(plugins_loader.pluginsInit(event_loop))
+    event_loop.run_forever()
