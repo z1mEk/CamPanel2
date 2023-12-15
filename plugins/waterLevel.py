@@ -17,7 +17,6 @@ class plugin:
     async def readData(cls, interval):
         try:
             data.mcp = EasyMCP2221.Device()
-            print(f"data.mcp: {data.mcp}")
             data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
             data.mcp.ADC_config(ref="VDD")
         except Exception as e:
@@ -26,11 +25,8 @@ class plugin:
         while True:
             if data.mcp != None:
                 values = data.mcp.ADC_read()
-                data.whiteWaterLevel = values[0] / 1024 * 100
-                data.greyWaterLevel = values[1] / 1024 * 100
-            else:
-                data.whiteWaterLevel = random.randint(1, 100)
-                data.greyWaterLevel = random.randint(1, 100)
+                data.whiteWaterLevel = values[0] #/ 1024 * 100
+                data.greyWaterLevel = values[1] #/ 1024 * 100
 
             await nest_asyncio.asyncio.sleep(interval)       
 
