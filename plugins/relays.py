@@ -1,9 +1,8 @@
 import nest_asyncio
 nest_asyncio.apply()
 from enum import Enum
-from general.config_loader import config
+from general.config_loader import config, configHelper
 from serial.serialposix import Serial
-from general import devices
 
 class modbusCRC:
     CRCTableHigh = [
@@ -101,7 +100,7 @@ class relayMethod(metaclass=relayMeta):
     def reconnect(cls):
         try:
             if TRelay.srl == None:
-                relays_device = devices.find_usb_device_by_vid_pid(config.relays.device)
+                relays_device = configHelper.FindUsbDeviceByVidPid(config.relays.device)
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)
         except Exception as e:
             print(f"Wystąpił problem z połączeniem z modułem przekaźników: {e}")

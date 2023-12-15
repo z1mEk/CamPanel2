@@ -20,10 +20,12 @@
     },
     "epsolar": {
         "com": "/dev/ttyUSB5",
+        "device": "",
         "baudrate": 9600
     },
     "bms": {
         "com": "/dev/ttyUSB4",
+        "device": "",
         "baudrate": 9600
     }
 }
