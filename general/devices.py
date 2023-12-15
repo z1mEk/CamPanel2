@@ -7,10 +7,9 @@ def find_usb_device_by_vid_pid(vid_pid):
     # Uzyskanie listy dostępnych portów szeregowych
     ports = list(serial.tools.list_ports.comports())
 
-    print(ports)
-
     # Iteracja przez każdy port w poszukiwaniu pasującego VID i PID
     for port in ports:
+        print(port.description)
         try:
             # Pobranie VID i PID z opisu portu
             port_vid, port_pid = map(lambda x: int(x, 16), port.description.split())
