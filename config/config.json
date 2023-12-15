@@ -1,9 +1,9 @@
 {
     "plugins": [
+        "nextionHmi",
         "relays",
         "dalyBms",
         "waterLevel",
-        "updateHmi",
         "serverHttp"
     ],
     "nextion": {
@@ -11,8 +11,7 @@
         "baudrate": 115200,
         "startup_commands" : [
             "thsp=60",
-            "thup=1",
-            "usup=1"
+            "thup=1"
         ]
     },
     "relays": {

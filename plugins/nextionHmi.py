@@ -1,8 +1,9 @@
 import nest_asyncio
 nest_asyncio.apply()
-from hmi.pages import page0, page1
+from plugins.hmi import hmi, helper
+from plugins.hmi.pages import page0
+from plugins.hmi.pages import page1
 from plugins import dalyBms, waterLevel, relays
-from hmi import helper, methods as hmiMethods
 
 class plugin:
 
@@ -37,6 +38,7 @@ class plugin:
         
     @classmethod
     async def initialize(cls, event_loop): 
+        event_loop.create_task(hmi.create(event_loop))
         event_loop.create_task(cls.updateBMS(1))
-        event_loop.create_task(cls.updateWaterLevel(1))
+        event_loop.create_task(cls.updateWaterLevel(10))
         event_loop.create_task(cls.updateDualStateButtonValue(1))

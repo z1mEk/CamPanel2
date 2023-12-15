@@ -1,12 +1,10 @@
 '''
 pip3 install flask
 '''
-from flask import Flask, jsonify, request, render_template, send_from_directory
+import os
+from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
 from plugins import waterLevel, dalyBms, relays
-from hmi import methods as hmiMethods
-from general import methods as generalMethods
-import os
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)

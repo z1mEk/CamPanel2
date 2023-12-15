@@ -1,5 +1,5 @@
-from hmi import methods as hmiMethods
-from hmi.controls import TButton, TDualStateButton
+from plugins.hmi import methods as hmiMethods
+from plugins.hmi.controls import TButton, TDualStateButton
 from plugins import relays, dalyBms
 
 async def Show():

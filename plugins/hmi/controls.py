@@ -1,5 +1,5 @@
 import os, sys
-from hmi import methods as hmiMethods
+from plugins.hmi import methods as hmiMethods
 from general import methods as generalMethods
 
 #region Base Control
