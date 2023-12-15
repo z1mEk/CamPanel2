@@ -16,7 +16,7 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         try:
-            data.mcp = EasyMCP2221.Device(trace_packets=True)
+            data.mcp = EasyMCP2221.Device()
             print(f"data.mcp: {data.mcp}")
             data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
             data.mcp.ADC_config(ref="VDD")
