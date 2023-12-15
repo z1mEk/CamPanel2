@@ -8,7 +8,7 @@ def find_usb_device_by_vid_pid(vid_pid):
 
     # Iterate through the ports and find the one with matching VID and PID
     for port in ports:
-        print(port)
+        print(port.device)
         if port.vid == vid and port.pid == pid:
             return port.device
 
