@@ -49,17 +49,9 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         while True:
-            dalyBMSResponse = "" #daly.getData()
-
-            if dalyBMSResponse != None:
-                #TODO: przepisać/skonwertować dane z bufora na dane do wyświetlenia
-                data.currentMiliAmper = 0
-                data.totalMiliVoltage = 0
-                data.RSOC = 0                
-            else:
-                data.currentMiliAmper = -3456
-                data.totalMiliVoltage = 13245
-                data.RSOC = 89
+            data.currentMiliAmper = -3456
+            data.totalMiliVoltage = 13245
+            data.RSOC = 89
 
             data.currentAmper = data.currentMiliAmper / 1000
             if abs(data.currentMiliAmper) < 100:
