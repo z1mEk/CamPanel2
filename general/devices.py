@@ -20,9 +20,11 @@ def find_usb_device_by_vid_pid(vid_pid):
             # Sprawdzenie, czy urządzenie ma oczekiwane VID i PID
             if device_vid == vid and device_pid == pid:
                 # Znaleziono pasujące urządzenie, zwróć jego ścieżkę (/dev/ttyUSBX)
+                print(f"Znaleziono urządzenie dla {vid_pid} = {device.device_node}")
                 return device.device_node
         except (ValueError, KeyError):
             pass
 
     # Jeśli nie znaleziono pasującego urządzenia, zwróć None
+    print(f"Nie znaleziono urządzenia dla {vid_pid}")
     return None
