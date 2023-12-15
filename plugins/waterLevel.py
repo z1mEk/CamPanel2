@@ -2,7 +2,7 @@
 pip3 install EasyMCP2221
 '''
 import nest_asyncio
-from MCP2221 import MCP2221
+import EasyMCP2221
 nest_asyncio.apply()
 import random
 
@@ -16,11 +16,10 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         try:
-            #04D8:00DD
-            data.mcp = MCP2221.MCP2221(1240, 221, 0)
+            data.mcp = EasyMCP2221.Device()
             print(f"data.mcp: {data.mcp}")
-            # data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
-            # data.mcp.ADC_config(ref="VDD")
+            data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
+            data.mcp.ADC_config(ref="VDD")
         except Exception as e:
             print(f"Wystąpił problem z modułem MCP2221: {e}")  
 
