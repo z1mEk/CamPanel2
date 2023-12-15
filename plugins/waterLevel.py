@@ -25,8 +25,8 @@ class plugin:
         while True:
             if data.mcp != None:
                 values = data.mcp.ADC_read()
-                data.whiteWaterLevel = values[0] #/ 1024 * 100
-                data.greyWaterLevel = values[1] #/ 1024 * 100
+                data.whiteWaterLevel = round(values[0] / 1024 * 100, 0)
+                data.greyWaterLevel = round(values[1] / 1024 * 100, 0)
 
             await nest_asyncio.asyncio.sleep(interval)       
 
