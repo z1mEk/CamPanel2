@@ -12,7 +12,7 @@ import logging.handlers
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
-handler = logging.handlers.RotatingFileHandler('/var/log/flask.log', maxBytes=1024 * 1024)
+handler = logging.handlers.RotatingFileHandler('flask.log', maxBytes=1024 * 1024)
 logging.getLogger('werkzeug').setLevel(logging.DEBUG)
 logging.getLogger('werkzeug').addHandler(handler)
 app.logger.setLevel(logging.WARNING)
