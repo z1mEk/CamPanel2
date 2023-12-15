@@ -36,4 +36,5 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
+        nest_asyncio.asyncio.sleep(120)
         event_loop.create_task(cls.readData(5))
