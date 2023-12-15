@@ -4,8 +4,7 @@
         "relays",
         "dalyBms",
         "waterLevel",
-        "serverHttp",
-        "serverBluetooth"
+        "serverHttp"
     ],
     "nextion": {
         "device": "067b:2303",
