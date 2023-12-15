@@ -12,7 +12,7 @@ import logging.handlers
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
-handler = logging.handlers.RotatingFileHandler('flask.txt', maxBytes=1024 * 1024)
+handler = logging.handlers.RotatingFileHandler('/var/log/CamPanelFlask.log', maxBytes=1024 * 1024)
 logging.getLogger('werkzeug').setLevel(logging.DEBUG)
 logging.getLogger('werkzeug').addHandler(handler)
 app.logger.setLevel(logging.WARNING)
@@ -26,7 +26,6 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        await nest_asyncio.asyncio.sleep(10)
         thread = Thread(target=cls.start_flask_server)
         thread.daemon = True
         thread.start()
