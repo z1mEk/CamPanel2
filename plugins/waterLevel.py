@@ -16,10 +16,11 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         try:
-            data.mcp = MCP2221.MCP2221()
+            #04D8:00DD
+            data.mcp = MCP2221.MCP2221(0x04D8, 0x00DD, 0)
             print(f"data.mcp: {data.mcp}")
-            data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
-            data.mcp.ADC_config(ref="VDD")
+            # data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
+            # data.mcp.ADC_config(ref="VDD")
         except Exception as e:
             print(f"Wystąpił problem z modułem MCP2221: {e}")  
 
