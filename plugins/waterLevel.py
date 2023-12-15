@@ -7,6 +7,7 @@ nest_asyncio.apply()
 import random
 
 class data:
+    mcp = None
     whiteWaterLevel = 56
     greyWaterLevel = 23
 
@@ -15,15 +16,15 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         try:
-            mcp = EasyMCP2221.Device()
-            mcp.set_pin_function(gp1='ADC', gp2="ADC")
-            mcp.ADC_config(ref="VDD")
+            data.mcp = EasyMCP2221.Device()
+            data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
+            data.mcp.ADC_config(ref="VDD")
         except Exception as e:
             print(f"Wystąpił problem z połączeniem z modułem MCP2221: {e}")  
 
         while True:
-            if mcp != None:
-                values = mcp.ADC_read()
+            if data.mcp != None:
+                values = data.mcp.ADC_read()
                 data.whiteWaterLevel = values[0] / 1024 * 100
                 data.greyWaterLevel = values[1] / 1024 * 100
             else:
