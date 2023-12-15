@@ -137,7 +137,7 @@ class relayMethod(metaclass=relayMeta):
     @classmethod
     def getRelayState(cls) -> int:
         if data.relaysState == None:
-            cls.getRelaysState(cls)
+            cls.getRelaysState()
         return data.relaysState[cls.address.value[1]]
     
     @classmethod
