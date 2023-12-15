@@ -101,6 +101,7 @@ class relayMethod(metaclass=relayMeta):
         try:
             if TRelay.srl == None:
                 relays_device = configHelper.FindUsbDeviceByVidPid(config.relays.device)
+                print(f"Relays device: {config.relays.device} > {relays_device}")
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)
         except Exception as e:
             print(f"Wystąpił problem z połączeniem z modułem przekaźników: {e}")
