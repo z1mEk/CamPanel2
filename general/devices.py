@@ -18,6 +18,8 @@ def find_usb_device_by_vid_pid(vid_pid):
             device_vid = int(device.attributes.asstring('idVendor'), 16)
             device_pid = int(device.attributes.asstring('idProduct'), 16)
 
+            print(f"{device_vid} {device_pid}")
+
             # Sprawdzenie, czy urządzenie ma oczekiwane VID i PID
             if device_vid == vid and device_pid == pid:
                 # Znaleziono pasujące urządzenie, zwróć jego ścieżkę (/dev/ttyUSBX)
