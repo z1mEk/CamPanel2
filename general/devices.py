@@ -1,33 +1,24 @@
-import pyudev
+import serial.tools.list_ports
 
 def find_usb_device_by_vid_pid(vid_pid):
-    # Inicjalizacja obiektu kontekstu udev
-    context = pyudev.Context()
-
-    # Uzyskanie listy wszystkich urządzeń USB
-    devices = list(context.list_devices(subsystem='tty', ID_BUS='usb'))
-    print(devices)
-
     # Parsowanie VID i PID z jednego parametru w postaci "067b:2303"
     vid, pid = map(lambda x: int(x, 16), vid_pid.split(':'))
 
-    # Iteracja przez każde urządzenie w poszukiwaniu pasującego VID i PID
-    for device in devices:
+    # Uzyskanie listy dostępnych portów szeregowych
+    ports = list(serial.tools.list_ports.comports())
+
+    # Iteracja przez każdy port w poszukiwaniu pasującego VID i PID
+    for port in ports:
         try:
-            # Pobranie VID i PID z atrybutów urządzenia
-            device_vid = int(device.attributes.asstring('idVendor'), 16)
-            device_pid = int(device.attributes.asstring('idProduct'), 16)
+            # Pobranie VID i PID z opisu portu
+            port_vid, port_pid = map(lambda x: int(x, 16), port.description.split())
 
-            print(f"{device_vid} {device_pid}")
-
-            # Sprawdzenie, czy urządzenie ma oczekiwane VID i PID
-            if device_vid == vid and device_pid == pid:
-                # Znaleziono pasujące urządzenie, zwróć jego ścieżkę (/dev/ttyUSBX)
-                print(f"Znaleziono urządzenie dla {vid_pid} = {device.device_node}")
-                return device.device_node
-        except (ValueError, KeyError):
+            # Sprawdzenie, czy port ma oczekiwane VID i PID
+            if port_vid == vid and port_pid == pid:
+                # Znaleziono pasujący port, zwróć jego ścieżkę
+                return port.device
+        except (ValueError, IndexError):
             pass
 
-    # Jeśli nie znaleziono pasującego urządzenia, zwróć None
-    print(f"Nie znaleziono urządzenia dla {vid_pid}")
+    # Jeśli nie znaleziono pasującego portu, zwróć None
     return None
