@@ -1,7 +1,7 @@
 import nest_asyncio
 nest_asyncio.apply()
-from hmi import methods as hmiMethods
-from hmi.controls import TButton, TProgressBar, TText
+from plugins.hmi import methods as hmiMethods
+from plugins.hmi.controls import TButton, TProgressBar, TText
 
 async def Show():
     await hmiMethods.show(0)

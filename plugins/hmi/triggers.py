@@ -37,7 +37,7 @@
 # # Inicjalizuj listę components_touch_event
 # components_touch_event = getComponentsTouchEvent()
 
-from hmi.pages import page0, page1
+from plugins.hmi.pages import page0, page1
 
 ### definition of call name for nextion's components. "call_back" ###
 components_touch_event = [
