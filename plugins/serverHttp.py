@@ -19,7 +19,7 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        nest_asyncio.asyncio.sleep(10)
+        await nest_asyncio.asyncio.sleep(10)
         thread = Thread(target=cls.start_flask_server)
         thread.daemon = True
         thread.start()
