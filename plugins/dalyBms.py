@@ -48,7 +48,7 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         while True:
-            dalyBMSResponse = daly.getData()
+            dalyBMSResponse = "" #daly.getData()
 
             if dalyBMSResponse != None:
                 #TODO: przepisać/skonwertować dane z bufora na dane do wyświetlenia
