@@ -13,7 +13,6 @@ def startCampanel():
         nest_asyncio.asyncio.ensure_future(generalEvents.onRun(event_loop))
         nest_asyncio.asyncio.ensure_future(plugins_loader.pluginsInit(event_loop))
         event_loop.run_forever()
-        time.sleep(1)
 
 daemon_thread = threading.Thread(target=startCampanel)
 daemon_thread.daemon = True
