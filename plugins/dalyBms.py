@@ -1,6 +1,6 @@
 import nest_asyncio
 nest_asyncio.apply()
-from general.config_loader import config
+from general.config_loader import config, configHelper
 from serial.serialposix import Serial
 
 class data:
@@ -23,7 +23,8 @@ class daly:
     def reconnect(cls):
         try:
             if cls.dalySerial == None:
-                cls.dalySerial = Serial(config.bms.com, config.bms.baudrate)
+                bms_device = configHelper.FindUsbDeviceByVidPid(config.bms.device)
+                cls.dalySerial = Serial(bms_device, config.bms.baudrate)
         except Exception as e:
             print(f"Wystąpił problem z połączeniem z modułem BMS: {e}")
             return False

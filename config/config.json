@@ -4,7 +4,8 @@
         "relays",
         "dalyBms",
         "waterLevel",
-        "serverHttp"
+        "serverHttp",
+        "serverBluetooth"
     ],
     "nextion": {
         "device": "067b:2303",
@@ -19,13 +20,11 @@
         "baudrate": 9600
     },
     "epsolar": {
-        "com": "/dev/ttyUSB5",
-        "device": "",
+        "device": "/dev/ttyUSB5",
         "baudrate": 9600
     },
     "bms": {
-        "com": "/dev/ttyUSB4",
-        "device": "",
+        "device": "/dev/ttyUSB4",
         "baudrate": 9600
     }
 }
