@@ -6,6 +6,7 @@ def find_usb_device_by_vid_pid(vid_pid):
 
     # Uzyskanie listy wszystkich urządzeń USB
     devices = list(context.list_devices(subsystem='tty', ID_BUS='usb'))
+    print(devices)
 
     # Parsowanie VID i PID z jednego parametru w postaci "067b:2303"
     vid, pid = map(lambda x: int(x, 16), vid_pid.split(':'))
