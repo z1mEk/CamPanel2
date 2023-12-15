@@ -15,6 +15,7 @@ class plugin:
 
     @classmethod
     async def readData(cls, interval):
+        await nest_asyncio.asyncio.sleep(120)
         try:
             data.mcp = EasyMCP2221.Device()
             print(f"data.mcp: {data.mcp}")
@@ -36,5 +37,4 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        nest_asyncio.asyncio.sleep(120)
         event_loop.create_task(cls.readData(5))
