@@ -7,7 +7,7 @@
         "serverHttp"
     ],
     "nextion": {
-        "com": "/dev/ttyS3",
+        "com": "/dev/ttyUSB2",
         "baudrate": 115200,
         "startup_commands" : [
             "thsp=60",
@@ -16,15 +16,15 @@
         ]
     },
     "relays": {
-        "com": "/dev/ttyS4",
+        "com": "/dev/ttyUSB1",
         "baudrate": 9600
     },
     "epsolar": {
-        "com": "/dev/ttyS5",
+        "com": "/dev/ttyUSB5",
         "baudrate": 9600
     },
     "bms": {
-        "com": "/dev/ttyS4",
+        "com": "/dev/ttyUSB4",
         "baudrate": 9600
     }
 }
