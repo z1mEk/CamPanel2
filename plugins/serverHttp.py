@@ -15,7 +15,7 @@ class plugin:
 
     @classmethod
     def start_flask_server(cls):
-        app.run(host='0.0.0.0', port=80)
+        app.run(host='0.0.0.0', port=8080)
 
     @classmethod
     async def initialize(cls, event_loop):
