@@ -17,9 +17,9 @@ class plugin:
     async def readData(cls, interval):
         try:
             data.mcp = EasyMCP2221.Device()
+            print(f"data.mcp: {data.mcp}")
             data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
             data.mcp.ADC_config(ref="VDD")
-            print(f"data.mcp: {data.mcp}")
         except Exception as e:
             print(f"Wystąpił problem z połączeniem z modułem MCP2221: {e}")  
 
