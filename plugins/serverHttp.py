@@ -9,6 +9,8 @@ from threading import Thread
 from plugins import waterLevel, dalyBms, relays
 import logging
 import logging.handlers
+from general.config_loader import config
+import json
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
@@ -21,8 +23,31 @@ app.logger.addHandler(handler)
 class plugin:
 
     @classmethod
+    def class_to_json(cls):
+        def convert(obj):
+            if isinstance(obj, type):
+                return cls.class_to_json(obj)
+            elif isinstance(obj, object):
+                return vars(obj)
+            else:
+                return obj
+
+        class_dict = {
+            "__class__": cls.__name__,
+            "__module__": cls.__module__
+        }
+
+        for key, value in vars(cls).items():
+            if not key.startswith("__"):
+                class_dict[key] = convert(value)
+
+        return class_dict
+
+    @classmethod
     def start_flask_server(cls):
-        app.run(host='0.0.0.0', port=8080)
+        host = config.httpServer.host
+        port = config.httpServer.port
+        app.run(host=host, port=port)
 
     @classmethod
     async def initialize(cls, event_loop):
@@ -34,11 +59,11 @@ class plugin:
 @app.route('/getData')
 def get_waterLevel():
     response = {
-        "waterLevel": 
-        {
-            "whiteWaterLevel": waterLevel.data.whiteWaterLevel,
-            "greyWaterLevel": waterLevel.data.greyWaterLevel,
-        },
+        "waterLevel": plugin.class_to_json(waterLevel.data),
+        # {
+        #     "whiteWaterLevel": waterLevel.data.whiteWaterLevel,
+        #     "greyWaterLevel": waterLevel.data.greyWaterLevel,
+        # },
         "bms":
         {
             "totalVoltage": dalyBms.data.totalVoltage,

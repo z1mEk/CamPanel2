@@ -25,5 +25,9 @@
     "bms": {
         "device": "/dev/ttyUSB4",
         "baudrate": 9600
+    },
+    "httpServer": {
+        "allow_hosts": "",
+        "port": 8080
     }
 }

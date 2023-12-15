@@ -21,7 +21,7 @@ class plugin:
             data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
             data.mcp.ADC_config(ref="VDD")
         except Exception as e:
-            print(f"Wystąpił problem z połączeniem z modułem MCP2221: {e}")  
+            print(f"Wystąpił problem z modułem MCP2221: {e}")  
 
         while True:
             if data.mcp != None:
