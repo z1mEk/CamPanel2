@@ -39,7 +39,7 @@ async def startupCommands():
 async def create(event_loop):
     global client
     print(f"Nextion create()")
-    print(f"Nextion port: {config.nextion.com}")
+    print(f"Nextion device: {config.nextion.device}")
     print(f"Nextion baudrate: {config.nextion.baudrate}")
 
     try:
