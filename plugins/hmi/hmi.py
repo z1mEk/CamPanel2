@@ -7,6 +7,7 @@ nest_asyncio.apply()
 from general.config_loader import config
 from nextion import Nextion, EventType, client
 from plugins.hmi import methods as hmiMethods, events as hmiEvents, triggers
+from general import devices
  
 def callbackExecute(data):
     func = next((item for item in triggers.components_touch_event \
@@ -42,7 +43,8 @@ async def create(event_loop):
     print(f"Nextion baudrate: {config.nextion.baudrate}")
 
     try:
-        client = Nextion(config.nextion.com, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
+        nextion_device = devices.find_usb_device_by_vid_pid(config.nextion.device)
+        client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
         await client.connect()
         await startupCommands()
     except Exception as e:
