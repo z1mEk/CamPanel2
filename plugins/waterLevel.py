@@ -17,7 +17,7 @@ class plugin:
     async def readData(cls, interval):
         try:
             #04D8:00DD
-            data.mcp = MCP2221.MCP2221(0x04D8, 0x00DD, 0)
+            data.mcp = MCP2221.MCP2221(1240, 221, 0)
             print(f"data.mcp: {data.mcp}")
             # data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
             # data.mcp.ADC_config(ref="VDD")
