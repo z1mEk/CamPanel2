@@ -8,11 +8,15 @@ from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
 from plugins import waterLevel, dalyBms, relays
 import logging
+import logging.handlers
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+handler = logging.handlers.RotatingFileHandler('flask.txt', maxBytes=1024 * 1024)
+logging.getLogger('werkzeug').setLevel(logging.DEBUG)
+logging.getLogger('werkzeug').addHandler(handler)
+app.logger.setLevel(logging.WARNING)
+app.logger.addHandler(handler)
 
 class plugin:
 
