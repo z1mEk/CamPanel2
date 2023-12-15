@@ -7,9 +7,12 @@ nest_asyncio.apply()
 from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
 from plugins import waterLevel, dalyBms, relays
+import logging
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 class plugin:
 
