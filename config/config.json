@@ -18,10 +18,6 @@
         "device": "0403:6001",
         "baudrate": 9600
     },
-    "epsolar": {
-        "device": "/dev/ttyUSB5",
-        "baudrate": 9600
-    },
     "bms": {
         "device": "/dev/ttyUSB4",
         "baudrate": 9600
