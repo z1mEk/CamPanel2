@@ -25,5 +25,10 @@
     "httpServer": {
         "host": "0.0.0.0",
         "port": 8080
+    },
+    "influxDB": {
+        "host": "localhost",
+        "port": 8086,
+        "database": "CamPanel"
     }
 }
