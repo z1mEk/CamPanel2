@@ -1,7 +1,7 @@
 #------------------------
 # pip3 install inluxdb
 # bash: influx
-# CREATE DATABASE moja_baza_danych
+# CREATE DATABASE CamPanel
 # exit
 #------------------------
 from influxdb import InfluxDBClient
@@ -9,6 +9,7 @@ import datetime
 import nest_asyncio
 from general.config_loader import config
 nest_asyncio.apply()
+from plugins import waterLevel, dalyBms
 
 class data:
     host = config.influxDB.host
@@ -19,21 +20,21 @@ class data:
 class plugin:
 
     @classmethod
-    async def connectToInfluxDB(cls):
+    def connectToInfluxDB(cls):
         data.client = InfluxDBClient(data.host, data.port)
 
     @classmethod
-    async def createDatabaseIfNotExists(cls):
+    def createDatabaseIfNotExists(cls):
         if data.client == None:
-            await cls.connectToInfluxDB()        
+            cls.connectToInfluxDB()        
         databases = data.client.get_list_database()
         if {'name': data.client.database} not in databases:
             data.client.create_database(data.client.database)    
 
     @classmethod
-    async def saveToInfluxDB(cls, jsonBody):
+    def addToInfluxDB(cls, jsonBody):
         if data.client == None:
-            await cls.connectToInfluxDB()
+            cls.connectToInfluxDB()
             data.client.switch_database(data.database)
             data.client.write_points(jsonBody)
             data.client.close()            
@@ -47,15 +48,48 @@ class plugin:
                     "tags": {},
                     "time": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
                     "fields": {
-                        "variable1": 1,
-                        "variable2": 2
+                        "totalVoltage": dalyBms.data.totalVoltage,
+                        "currentMiliAmper": dalyBms.data.currentMiliAmper,
+                        "RSOC": dalyBms.data.RSOC
                     }
                 }
             ]
-            await cls.saveToInfluxDB(jsonBody)
-            await nest_asyncio.asyncio.sleep(interval)       
+            cls.addToInfluxDB(jsonBody)
+            await nest_asyncio.asyncio.sleep(interval)
+
+    @classmethod
+    async def logWaterLevelData(cls, interval):
+        while True:
+            jsonBody = [
+                {
+                    "measurement": "WaterLevel",
+                    "tags": {},
+                    "time": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+                    "fields": {
+                        "whiteWaterLevel": waterLevel.data.whiteWaterLevel,
+                        "grayWaterLevel": waterLevel.data.greyWaterLevel
+                    }
+                }
+            ]
+            cls.addToInfluxDB(jsonBody)
+            await nest_asyncio.asyncio.sleep(interval)     
+
+    @classmethod
+    def logRelay(cls, relayIndex, value):
+        jsonBody = [
+            {
+                "measurement": "Relays",
+                "tags": {},
+                "time": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+                "fields": {
+                    f"relay{relayIndex}": value
+                }                
+            }
+        ]
+        cls.addToInfluxDB(jsonBody)
 
     @classmethod
     async def initialize(cls, event_loop):
-        await cls.createDatabaseIfNotExists()
+        cls.createDatabaseIfNotExists()
         event_loop.create_task(cls.logBmsData(5))
+        event_loop.create_task(cls.logWaterLevelData(300))

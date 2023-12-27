@@ -3,6 +3,8 @@ nest_asyncio.apply()
 from enum import Enum
 from general.config_loader import config, configHelper
 from serial.serialposix import Serial
+from plugins import influxDBLog
+from general import methods as generalMethods
 
 class modbusCRC:
     CRCTableHigh = [
@@ -145,6 +147,7 @@ class relayMethod(metaclass=relayMeta):
     @classmethod
     def onRelayChange(cls, relayIndex, value):
         print(f"Relay change: index={relayIndex}, value={value}")
+        influxDBLog.plugin.logRelay(relayIndex, value)
         
 class TRelay(relayMethod):
     srl:Serial = None

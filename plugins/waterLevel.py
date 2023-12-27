@@ -4,7 +4,6 @@ pip3 install EasyMCP2221
 import nest_asyncio
 import EasyMCP2221
 nest_asyncio.apply()
-import random
 
 class data:
     mcp = None
