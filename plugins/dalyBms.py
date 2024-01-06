@@ -1,7 +1,9 @@
 import nest_asyncio
 nest_asyncio.apply()
-from general.config_loader import config, configHelper
+from general.config_loader import config
+from general.deviceManager import device
 from serial.serialposix import Serial
+from datetime import datetime
 
 class data:
     currentMiliAmper = 0
@@ -15,6 +17,8 @@ class data:
     RSOC = 0
     RSOCDisplay = ""
 
+    lastUpdate = None
+
 class daly:
 
     dalySerial = None
@@ -23,7 +27,7 @@ class daly:
     def reconnect(cls):
         try:
             if cls.dalySerial == None:
-                bms_device = configHelper.FindUsbDeviceByVidPid(config.bms.device)
+                bms_device = device.FindUsbDevice(config.bms.device)
                 cls.dalySerial = Serial(bms_device, config.bms.baudrate)
         except Exception as e:
             print(f"Wystąpił problem z połączeniem z modułem BMS: {e}")
@@ -51,7 +55,7 @@ class plugin:
         while True:
             data.currentMiliAmper = -3456
             data.totalMiliVoltage = 13245
-            data.RSOC = 89
+            data.RSOC = 39
 
             data.currentAmper = data.currentMiliAmper / 1000
             if abs(data.currentMiliAmper) < 100:
@@ -67,6 +71,9 @@ class plugin:
             data.totalVoltageDisplay = "{:.2f} V".format(data.totalVoltage)
                       
             data.RSOCDisplay = "{:.0f}%".format(data.RSOC)
+
+            data.lastUpdate = datetime.now()
+            
             await nest_asyncio.asyncio.sleep(interval)       
 
     @classmethod

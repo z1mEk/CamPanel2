@@ -47,6 +47,13 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>Status</td>
+                                    <td class="text-end">
+                                        <v-chip v-if="updateOK" class="green">online</v-chip>
+                                        <v-chip v-else class="red">offline</v-chip> 
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>Poziom naładowania</td>
                                     <td class="text-end">
                                         <v-progress-linear v-model="bms.RSOC" height="25" background-color="green lighten-4" color="green lighten-2">
@@ -85,54 +92,6 @@
                             </tbody>
                         </template>
                     </v-simple-table>
-
-                    <!-- <v-row>
-                        <v-col cols="6">
-                            <v-card class="pa-2">
-                                <v-row>
-                                    <v-col>
-                                        <div class="level-widget-icon">
-                                            <div :class="
-                                            {
-                                                'battery-body-critical':  bms.RSOC <= 20,
-                                                'battery-body-warning':  bms.RSOC > 20 && bms.RSOC <= 40,
-                                                'battery-body-ok': bms.RSOC > 40
-                                            }
-                                            " class="level-body" :style="{ height: bms.RSOCDisplay }"></div>
-                                            <div class="level-widget-text">Vue{ bms.RSOCDisplay }</div>
-                                        </div>
-                                    </v-col>
-                                    <v-col>
-                                        <div class="text-end">Vue{ bms.totalVoltageDisplay }</div>
-                                        <div class="text-end">Vue{ bms.currentDisplay }</div>
-                                    </v-col>
-                                </v-row>
-                            </v-card>
-                        </v-col>
-                        <v-col cols="6">
-                            <v-card class="pa-2">
-                                    <v-row>
-                                        <v-col cols="6">
-                                            <div class="level-widget-icon">
-                                                <div class="white-water-body level-body" :style="{ height: waterLevel.whiteWaterLevel + '%' }"></div>
-                                                <div class="level-widget-text">Vue{ waterLevel.whiteWaterLevel }%</div>
-                                            </div>
-                                        </v-col>
-                                        <v-col cols="6">
-                                            <div class="level-widget-icon">
-                                                <div class="grey-water-body level-body" :style="{ height: waterLevel.greyWaterLevel + '%' }"></div>
-                                                <div class="level-widget-text">Vue{ waterLevel.greyWaterLevel }%</div>
-                                            </div>
-                                        </v-col>
-                                    </v-row>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col v-for="(relay, index) in relays" :key="index" cols="3">
-                            <v-switch v-model="relay" @change="setRelay(index)">
-                        </v-col>
-                    </v-row> -->
                 </v-container>
             </v-main>
         </v-app>
@@ -144,6 +103,7 @@
             vuetify: new Vuetify(),
             data: {
                 drawer: false,
+                updateOK: false,
                 waterLevel: {},
                 bms: {},
                 relays: [],
@@ -157,14 +117,17 @@
                             this.waterLevel = data.waterLevel;
                             this.bms = data.bms;
                             this.relays = data.relays;
+                            this.updateOK = true
                         })
                         .catch(error => {
+                            this.updateOK = false
                             console.error('Error:', error);
                         });
                 },
                 setRelay: function (relayNumber) {
                     fetch('/setrelay/relay' + relayNumber + '/toggle')
                         .catch(error => {
+                            this.relays = []
                             console.error('Error:', error);
                         });
                 }

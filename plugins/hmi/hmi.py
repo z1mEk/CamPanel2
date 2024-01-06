@@ -4,7 +4,8 @@ pip3 install nextion
 '''
 import nest_asyncio
 nest_asyncio.apply()
-from general.config_loader import config, configHelper
+from general.config_loader import config
+from general.deviceManager import device
 from nextion import Nextion, EventType, client
 from plugins.hmi import methods as hmiMethods, events as hmiEvents, triggers
  
@@ -12,21 +13,21 @@ def callbackExecute(data):
     func = next((item for item in triggers.components_touch_event \
         if (item["page_id"], item["component_id"], item["touch_event"]) \
             == (data.page_id, data.component_id, data.touch_event)), None)
-    nest_asyncio.asyncio.ensure_future(func["call_back"]())
+    nest_asyncio.asyncio.create_task(func["call_back"]())
 
 def eventHandler(type_, data):
     if type_ == EventType.TOUCH:
         callbackExecute(data)
     elif type_ == EventType.TOUCH_COORDINATE:
-        nest_asyncio.asyncio.ensure_future(hmiEvents.onTouchCoordinate(data))
+        nest_asyncio.asyncio.create_task(hmiEvents.onTouchCoordinate(data))
     elif type_ == EventType.TOUCH_IN_SLEEP:
-        nest_asyncio.asyncio.ensure_future(hmiEvents.onTouchInSleep(data))
+        nest_asyncio.asyncio.create_task(hmiEvents.onTouchInSleep(data))
     elif type_ == EventType.AUTO_SLEEP:
-        nest_asyncio.asyncio.ensure_future(hmiEvents.onAutoSleep())
+        nest_asyncio.asyncio.create_task(hmiEvents.onAutoSleep())
     elif type_ == EventType.AUTO_WAKE:
-        nest_asyncio.asyncio.ensure_future(hmiEvents.onAutoWake())         
+        nest_asyncio.asyncio.create_task(hmiEvents.onAutoWake())         
     elif type_ == EventType.STARTUP:
-        nest_asyncio.asyncio.ensure_future(hmiEvents.onStartUp())
+        nest_asyncio.asyncio.create_task(hmiEvents.onStartUp())
 
 async def startupCommands():
     print("Startup commands")
@@ -39,7 +40,7 @@ async def create(event_loop):
     global client
     print(f"Nextion create()")
     try:
-        nextion_device = configHelper.FindUsbDeviceByVidPid(config.nextion.device)
+        nextion_device = device.FindUsbDevice(config.nextion.device)
         print(f"Nextion device: {config.nextion.device} > {nextion_device}")
         client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
         await client.connect()

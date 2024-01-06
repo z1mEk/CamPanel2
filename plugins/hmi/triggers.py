@@ -12,7 +12,7 @@
 #         # Importuj moduł dynamicznie
 #         module = importlib.import_module(f"hmi.pages.{module_name}")
 
-#             # Sprawdź klasy w module
+#         # Sprawdź klasy w module
 #         for class_name in dir(module):
 #             cls = getattr(module, class_name)
 
@@ -20,7 +20,7 @@
 #             if hasattr(cls, 'onTouch'):
 #                 cte.append({
 #                     "page_id": cls.page_id,
-#                     "component_id": cls.component_id,
+#                     "component_id": cls.id,
 #                     "touch_event": 1,
 #                     "call_back": cls.onTouch
 #                 })
@@ -28,30 +28,23 @@
 #             if hasattr(cls, 'onRelease'):
 #                 cte.append({
 #                     "page_id": cls.page_id,
-#                     "component_id": cls.component_id,
+#                     "component_id": cls.id,
 #                     "touch_event": 0,
 #                     "call_back": cls.onRelease
 #                 })
 #     return cte
 
 # # Inicjalizuj listę components_touch_event
-# components_touch_event = getComponentsTouchEvent()
+#if components_touch_event == None:
+#   components_touch_event = getComponentsTouchEvent()
 
-from plugins.hmi.pages import page0, page1
+from plugins.hmi.pages.MainPage import MainPage
 
 ### definition of call name for nextion's components. "call_back" ###
 components_touch_event = [
-        #page0
-        {"page_id": 0, "component_id": 9, "touch_event": 1, "call_back": page0.b0.onTouch},
-        {"page_id": 0, "component_id": 5, "touch_event": 1, "call_back": page0.t4.onTouch},
-        {"page_id": 0, "component_id": 6, "touch_event": 1, "call_back": page0.t5.onTouch},
-
-        #page1
-        {"page_id": 1, "component_id": 1, "touch_event": 1, "call_back": page1.b0.onTouch},
-        {"page_id": 1, "component_id": 2, "touch_event": 0, "call_back": page1.bt0.onRelease},
-        {"page_id": 1, "component_id": 3, "touch_event": 0, "call_back": page1.bt1.onRelease},
-        {"page_id": 1, "component_id": 4, "touch_event": 0, "call_back": page1.bt2.onRelease},
-        {"page_id": 1, "component_id": 5, "touch_event": 0, "call_back": page1.bt3.onRelease},
-        {"page_id": 1, "component_id": 6, "touch_event": 0, "call_back": page1.bt4.onRelease},
-        {"page_id": 1, "component_id": 7, "touch_event": 0, "call_back": page1.bt5.onRelease}
+        #MainPage
+        {"page_id": 0, "component_id": 5, "touch_event": 0, "call_back": MainPage.btWaterPump.onRelease},
+        {"page_id": 0, "component_id": 6, "touch_event": 0, "call_back": MainPage.btACInverter.onRelease},
+        {"page_id": 0, "component_id": 7, "touch_event": 0, "call_back": MainPage.btHeater.onRelease},
+        {"page_id": 0, "component_id": 8, "touch_event": 0, "call_back": MainPage.btBoiler.onRelease},
     ]

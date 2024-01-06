@@ -4,11 +4,20 @@ pip3 install EasyMCP2221
 import nest_asyncio
 import EasyMCP2221
 nest_asyncio.apply()
+from datetime import datetime
 
 class data:
     mcp = None
-    whiteWaterLevel = 0
-    greyWaterLevel = 0
+    whiteWaterLevel = -1
+    greyWaterLevel = -1
+    whiteWaterLevelDisplay = ""
+    greyWaterLevelDisplay = ""
+    lastUpdate = None
+
+class helper:
+    @classmethod
+    def map_value(value, in_min, in_max, out_min, out_max):
+        return int((value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
 class plugin:
 
@@ -27,8 +36,11 @@ class plugin:
             data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
             data.mcp.ADC_config(ref="VDD")                
             values = data.mcp.ADC_read()
-            data.whiteWaterLevel = int((values[0] / 1023) * 100)
-            data.greyWaterLevel = int((values[1] / 1023) * 100)
+            data.whiteWaterLevel = helper.map_value(values[0], 0, 190, 0, 100)
+            data.greyWaterLevel = helper.map_value(values[1], 0, 190, 0, 100)
+            data.whiteWaterLevelDisplay = '{}%'.format(data.whiteWaterLevel)
+            data.greyWaterLevelDisplay = '{}%'.format(data.greyWaterLevel)
+            data.lastUpdate = datetime.now()
             await nest_asyncio.asyncio.sleep(interval)       
 
     @classmethod

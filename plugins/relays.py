@@ -1,10 +1,11 @@
 import nest_asyncio
 nest_asyncio.apply()
 from enum import Enum
-from general.config_loader import config, configHelper
+from general.config_loader import config
+from general.deviceManager import device
 from serial.serialposix import Serial
 from plugins import influxDBLog
-from general import methods as generalMethods
+from datetime import datetime
 
 class modbusCRC:
     CRCTableHigh = [
@@ -102,7 +103,7 @@ class relayMethod(metaclass=relayMeta):
     def reconnect(cls):
         try:
             if TRelay.srl == None:
-                relays_device = configHelper.FindUsbDeviceByVidPid(config.relays.device)
+                relays_device = device.FindUsbDevice(config.relays.device)
                 print(f"Relays device: {config.relays.device} > {relays_device}")
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)
         except Exception as e:
@@ -136,7 +137,8 @@ class relayMethod(metaclass=relayMeta):
         if relayMethod.reconnect():
             TRelay.srl.write(cmd)
             buffer = TRelay.srl.read(6)
-            data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]           
+            data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
+            data.lastUpdate = datetime.now()        
 
     @classmethod
     def getRelayState(cls) -> int:
@@ -155,6 +157,8 @@ class TRelay(relayMethod):
 class data:
 
     relaysState = None
+
+    lastUpdate = None
  
     class relay0(TRelay):
         address = RelayAddress.RELAY0

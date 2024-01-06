@@ -10,8 +10,8 @@ def startCampanel():
     while True:
         print("CamPanel daemon is running...")
         event_loop = nest_asyncio.asyncio.get_event_loop()
-        nest_asyncio.asyncio.ensure_future(generalEvents.onRun(event_loop))
-        nest_asyncio.asyncio.ensure_future(plugins_loader.pluginsInit(event_loop))
+        event_loop.create_task(generalEvents.onRun(event_loop))
+        event_loop.create_task(plugins_loader.pluginsInit(event_loop))
         event_loop.run_forever()
 
 daemon_thread = threading.Thread(target=startCampanel)

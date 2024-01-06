@@ -5,14 +5,15 @@
         "dalyBms",
         "waterLevel",
         "serverHttp",
-        "influxDB"
+        "influxDBLog"
     ],
     "nextion": {
         "device": "067b:2303",
         "baudrate": 115200,
         "startup_commands" : [
             "thsp=60",
-            "thup=1"
+            "thup=1",
+            "dim=30"
         ]
     },
     "relays": {
@@ -31,5 +32,9 @@
         "host": "localhost",
         "port": 8086,
         "database": "CamPanel"
+    },
+    "solarWaterHeating": {
+        "minRSOC": 80,
+        "minVoltage": 13.2
     }
 }

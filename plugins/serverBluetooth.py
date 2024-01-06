@@ -52,7 +52,7 @@ class plugin:
             client_sock, client_info = await event_loop.sock_accept(server_sock)
             print(f"Połączono z {client_info}")
 
-            nest_asyncio.asyncio.ensure_future(cls.handle_client(client_sock, event_loop))
+            nest_asyncio.asyncio.create_task(cls.handle_client(client_sock, event_loop))
 
     @classmethod
     async def initialize(cls, event_loop):
