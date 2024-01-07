@@ -31,11 +31,6 @@ class MainPage(TPage):
         async def onRelease(cls):
             relays.data.relay3.val = cls.val
 
-    class btHeater(TDualStateButton):
-        @classmethod
-        async def onRelease(cls):
-            relays.data.relay4.val = cls.val
-
     class jWhiteWater(TProgressBar):
         pass
 

@@ -72,7 +72,6 @@ class RelayAddress(Enum):
 
 class relayMeta(type):
     address = None
-    caption = ""
 
     @property
     def val(self):
@@ -162,7 +161,6 @@ class data:
  
     class relay0(TRelay):
         address = RelayAddress.RELAY0
-        caption = "Relay 1"
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
@@ -170,7 +168,6 @@ class data:
 
     class relay1(TRelay):
         address = RelayAddress.RELAY1
-        caption = "Relay 2"
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
@@ -178,7 +175,6 @@ class data:
 
     class relay2(TRelay):
         address = RelayAddress.RELAY2
-        caption = "Relay 3"
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
@@ -186,7 +182,6 @@ class data:
 
     class relay3(TRelay):
         address = RelayAddress.RELAY3
-        caption = "Relay 4"
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
@@ -194,7 +189,6 @@ class data:
 
     class relay4(TRelay):
         address = RelayAddress.RELAY4
-        caption = "Relay 5"
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
@@ -202,7 +196,6 @@ class data:
 
     class relay5(TRelay):
         address = RelayAddress.RELAY5
-        caption = "Relay 6"
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
@@ -210,7 +203,6 @@ class data:
 
     class relay6(TRelay):
         address = RelayAddress.RELAY6
-        caption = "Relay 7"
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
@@ -218,7 +210,6 @@ class data:
 
     class relay7(TRelay):
         address = RelayAddress.RELAY7
-        caption = "Relay 8"
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
