@@ -11,6 +11,7 @@ class plugin:
     async def updateTime(cls, interval):
         while True:
             MainPage.tTime.txt = datetime.now().strftime("%H:%M")
+            MainPage.tInTemp.txt = '{}'.format(MainPage.btACInverter.id)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
@@ -20,7 +21,7 @@ class plugin:
             MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
             MainPage.tVoltage.txt = dalyBms.data.totalVoltageDisplay
             MainPage.tCurrent.txt = dalyBms.data.currentDisplay
-            MainPage.tPvPower.txt = '{:.0f}'.format(88)
+            MainPage.tPvPower.txt = '{:.0f}W'.format(88)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
