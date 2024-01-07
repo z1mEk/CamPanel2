@@ -11,7 +11,8 @@ class plugin:
     async def updateTime(cls, interval):
         while True:
             MainPage.tTime.txt = datetime.now().strftime("%H:%M")
-            MainPage.tInTemp.txt = MainPage.btACInverter.name
+            MainPage.tInTemp.txt = "21*C"
+            MainPage.tOutTemp.txt = "21*C"
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod

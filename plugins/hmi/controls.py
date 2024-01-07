@@ -5,6 +5,8 @@ from general import methods as generalMethods
 #region Base Control
 class BaseControl(type, object):
 
+    name = __name__
+    
     def __new__(cls, name, bases, dct):
         module = sys.modules[dct['__module__']]
         module_name = os.path.splitext(os.path.basename(module.__file__))[0]
@@ -16,8 +18,6 @@ class BaseControl(type, object):
         dct["type_name"] = base_class_name
 
         return super().__new__(cls, name, bases, dct)
-    
-    name = __name__
 
     def getAtrr(self, attr):
         return generalMethods.RunAsync(hmiMethods.getProperty(self.fullname, attr))
