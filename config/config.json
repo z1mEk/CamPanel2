@@ -6,6 +6,7 @@
         "waterLevel",
         "temperatures",
         "serverHttp",
+        "wifiStatus",
         "influxDBLog"
     ],
     "nextion": {
@@ -37,5 +38,8 @@
     "solarWaterHeating": {
         "minRSOC": 80,
         "minVoltage": 13.2
+    },
+    "wifiStatus": {
+        "pinghost": "8.8.8.8"
     }
 }

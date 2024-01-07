@@ -2,7 +2,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
-from plugins import relays
+from plugins import relays, wifiStatus
 
 class MainPage(TPage):
 
@@ -29,7 +29,8 @@ class MainPage(TPage):
     class btBoiler(TDualStateButton):
         @classmethod
         async def onRelease(cls):
-            relays.data.relay3.val = cls.val
+            #relays.data.relay3.val = cls.val
+            wifiStatus.data.wifiStatus = cls.val
 
     class jWhiteWater(TProgressBar):
         pass

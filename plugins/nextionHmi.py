@@ -2,7 +2,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi import hmi, helper
 from plugins.hmi.pages.MainPage import MainPage
-from plugins import dalyBms, waterLevel, relays, temperatures
+from plugins import dalyBms, waterLevel, relays, temperatures, wifiStatus
 from datetime import datetime
 
 class plugin:
@@ -47,7 +47,7 @@ class plugin:
             MainPage.btWaterPump.val = relays.data.relay0.val
             MainPage.btACInverter.val = relays.data.relay1.val
             MainPage.btHeater.val = relays.data.relay2.val
-            MainPage.btBoiler.val = relays.data.relay3.val
+            MainPage.btBoiler.val = wifiStatus.data.wifiStatus #relays.data.relay3.val
             await nest_asyncio.asyncio.sleep(interval) 
         
     @classmethod
