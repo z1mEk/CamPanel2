@@ -17,7 +17,7 @@ class plugin:
     async def updateTemperatures(cls, interval):
         while True:
             MainPage.tInTemp.txt = '{}'.format(21)
-            MainPage.tOutTemp.txt = '{}'.format(MainPage.id)
+            MainPage.tOutTemp.txt = '{}'.format(3)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
