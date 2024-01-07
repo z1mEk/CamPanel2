@@ -8,7 +8,7 @@
         "influxDBLog"
     ],
     "nextion": {
-        "device": "067b:2303",
+        "device": "/dev/ttyS3",
         "baudrate": 115200,
         "startup_commands" : [
             "thsp=60",
