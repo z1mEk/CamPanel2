@@ -48,5 +48,5 @@ components_touch_event = [
         {"page_id": MainPage.id, "component_id": MainPage.btWaterPump.id, "touch_event": 0, "call_back": MainPage.btWaterPump.onRelease},
         {"page_id": MainPage.id, "component_id": MainPage.btACInverter.id, "touch_event": 0, "call_back": MainPage.btACInverter.onRelease},
         {"page_id": MainPage.id, "component_id": MainPage.btHeater.id, "touch_event": 0, "call_back": MainPage.btHeater.onRelease},
-        {"page_id": MainPage.id0, "component_id": MainPage.btBoiler.id, "touch_event": 0, "call_back": MainPage.btBoiler.onRelease},
+        {"page_id": MainPage.id, "component_id": MainPage.btBoiler.id, "touch_event": 0, "call_back": MainPage.btBoiler.onRelease},
     ]
