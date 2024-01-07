@@ -3,8 +3,15 @@ nest_asyncio.apply()
 from plugins.hmi import hmi, helper
 from plugins.hmi.pages.MainPage import MainPage
 from plugins import dalyBms, waterLevel, relays
+from datetime import datetime
 
 class plugin:
+
+    @classmethod
+    async def updateTime(cls, interval):
+        while True:
+            MainPage.tTime.txt = datetime.now().strftime("%H:%M")
+            await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
     async def updateBMS(cls, interval):
@@ -38,6 +45,7 @@ class plugin:
     @classmethod
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
+        event_loop.create_task(cls.updateTime(1))
         event_loop.create_task(cls.updateBMS(1))
         event_loop.create_task(cls.updateWaterLevel(10))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
