@@ -4,6 +4,7 @@
         "relays",
         "dalyBms",
         "waterLevel",
+        "temperatures",
         "serverHttp",
         "influxDBLog"
     ],

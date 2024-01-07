@@ -2,7 +2,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi import hmi, helper
 from plugins.hmi.pages.MainPage import MainPage
-from plugins import dalyBms, waterLevel, relays
+from plugins import dalyBms, waterLevel, relays, temperatures
 from datetime import datetime
 
 class plugin:
@@ -16,8 +16,8 @@ class plugin:
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            MainPage.tInTemp.txt = '{}'.format(21)
-            MainPage.tOutTemp.txt = '{}'.format(-3)
+            MainPage.tInTemp.txt = '{}'.format(temperatures.data.temp1)
+            MainPage.tOutTemp.txt = '{}'.format(temperatures.data.temp2)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
