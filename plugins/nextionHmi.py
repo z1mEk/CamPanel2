@@ -54,7 +54,7 @@ class plugin:
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
         event_loop.create_task(cls.updateTime(1))
-        event_loop.create_task(cls.updateTemperatures(60))   
+        event_loop.create_task(cls.updateTemperatures(5))   
         event_loop.create_task(cls.updateBMS(2))
-        event_loop.create_task(cls.updateWaterLevel(60))
+        event_loop.create_task(cls.updateWaterLevel(5))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
