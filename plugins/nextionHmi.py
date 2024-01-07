@@ -17,9 +17,10 @@ class plugin:
     async def updateBMS(cls, interval):
         while True:
             MainPage.jRSOC.val = dalyBms.data.RSOC
-            MainPage.tRSOC.txt = format({}, dalyBms.data.RSOC)
+            MainPage.tRSOC.txt = format('{}', dalyBms.data.RSOC)
             MainPage.tVoltage.txt = dalyBms.data.totalVoltageDisplay
             MainPage.tCurrent.txt = dalyBms.data.currentDisplay
+            MainPage.tPvPower.txt = format('{}W', 88)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
