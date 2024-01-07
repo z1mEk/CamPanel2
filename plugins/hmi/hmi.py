@@ -10,6 +10,7 @@ from nextion import Nextion, EventType, client
 from plugins.hmi import methods as hmiMethods, events as hmiEvents, triggers
  
 def callbackExecute(data):
+    print(data)
     func = next((item for item in triggers.components_touch_event \
         if (item["page_id"], item["component_id"], item["touch_event"]) \
             == (data.page_id, data.component_id, data.touch_event)), None)
