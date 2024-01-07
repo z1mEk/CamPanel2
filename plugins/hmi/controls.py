@@ -16,6 +16,8 @@ class BaseControl(type, object):
         dct["type_name"] = base_class_name
 
         return super().__new__(cls, name, bases, dct)
+    
+    name = __name__
 
     def getAtrr(self, attr):
         return generalMethods.RunAsync(hmiMethods.getProperty(self.fullname, attr))
