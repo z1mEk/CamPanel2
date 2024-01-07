@@ -6,7 +6,7 @@ from general import methods as generalMethods
 class BaseControl(type, object):
 
     name = __name__
-    
+
     def __new__(cls, name, bases, dct):
         module = sys.modules[dct['__module__']]
         module_name = os.path.splitext(os.path.basename(module.__file__))[0]
@@ -45,7 +45,8 @@ class BaseControl(type, object):
         
 #region Base Page
 class BasePage(type, object):
-    id = -1
+    
+    name = __name__
 
     @classmethod
     async def Show(cls):

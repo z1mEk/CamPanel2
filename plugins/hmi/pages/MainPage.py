@@ -75,3 +75,9 @@ class MainPage(TPage):
 
     class tTopBar(TText):
         pass
+
+    class tInTempUnit(TText):
+        pass
+
+    class tOutTempUnit(TText):
+        pass
