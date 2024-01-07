@@ -6,7 +6,6 @@
         "waterLevel",
         "temperatures",
         "serverHttp",
-        "wifiStatus",
         "influxDBLog"
     ],
     "nextion": {

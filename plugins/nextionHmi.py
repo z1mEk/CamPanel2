@@ -34,9 +34,9 @@ class plugin:
     async def updateWaterLevel(cls, interval):
         while True:
             MainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel if waterLevel.data.whiteWaterLevel >= 0 else 0 
-            MainPage.jWhiteWater.pco = 1055 if waterLevel.data.whiteWaterLevel > 20 else helper.RGB2NextionColour(255, 0, 0)
+            MainPage.jWhiteWater.pco = helper.RGB2NextionColour(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else helper.RGB2NextionColour(255, 0, 0)
             MainPage.jGrayWater.val = waterLevel.data.greyWaterLevel if waterLevel.data.greyWaterLevel >= 0 else 0
-            MainPage.jGrayWater.pco = 40179 if waterLevel.data.greyWaterLevel < 80 else helper.RGB2NextionColour(255, 0, 0)
+            MainPage.jGrayWater.pco = helper.RGB2NextionColour(150, 150, 150) if waterLevel.data.greyWaterLevel < 80 else helper.RGB2NextionColour(255, 0, 0)
             MainPage.tWhiteWater.txt = waterLevel.data.whiteWaterLevelDisplay
             MainPage.tGrayWater.txt = waterLevel.data.greyWaterLevelDisplay
             await nest_asyncio.asyncio.sleep(interval)      
@@ -47,7 +47,7 @@ class plugin:
             MainPage.btWaterPump.val = relays.data.relay0.val
             MainPage.btACInverter.val = relays.data.relay1.val
             MainPage.btHeater.val = relays.data.relay2.val
-            MainPage.btBoiler.val = wifiStatus.data.wifiStatus #relays.data.relay3.val
+            MainPage.btBoiler.val = relays.data.relay3.val
             await nest_asyncio.asyncio.sleep(interval) 
         
     @classmethod

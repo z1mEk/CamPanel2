@@ -29,8 +29,7 @@ class MainPage(TPage):
     class btBoiler(TDualStateButton):
         @classmethod
         async def onRelease(cls):
-            #relays.data.relay3.val = cls.val
-            wifiStatus.data.wifiStatus = cls.val
+            relays.data.relay3.val = cls.val
 
     class jWhiteWater(TProgressBar):
         pass
