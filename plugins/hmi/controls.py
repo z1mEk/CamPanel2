@@ -48,6 +48,12 @@ class BasePage(type, object):
     
     name = __name__
 
+    def getAtrr(self, attr):
+        return generalMethods.RunAsync(hmiMethods.getProperty(self.name, attr))
+
+    def setAttr(self, attr, value):
+        generalMethods.RunAsync(hmiMethods.setProperty(self.name, attr, value))
+
     @classmethod
     async def Show(cls):
         await hmiMethods.show(cls.id)
