@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python
 
 import nest_asyncio
 nest_asyncio.apply()
