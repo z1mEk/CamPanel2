@@ -16,18 +16,18 @@ class plugin:
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            MainPage.tInTemp.txt = "{:.0f}°C".format(21)
-            MainPage.tOutTemp.txt = "{:.0f}°C".format(5)
+            MainPage.tInTemp.txt = '{:.0f}°C'.format(21)
+            MainPage.tOutTemp.txt = '{:.0f}°C'.format(5)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
     async def updateBMS(cls, interval):
         while True:
             MainPage.jRSOC.val = dalyBms.data.RSOC
-            MainPage.tRSOC.txt = "{:.0f}".format(dalyBms.data.RSOC)
+            MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
             MainPage.tVoltage.txt = dalyBms.data.totalVoltageDisplay
             MainPage.tCurrent.txt = dalyBms.data.currentDisplay
-            MainPage.tPvPower.txt = "{:.0f}W".format(88)
+            MainPage.tPvPower.txt = '{:.0f}W'.format(88)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
@@ -56,5 +56,5 @@ class plugin:
         event_loop.create_task(cls.updateTime(1))
         event_loop.create_task(cls.updateTemperatures(60))   
         event_loop.create_task(cls.updateBMS(2))
-        event_loop.create_task(cls.updateWaterLevel(10))
+        event_loop.create_task(cls.updateWaterLevel(60))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
