@@ -54,6 +54,8 @@ class BasePage(type, object):
     def setAttr(self, attr, value):
         generalMethods.RunAsync(hmiMethods.setProperty(self.name, attr, value))
 
+    id = getAtrr(name, id)
+
     @classmethod
     async def Show(cls):
         await hmiMethods.show(cls.id)
