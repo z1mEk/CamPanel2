@@ -1,5 +1,5 @@
 #------------------------
-# pip3 install inluxdb
+# pip install influxdb influxdb-client
 # bash: influx
 # CREATE DATABASE CamPanel
 # exit
