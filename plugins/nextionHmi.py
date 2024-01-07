@@ -17,10 +17,10 @@ class plugin:
     async def updateBMS(cls, interval):
         while True:
             MainPage.jRSOC.val = dalyBms.data.RSOC
-            MainPage.tRSOC.txt = format('{}', dalyBms.data.RSOC)
+            MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
             MainPage.tVoltage.txt = dalyBms.data.totalVoltageDisplay
             MainPage.tCurrent.txt = dalyBms.data.currentDisplay
-            MainPage.tPvPower.txt = format('{}W', 88)
+            MainPage.tPvPower.txt = '{:.0f}'.format(88)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
@@ -47,6 +47,6 @@ class plugin:
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
         event_loop.create_task(cls.updateTime(1))
-        event_loop.create_task(cls.updateBMS(1))
+        event_loop.create_task(cls.updateBMS(2))
         event_loop.create_task(cls.updateWaterLevel(10))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
