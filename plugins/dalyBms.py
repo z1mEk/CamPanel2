@@ -59,16 +59,16 @@ class plugin:
 
             data.currentAmper = data.currentMiliAmper / 1000
             if abs(data.currentMiliAmper) < 100:
-                data.currentDisplay = "{:.0f} mA".format(data.currentMiliAmper)
+                data.currentDisplay = "{:.0f}mA".format(data.currentMiliAmper)
             elif abs(data.currentAmper) < 10:
-                data.currentDisplay = "{:.2f} A".format(data.currentAmper)
+                data.currentDisplay = "{:.2f}A".format(data.currentAmper)
             elif abs(data.currentAmper) < 100:
-               data.currentDisplay = "{:.1f} A".format(data.currentAmper)
+               data.currentDisplay = "{:.1f}A".format(data.currentAmper)
             else:
-               data.currentDisplay = "{:.0f} A".format(data.currentAmper)
+               data.currentDisplay = "{:.0f}A".format(data.currentAmper)
             
             data.totalVoltage = data.totalMiliVoltage / 1000
-            data.totalVoltageDisplay = "{:.2f} V".format(data.totalVoltage)
+            data.totalVoltageDisplay = "{:.2f}V".format(data.totalVoltage)
                       
             data.RSOCDisplay = "{:.0f}%".format(data.RSOC)
 
