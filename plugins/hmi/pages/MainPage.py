@@ -8,6 +8,10 @@ class MainPage(TPage):
 
     id = 0
 
+    @classmethod
+    async def onRelease(cls):
+        print("MainPageOnRelease")
+
     class bExtPages(TButton):
         pass
 
