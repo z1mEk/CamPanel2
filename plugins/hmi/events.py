@@ -6,6 +6,9 @@ async def onAutoSleep():
 
 async def onAutoWake():
     print("auto wake")
+
+async def onSdCardUpgrade():
+    print("sd card upgrade")
     
 async def onTouchInSleep(data):
     print(data)

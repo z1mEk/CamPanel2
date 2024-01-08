@@ -1,5 +1,5 @@
 '''
-pip3 install EasyMCP2221
+pip install EasyMCP2221
 '''
 import nest_asyncio
 import EasyMCP2221

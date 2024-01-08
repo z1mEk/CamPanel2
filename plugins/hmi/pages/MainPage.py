@@ -2,15 +2,9 @@ import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
-from plugins import relays, wifiStatus
+from plugins import relays
 
 class MainPage(TPage):
-
-    id = 0
-
-    @classmethod
-    async def onRelease(cls):
-        print("MainPageOnRelease")
 
     class bExtPages(TButton):
         pass

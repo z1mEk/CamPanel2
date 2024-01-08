@@ -1,6 +1,6 @@
 '''
 https://pypi.org/project/nextion/
-pip3 install nextion
+pip install nextion
 '''
 import nest_asyncio
 nest_asyncio.apply()
@@ -8,6 +8,9 @@ from general.config_loader import config
 from general.deviceManager import device
 from nextion import Nextion, EventType, client
 from plugins.hmi import methods as hmiMethods, events as hmiEvents, triggers
+
+# async def updateNextion():
+#     await client.upload_firmware()
  
 def callbackExecute(data):
     print(data)
@@ -29,17 +32,16 @@ def eventHandler(type_, data):
         nest_asyncio.asyncio.create_task(hmiEvents.onAutoWake())         
     elif type_ == EventType.STARTUP:
         nest_asyncio.asyncio.create_task(hmiEvents.onStartUp())
+    elif type_ == EventType.SD_CARD_UPGRADE:
+        nest_asyncio.asyncio.create_task(hmiEvents.onSdCardUpgrade())
 
 async def startupCommands():
-    print("Startup commands")
     await hmiMethods.wakeUp()
     for comm in config.nextion.startup_commands:
-        print(comm)
         await hmiMethods.command(comm)
 
 async def create(event_loop):
     global client
-    print(f"Nextion create()")
     try:
         nextion_device = device.FindUsbDevice(config.nextion.device)
         print(f"Nextion device: {config.nextion.device} > {nextion_device}")
