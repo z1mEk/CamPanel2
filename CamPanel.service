@@ -3,7 +3,8 @@ Description=CamPanel
 After=network.target
 
 [Service]
-ExecStart=sudo -u campanel /usr/bin/python /home/campanel/CamPanel2/CamPanel.py
+WorkingDirectory=/home/campanel/CamPanel2/
+ExecStart=/usr/bin/python /home/campanel/CamPanel2/CamPanel.py
 Restart=always
 RestartSec=10
 User=campanel
