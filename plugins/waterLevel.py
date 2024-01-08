@@ -37,7 +37,7 @@ class plugin:
             # data.mcp.ADC_config(ref="VDD")                
             # values = data.mcp.ADC_read()
             data.whiteWaterLevel = 88 #helper.map_value(158, 0, 190, 0, 100)
-            data.greyWaterLevel = 32 #helper.map_value(15, 0, 190, 0, 100)
+            data.greyWaterLevel = 12 #helper.map_value(15, 0, 190, 0, 100)
             data.whiteWaterLevelDisplay = '{}%'.format(data.whiteWaterLevel)
             data.greyWaterLevelDisplay = '{}%'.format(data.greyWaterLevel)
             data.lastUpdate = datetime.now()
