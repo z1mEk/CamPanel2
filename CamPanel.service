@@ -3,7 +3,7 @@ Description=CamPanel
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python /home/pi/CamPanel2/CamPanel.py
+ExecStart=/usr/bin/python /home/campanel/CamPanel2/CamPanel.py
 Restart=always
 User=campanel
 
