@@ -54,8 +54,8 @@ class plugin:
     async def readData(cls, interval):
         while True:
             data.currentMiliAmper = -3456
-            data.totalMiliVoltage = 13245
-            data.RSOC = 39
+            data.totalMiliVoltage = 13345
+            data.RSOC = 89
 
             data.currentAmper = data.currentMiliAmper / 1000
             if abs(data.currentMiliAmper) < 100:
