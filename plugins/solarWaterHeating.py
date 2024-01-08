@@ -18,11 +18,10 @@ class plugin:
             data.minVoltage = config.solarWaterHeating.minVoltage
 
             if data.active > 0 and dalyBms.data.RSOC > 80 and dalyBms.data.totalVoltage > data.minVoltage:
-                relays.data.relay3.on()
-                print("Grzejemy wode")
+                if relays.data.relay3.val == 0:
+                    relays.data.relay3.on()
             else:
                 relays.data.relay3.off()
-                print("nie Grzejemy wode")
 
             await nest_asyncio.asyncio.sleep(interval)       
 
