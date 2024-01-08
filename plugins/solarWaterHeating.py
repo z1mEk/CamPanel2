@@ -19,11 +19,13 @@ class plugin:
 
             if data.active > 0 and dalyBms.data.RSOC > 80 and dalyBms.data.totalVoltage > data.minVoltage:
                 relays.data.relay3.on
+                print("Grzejemy wode")
             else:
                 relays.data.relay3.off
+                print("nie Grzejemy wode")
 
             await nest_asyncio.asyncio.sleep(interval)       
 
     @classmethod
     async def initialize(cls, event_loop):
-        event_loop.create_task(cls.autoWaterHeating(30))
+        event_loop.create_task(cls.autoWaterHeating(5))
