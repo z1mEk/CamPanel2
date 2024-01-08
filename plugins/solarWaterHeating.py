@@ -4,7 +4,7 @@ from general.config_loader import config
 from plugins import dalyBms, relays
     
 class data:
-    active = 0
+    active = 1
     minRSOC = 0
     minVoltage = 0
 
