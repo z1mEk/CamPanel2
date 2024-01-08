@@ -44,7 +44,6 @@ async def create(event_loop):
     global client
     try:
         nextion_device = device.FindUsbDevice(config.nextion.device)
-        print(f"Nextion device: {config.nextion.device} > {nextion_device}")
         client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
         await client.connect()
         await startupCommands()

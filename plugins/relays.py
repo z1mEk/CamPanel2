@@ -103,7 +103,6 @@ class relayMethod(metaclass=relayMeta):
         try:
             if TRelay.srl == None:
                 relays_device = device.FindUsbDevice(config.relays.device)
-                print(f"Relays device: {config.relays.device} > {relays_device}")
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)
         except Exception as e:
             print(f"Wystąpił problem z połączeniem z modułem przekaźników: {e}")
@@ -147,7 +146,6 @@ class relayMethod(metaclass=relayMeta):
     
     @classmethod
     def onRelayChange(cls, relayIndex, value):
-        print(f"Relay change: index={relayIndex}, value={value}")
         influxDBLog.plugin.logRelay(relayIndex, value)
         
 class TRelay(relayMethod):

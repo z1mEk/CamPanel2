@@ -23,7 +23,6 @@ class plugin:
     def connectToInfluxDB(cls):
         if data.client == None:
             data.client = InfluxDBClient(data.host, data.port)
-            print(f"Połączenie z influxDB")
 
     @classmethod
     def createDatabaseIfNotExists(cls):
@@ -31,15 +30,13 @@ class plugin:
         databases = data.client.get_list_database()
         if {'name': data.client.database} not in databases:
             data.client.create_database(data.client.database)
-            print(f"Utworzenie bazy danych CamPanel")
 
     @classmethod
     def addToInfluxDB(cls, jsonBody):
         cls.connectToInfluxDB()
         data.client.switch_database(data.database)
         data.client.write_points(jsonBody)
-        data.client.close() 
-        print(f"Zapisanie do InfluxDB {jsonBody}")        
+        data.client.close()       
 
     @classmethod
     async def logBmsData(cls, interval):
