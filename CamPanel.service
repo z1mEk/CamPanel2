@@ -1,10 +1,11 @@
 [Unit]
 Description=CamPanel
+After=network.target
 
 [Service]
 ExecStart=/usr/bin/python /home/pi/CamPanel2/CamPanel.py
 Restart=always
-User=pi
+User=campanel
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
