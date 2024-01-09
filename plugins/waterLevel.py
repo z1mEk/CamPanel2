@@ -9,8 +9,8 @@ from general.logger import logging
 
 class data:
     mcp = None
-    whiteWaterLevel = -1
-    greyWaterLevel = -1
+    whiteWaterLevel = 0
+    greyWaterLevel = 0
     lastUpdate = None
 
 class helper:
