@@ -16,6 +16,7 @@ class plugin:
     @classmethod
     async def handleCommand(cls, command):
         if command == "print_data":
+            print(f"{command}")
             return "testowa dana"#dalyBms.data
         # elif command == "call_async_method":
         #     return await YourClass.your_async_method()
@@ -33,20 +34,22 @@ class plugin:
 
     @classmethod
     async def startServerSocket(cls, event_loop):
-        logging.info(f"socket.socket")
+        print(f"socket.socket")
         data.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        logging.info(f"bind")
+        print(f"bind")
         data.server_socket.bind((data.host, data.port))
-        logging.info(f"listen")
+        print(f"listen")
         data.server_socket.listen(1)
         
         while True:
-            logging.info(f"socket.accept")
+            print(f"socket.accept")
             data.client_socket, addr = data.server_socket.accept()
-            logging.info(f"Connection {addr}")
+            print(f"Connection {addr}")
 
             socket_data = data.client_socket.recv(1024).decode('utf-8').strip()
+            print(f"socket_data {socket_data}")
             response = await event_loop.run_in_executor(None, cls.processCommand, socket_data)
+            print(f"response {response}")
             data.client_socket.send(response.encode('utf-8'))
             data.client_socket.close()    
 
