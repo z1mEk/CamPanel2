@@ -1,9 +1,10 @@
 import nest_asyncio
 nest_asyncio.apply()
-from general.config_loader import config
+from general.configLoader import config
 from general.deviceManager import device
 from serial.serialposix import Serial
 from datetime import datetime
+from general.logger import logging
 
 class data:
     currentMiliAmper = 0
@@ -15,7 +16,6 @@ class data:
     totalVoltageDisplay = ""
 
     RSOC = 0
-    RSOCDisplay = ""
 
     lastUpdate = None
 
@@ -30,7 +30,7 @@ class daly:
                 bms_device = device.FindUsbDevice(config.bms.device)
                 cls.dalySerial = Serial(bms_device, config.bms.baudrate)
         except Exception as e:
-            print(f"Wystąpił problem z połączeniem z modułem BMS: {e}")
+            logging.error(f"DalyBMS: {e}")
             return False
         return True
         
@@ -69,8 +69,6 @@ class plugin:
             
             data.totalVoltage = data.totalMiliVoltage / 1000
             data.totalVoltageDisplay = "{:.2f}V".format(data.totalVoltage)
-                      
-            data.RSOCDisplay = "{:.0f}%".format(data.RSOC)
 
             data.lastUpdate = datetime.now()
             

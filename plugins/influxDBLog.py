@@ -7,9 +7,10 @@
 from influxdb import InfluxDBClient
 import datetime
 import nest_asyncio
-from general.config_loader import config
+from general.configLoader import config
 nest_asyncio.apply()
-from plugins import waterLevel, dalyBms
+from plugins import waterLevel, dalyBms, temperatures
+from general.logger import logging
 
 class data:
     host = config.influxDB.host
@@ -22,21 +23,30 @@ class plugin:
     @classmethod
     def connectToInfluxDB(cls):
         if data.client == None:
-            data.client = InfluxDBClient(data.host, data.port)
+            try:
+                data.client = InfluxDBClient(data.host, data.port)
+            except Exception as e:
+                logging.error(f"InfluxDb: {e}")
 
     @classmethod
     def createDatabaseIfNotExists(cls):
-        cls.connectToInfluxDB()        
-        databases = data.client.get_list_database()
-        if {'name': data.client.database} not in databases:
-            data.client.create_database(data.client.database)
+        try:
+            cls.connectToInfluxDB()        
+            databases = data.client.get_list_database()
+            if {'name': data.client.database} not in databases:
+                data.client.create_database(data.client.database)
+        except Exception as e:
+            logging.error(f"InfluxDb: {e}")
 
     @classmethod
     def addToInfluxDB(cls, jsonBody):
-        cls.connectToInfluxDB()
-        data.client.switch_database(data.database)
-        data.client.write_points(jsonBody)
-        data.client.close()       
+        try:
+            cls.connectToInfluxDB()
+            data.client.switch_database(data.database)
+            data.client.write_points(jsonBody)
+            data.client.close()       
+        except Exception as e:
+            logging.error(f"InfluxDb: {e}")
 
     @classmethod
     async def logBmsData(cls, interval):
@@ -71,7 +81,24 @@ class plugin:
                 }
             ]
             cls.addToInfluxDB(jsonBody)
-            await nest_asyncio.asyncio.sleep(interval)     
+            await nest_asyncio.asyncio.sleep(interval)   
+
+    @classmethod
+    async def logTemperatureData(cls, interval):
+        while True:
+            jsonBody = [
+                {
+                    "measurement": "Temperature",
+                    "tags": {},
+                    "time": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+                    "fields": {
+                        "temp1": temperatures.data.temp1,
+                        "temp2": temperatures.data.temp2
+                    }
+                }
+            ]
+            cls.addToInfluxDB(jsonBody)
+            await nest_asyncio.asyncio.sleep(interval)  
 
     @classmethod
     def logRelay(cls, relayIndex, value):
@@ -91,4 +118,5 @@ class plugin:
     async def initialize(cls, event_loop):
         #cls.createDatabaseIfNotExists(cls)
         event_loop.create_task(cls.logBmsData(5))
-        event_loop.create_task(cls.logWaterLevelData(300))
+        event_loop.create_task(cls.logTemperatureData(60))
+        event_loop.create_task(cls.logWaterLevelData(60))

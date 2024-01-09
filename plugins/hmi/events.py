@@ -1,17 +1,19 @@
+from general.logger import logging
+
 async def onStartUp():
-    print("startup")
+    logging.debug("events.onStartUp()")
 
 async def onAutoSleep():
-    print("auto sleep")
+    logging.debug("events.onAutoSleep()")
 
 async def onAutoWake():
-    print("auto wake")
+    logging.debug("events.onAutoWake()")
 
 async def onSdCardUpgrade():
-    print("sd card upgrade")
+    logging.debug("events.onSdCardUpgrade()")
     
 async def onTouchInSleep(data):
-    print(data)
+    logging.debug(f"events.onTouchInSleep({data})")
 
 async def onTouchCoordinate(data):
-    print(data)
+    logging.debug(f"events.onTouchCoordinate({data})")

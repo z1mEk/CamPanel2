@@ -7,16 +7,17 @@ nest_asyncio.apply()
 from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
 from plugins import waterLevel, dalyBms, relays
+from general.configLoader import config
 import logging
 import logging.handlers
-from general.config_loader import config
 
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
-handler = logging.handlers.RotatingFileHandler('flask.log', maxBytes=1024 * 1024)
-logging.getLogger('werkzeug').setLevel(logging.DEBUG)
+
+handler = logging.handlers.RotatingFileHandler('flask.log', maxBytes=10*1024*1024, backupCount=5)
+logging.getLogger('werkzeug').setLevel(logging.INFO)
 logging.getLogger('werkzeug').addHandler(handler)
-app.logger.setLevel(logging.WARNING)
+app.logger.setLevel(logging.INFO)
 app.logger.addHandler(handler)
 
 class plugin:

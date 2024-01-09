@@ -4,6 +4,7 @@ from plugins.hmi import hmi, helper
 from plugins.hmi.pages.MainPage import MainPage
 from plugins import dalyBms, waterLevel, relays, temperatures, wifiStatus
 from datetime import datetime
+from general.logger import logging
 
 class plugin:
 
@@ -16,8 +17,8 @@ class plugin:
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            MainPage.tInTemp.txt = '{}'.format(temperatures.data.temp1)
-            MainPage.tOutTemp.txt = '{}'.format(temperatures.data.temp2)
+            MainPage.tInTemp.txt = '{:.1f}'.format(temperatures.data.temp1)
+            MainPage.tOutTemp.txt = '{:.1f}'.format(temperatures.data.temp2)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
@@ -33,12 +34,12 @@ class plugin:
     @classmethod
     async def updateWaterLevel(cls, interval):
         while True:
-            MainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel if waterLevel.data.whiteWaterLevel >= 0 else 0 
+            MainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel 
             MainPage.jWhiteWater.pco = helper.RGB2NextionColour(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else helper.RGB2NextionColour(255, 0, 0)
-            MainPage.jGrayWater.val = waterLevel.data.greyWaterLevel if waterLevel.data.greyWaterLevel >= 0 else 0
+            MainPage.jGrayWater.val = waterLevel.data.greyWaterLevel
             MainPage.jGrayWater.pco = helper.RGB2NextionColour(150, 150, 150) if waterLevel.data.greyWaterLevel < 80 else helper.RGB2NextionColour(255, 0, 0)
-            MainPage.tWhiteWater.txt = waterLevel.data.whiteWaterLevelDisplay
-            MainPage.tGrayWater.txt = waterLevel.data.greyWaterLevelDisplay
+            MainPage.tWhiteWater.txt = '{:.0f}%'.format(waterLevel.data.whiteWaterLevel)
+            MainPage.tGrayWater.txt = '{:.0f}%'.format(waterLevel.data.greyWaterLevel)
             await nest_asyncio.asyncio.sleep(interval)      
 
     @classmethod

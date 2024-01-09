@@ -9,6 +9,11 @@
         "solarWaterHeating",
         "influxDBLog"
     ],
+    "logger" :{
+        "fileName": "CamPanel.log",
+        "maxBytes": 10485760,
+        "backupCount": 5
+    },
     "nextion": {
         "device": "067b:2303",
         "baudrate": 115200,

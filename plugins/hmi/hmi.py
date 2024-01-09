@@ -4,10 +4,11 @@ pip install nextion
 '''
 import nest_asyncio
 nest_asyncio.apply()
-from general.config_loader import config
+from general.configLoader import config
 from general.deviceManager import device
 from nextion import Nextion, EventType, client
 from plugins.hmi import methods as hmiMethods, events as hmiEvents, triggers
+from general.logger import logging
 
 # async def updateNextion():
 #     await client.upload_firmware()
@@ -35,16 +36,20 @@ def eventHandler(type_, data):
         nest_asyncio.asyncio.create_task(hmiEvents.onSdCardUpgrade())
 
 async def startupCommands():
+    logging.debug(f"hmi.startupCommands()")
     await hmiMethods.wakeUp()
     for comm in config.nextion.startup_commands:
         await hmiMethods.command(comm)
+        logging.debug(f"command({comm})")
 
 async def create(event_loop):
     global client
     try:
         nextion_device = device.FindUsbDevice(config.nextion.device)
+        logging.info(f"Create Nextion client")
         client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
         await client.connect()
+        logging.info(f"Nextion device connected: {nextion_device}, {config.nextion.baudrate}")
         await startupCommands()
     except Exception as e:
-        print(f"Wystąpił problem z połączeniem z ekranem Nextion: {e}")
+        logging.error(f"Nextion: {e}")

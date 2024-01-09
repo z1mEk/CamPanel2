@@ -2,7 +2,8 @@ import random
 import nest_asyncio
 nest_asyncio.apply()
 import subprocess
-from general.config_loader import config
+from general.configLoader import config
+from general.logger import logging
 
 class data:
     wifiStatus = 0

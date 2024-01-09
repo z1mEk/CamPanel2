@@ -1,14 +1,14 @@
 #!/usr/bin/python
-
 import nest_asyncio
 nest_asyncio.apply()
 from general import events as generalEvents, plugins_loader
 import threading
 import time
+from general.logger import logging
 
 def startCampanel():
     while True:
-        print("CamPanel daemon is running...")
+        logging.info("CamPanel is running...")
         event_loop = nest_asyncio.asyncio.get_event_loop()
         event_loop.create_task(generalEvents.onRun(event_loop))
         event_loop.create_task(plugins_loader.pluginsInit(event_loop))
@@ -22,4 +22,4 @@ try:
     while True:
         time.sleep(1)
 except KeyboardInterrupt:
-    print("Main thread interrupted. Exiting...")
+    logging.info("Main thread interrupted. Exiting...")

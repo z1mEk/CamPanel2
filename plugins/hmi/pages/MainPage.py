@@ -3,6 +3,7 @@ nest_asyncio.apply()
 from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
 from plugins import relays
+from general.logger import logging
 
 class MainPage(TPage):
 

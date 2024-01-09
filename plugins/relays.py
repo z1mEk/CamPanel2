@@ -1,11 +1,12 @@
 import nest_asyncio
 nest_asyncio.apply()
 from enum import Enum
-from general.config_loader import config
+from general.configLoader import config
 from general.deviceManager import device
 from serial.serialposix import Serial
 from plugins import influxDBLog
 from datetime import datetime
+from general.logger import logging
 
 class modbusCRC:
     CRCTableHigh = [
@@ -85,10 +86,7 @@ class relayMethod(metaclass=relayMeta):
 
     @classmethod
     def toggle(cls):
-        if cls.val == 0:
-            cls.val = 1 
-        else:
-            cls.val = 0
+        cls.val = 1 if cls.val == 0 else 0
 
     @classmethod
     def on(cls):
@@ -105,7 +103,7 @@ class relayMethod(metaclass=relayMeta):
                 relays_device = device.FindUsbDevice(config.relays.device)
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)
         except Exception as e:
-            print(f"Wystąpił problem z połączeniem z modułem przekaźników: {e}")
+            logging.error(f"Relays: {e}")
             return False
         return True
     
@@ -118,10 +116,13 @@ class relayMethod(metaclass=relayMeta):
         cmd[4] = value if (value == 0) else 0xFF
         crc = modbusCRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
-        if cls.reconnect():
-            TRelay.srl.write(cmd)
-            data.relaysState[cls.address.value[1]] = value
-            cls.onRelayChange(cls.address.value[1], value)
+        try:
+            if cls.reconnect():
+                TRelay.srl.write(cmd)
+                data.relaysState[cls.address.value[1]] = value
+                cls.onRelayChange(cls.address.value[1], value)
+        except Exception as e:
+                logging.error(f"Relays: {e}")
 
     @classmethod
     def getRelaysState(cls):
@@ -132,11 +133,14 @@ class relayMethod(metaclass=relayMeta):
         cmd[5] = 0x01
         crc = modbusCRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
-        if relayMethod.reconnect():
-            TRelay.srl.write(cmd)
-            buffer = TRelay.srl.read(6)
-            data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
-            data.lastUpdate = datetime.now()        
+        try:
+            if relayMethod.reconnect():
+                TRelay.srl.write(cmd)
+                buffer = TRelay.srl.read(6)
+                data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
+                data.lastUpdate = datetime.now() 
+        except Exception as e:
+            logging.error(f"Relays: {e}")       
 
     @classmethod
     def getRelayState(cls) -> int:
@@ -147,6 +151,7 @@ class relayMethod(metaclass=relayMeta):
     @classmethod
     def onRelayChange(cls, relayIndex, value):
         influxDBLog.plugin.logRelay(relayIndex, value)
+        logging.debug(f"onRelayChange({relayIndex}, {value})")
         
 class TRelay(relayMethod):
     srl:Serial = None

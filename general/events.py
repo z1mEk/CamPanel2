@@ -1,2 +1,4 @@
+from general.logger import logging
+
 async def onRun(event_loop):
-    pass
+    logging.debug(f"events.onRun()")

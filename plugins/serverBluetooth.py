@@ -5,6 +5,7 @@ import nest_asyncio
 nest_asyncio.apply()
 import bluetooth
 import json
+from general.logger import logging
 
 class data:
     val1 = None
@@ -22,7 +23,7 @@ class plugin:
 
                 # Przetwarzanie odebranych danych w formie JSON
                 received_json = json.loads(data.decode('utf-8'))
-                print("Otrzymano dane w formie JSON:", received_json)
+                logging.debug("Otrzymano dane w formie JSON:", received_json)
 
                 # Przykładowa odpowiedź serwera
                 response_data = {"status": "success", "message": "Odebrano dane"}
@@ -31,7 +32,7 @@ class plugin:
 
         except (ConnectionResetError, BrokenPipeError):
             # Obsługa rozłączenia klienta
-            print("Rozłączono z klientem.")
+            logging.debug("Rozłączono z klientem.")
 
         finally:
             client_sock.close()
@@ -46,11 +47,11 @@ class plugin:
 
         bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS])
 
-        print(f"Czekam na połączenie na porcie {port}...")
+        logging.debug(f"Czekam na połączenie na porcie {port}...")
 
         while True:
             client_sock, client_info = await event_loop.sock_accept(server_sock)
-            print(f"Połączono z {client_info}")
+            logging.debug(f"Połączono z {client_info}")
 
             nest_asyncio.asyncio.create_task(cls.handle_client(client_sock, event_loop))
 
