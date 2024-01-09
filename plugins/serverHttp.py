@@ -17,7 +17,7 @@ app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
 handler = logging.handlers.RotatingFileHandler('flask.log', maxBytes=10*1024*1024, backupCount=5)
 logging.getLogger('werkzeug').setLevel(logging.INFO)
 logging.getLogger('werkzeug').addHandler(handler)
-app.logger.setLevel(logging.INFO)
+app.logger.setLevel(logging.WARNING)
 app.logger.addHandler(handler)
 
 class plugin:
