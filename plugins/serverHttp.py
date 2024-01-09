@@ -46,12 +46,10 @@ def get_waterLevel():
         "bms":
         {
             "totalVoltage": dalyBms.data.totalVoltage,
-            "totalVoltageDisplay": dalyBms.data.totalVoltageDisplay,
             "currentMilliamper": dalyBms.data.currentMiliAmper,
             "currentAmper": dalyBms.data.currentAmper,
             "currentDisplay": dalyBms.data.currentDisplay,
             "RSOC": dalyBms.data.RSOC,
-            "RSOCDisplay": dalyBms.data.RSOCDisplay
         },
         "relays": relays.data.relaysState
     }
