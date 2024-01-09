@@ -4,7 +4,6 @@ import inspect
 import nest_asyncio
 nest_asyncio.apply()
 from general.logger import logging
-from plugins import dalyBms
 
 class data:
     host = "0.0.0.0"
@@ -34,11 +33,15 @@ class plugin:
 
     @classmethod
     async def startServerSocket(cls, event_loop):
+        logging.info(f"socket.socket")
         data.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        logging.info(f"bind")
         data.server_socket.bind((data.host, data.port))
+        logging.info(f"listen")
         data.server_socket.listen(1)
         
         while True:
+            logging.info(f"socket.accept")
             data.client_socket, addr = data.server_socket.accept()
             logging.info(f"Connection {addr}")
 
@@ -49,4 +52,5 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
+        logging.info(f"serverSocketInitialize")
         event_loop.create_task(cls.startServerSocket(event_loop))
