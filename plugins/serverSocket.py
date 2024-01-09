@@ -19,7 +19,7 @@ class plugin:
     async def handleCommand(cls, command):
         if command == "print_data":
             print(f"{command}")
-            return json.dump(dalyBms)
+            return json.dump(dalyBms.data)
         # elif command == "call_async_method":
         #     return await YourClass.your_async_method()
         # elif command == "call_sync_method":
