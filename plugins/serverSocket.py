@@ -34,9 +34,9 @@ class plugin:
 
     @classmethod
     async def startServerSocket(cls, event_loop):
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.bind((data.host, data.port))
-        server_socket.listen(1)
+        data.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        data.server_socket.bind((data.host, data.port))
+        data.server_socket.listen(1)
         
         while True:
             data.client_socket, addr = data.server_socket.accept()
