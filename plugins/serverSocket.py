@@ -48,8 +48,7 @@ class plugin:
 
             socket_data = data.client_socket.recv(1024).decode('utf-8').strip()
             print(f"socket_data {socket_data}")
-            #response = await event_loop.run_in_executor(None, cls.processCommand, socket_data)
-            response = await nest_asyncio.asyncio.to_thread(cls.process_command, socket_data)
+            response = await nest_asyncio.asyncio.to_thread(cls.processCommand, socket_data)
 
             print(f"response {response}")
             data.client_socket.send(response.encode('utf-8'))
