@@ -39,7 +39,7 @@ class plugin:
         server_socket.listen(1)
         
         while True:
-            data.client_socket, addr = cls.server_socket.accept()
+            data.client_socket, addr = data.server_socket.accept()
             logging.INFO(f"Connection from {addr}")
 
             socket_data = data.client_socket.recv(1024).decode('utf-8').strip()
