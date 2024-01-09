@@ -17,8 +17,8 @@ class plugin:
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            MainPage.tInTemp.txt = '{:.1f}'.format(temperatures.data.temp1)
-            MainPage.tOutTemp.txt = '{:.1f}'.format(temperatures.data.temp2)
+            MainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.temp1)
+            MainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.temp2)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
