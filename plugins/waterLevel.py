@@ -35,8 +35,8 @@ class plugin:
             # data.mcp.set_pin_function(gp1='ADC', gp2="ADC")
             # data.mcp.ADC_config(ref="VDD")                
             # values = data.mcp.ADC_read()
-            data.whiteWaterLevel = 88 #helper.map_value(158, 0, 190, 0, 100)
-            data.greyWaterLevel = 12 #helper.map_value(15, 0, 190, 0, 100)
+            data.whiteWaterLevel = 12 #helper.map_value(158, 0, 190, 0, 100)
+            data.greyWaterLevel = 92 #helper.map_value(15, 0, 190, 0, 100)
             data.lastUpdate = datetime.now()
             await nest_asyncio.asyncio.sleep(interval)       
 
