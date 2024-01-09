@@ -40,7 +40,7 @@ class plugin:
         
         while True:
             data.client_socket, addr = data.server_socket.accept()
-            logging.info(f"Connection from")
+            logging.info(f"Connection {addr}")
 
             socket_data = data.client_socket.recv(1024).decode('utf-8').strip()
             response = await event_loop.run_in_executor(None, cls.processCommand, socket_data)
