@@ -4,6 +4,7 @@ import inspect
 import nest_asyncio
 nest_asyncio.apply()
 from general.logger import logging
+from plugins import dalyBms
 
 class data:
     host = "0.0.0.0"
@@ -17,7 +18,7 @@ class plugin:
     async def handleCommand(cls, command):
         if command == "print_data":
             print(f"{command}")
-            return "testowa dana"#dalyBms.data
+            return dalyBms.data
         # elif command == "call_async_method":
         #     return await YourClass.your_async_method()
         # elif command == "call_sync_method":
