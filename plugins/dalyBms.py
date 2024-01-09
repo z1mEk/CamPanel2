@@ -11,7 +11,6 @@ class data:
     currentAmper = 0
     currentDisplay = ""
 
-    totalMiliVoltage = 0
     totalVoltage = 0
     totalVoltageDisplay = ""
 
@@ -54,7 +53,7 @@ class plugin:
     async def readData(cls, interval):
         while True:
             data.currentMiliAmper = -3456
-            data.totalMiliVoltage = 13345
+            data.totalVoltage = 13.345
             data.RSOC = 89
 
             data.currentAmper = data.currentMiliAmper / 1000
@@ -67,7 +66,6 @@ class plugin:
             else:
                data.currentDisplay = "{:.0f}A".format(data.currentAmper)
             
-            data.totalVoltage = data.totalMiliVoltage / 1000
             data.totalVoltageDisplay = "{:.2f}V".format(data.totalVoltage)
 
             data.lastUpdate = datetime.now()
