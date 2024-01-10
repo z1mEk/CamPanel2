@@ -1,36 +1,37 @@
-import random
 import nest_asyncio
 nest_asyncio.apply()
 import subprocess
-from general.configLoader import config
 from general.logger import logging
 
 class data:
     wifiStatus = 0
-    
-class plugin:
+
+class plugin:  
 
     @classmethod
-    def enable_wifi():
-        subprocess.run(["sudo", "ifconfig", "wlan0", "up"])
+    def wlanUpDown(cls, val):
+        if val == 1:
+            logging.info("sudo ifconfig wlan0 up")
+            subprocess.run(["sudo", "ifconfig", "wlan0", "up"])
+        else:
+            logging.info("sudo ifconfig wlan0 down")
+            subprocess.run(["sudo", "ifconfig", "wlan0", "down"])
 
     @classmethod
-    def disable_wifi():
-        subprocess.run(["sudo", "ifconfig", "wlan0", "down"])
-
-    @classmethod
-    def check_wifi_connection():
-        router_ip = config.wifiStatus.pinghost
+    def isWlan0Up(cls):
         try:
-            subprocess.run(["ping", "-c", "1", router_ip], check=True)
-            data.wifiStatus = 1
+            result = subprocess.check_output(["ifconfig", "wlan0"])
+            result_str = result.decode("utf-8")
+            data.wifiStatus = 1 if "UP" in result_str else 0
+            return "UP" in result_str
         except subprocess.CalledProcessError:
             data.wifiStatus = 0
+            return False
 
     @classmethod
     async def readData(cls, interval):
         while True:
-            cls.check_wifi_connection()
+            cls.isWlan0Up()
             await nest_asyncio.asyncio.sleep(interval)       
 
     @classmethod

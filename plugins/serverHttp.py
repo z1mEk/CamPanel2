@@ -6,7 +6,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
-from plugins import waterLevel, dalyBms, relays
+from plugins import waterLevel, dalyBms, relays, temperatures
 from general.configLoader import config
 import logging
 import logging.handlers
@@ -14,7 +14,10 @@ import logging.handlers
 TEMPLATES_DIR = os.path.join('plugins', 'html')
 app = Flask("CamPanel", template_folder=TEMPLATES_DIR)
 
-handler = logging.handlers.RotatingFileHandler('flask.log', maxBytes=10*1024*1024, backupCount=5)
+handler = logging.handlers.RotatingFileHandler(config.httpServer.filelog,
+                                               maxBytes=config.httpServer.LogmaxBytes,
+                                               backupCount=config.httpServer.backupCount)
+
 logging.getLogger('werkzeug').setLevel(logging.INFO)
 logging.getLogger('werkzeug').addHandler(handler)
 app.logger.setLevel(logging.WARNING)
@@ -36,8 +39,9 @@ class plugin:
         thread.start()
 
 @app.route('/getData')
-def get_waterLevel():
+def getData():
     response = {
+        "success": True,
         "waterLevel": 
         {
             "whiteWaterLevel": waterLevel.data.whiteWaterLevel,
@@ -45,9 +49,29 @@ def get_waterLevel():
         },
         "bms":
         {
-            "totalVoltageDisplay": dalyBms.data.totalVoltageDisplay,
-            "currentDisplay": dalyBms.data.currentDisplay,
+            "totalVoltage": dalyBms.data.totalVoltage,
+            "currentMiliamper": dalyBms.data.currentMiliAmper,
+            "currentFlex": dalyBms.data.currenFlex,
+            "currentFlexUnit": dalyBms.data.currentFlexUnit,
+            "currenFlexWithUnit": (
+                '{:.0f}mA'.format(dalyBms.data.currenFlex) if dalyBms.data.currentMiliAmper < 100 else
+                '{:.3f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currentMiliAmper < 1000 else
+                '{:.2f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currentMiliAmper < 10000 else
+                '{:.1f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currentMiliAmper < 100000 else
+                '{:.0f}A'.format(dalyBms.data.currenFlex)
+            ),
             "RSOC": dalyBms.data.RSOC,
+        },
+        "solar":
+        {
+            "pvVoltage": 35,
+            "pvCurrent": 6,
+            "pvPower": 180
+        },
+        "temperature":
+        {
+            "inTemp": '{:.0f}'.format(temperatures.data.inTemp),
+            "outTemp": '{:.0f}'.format(temperatures.data.outTemp),
         },
         "relays": relays.data.relaysState
     }

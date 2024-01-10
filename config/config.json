@@ -33,18 +33,19 @@
     },
     "httpServer": {
         "host": "0.0.0.0",
-        "port": 8080
+        "port": 8080,
+        "filelog": "flask.log",
+        "LogmaxBytes": 10485760,
+        "backupCount": 5
     },
     "influxDB": {
         "host": "localhost",
         "port": 8086,
-        "database": "CamPanel"
+        "database": "CamPanel",
+        "retentionData": "30d"
     },
     "solarWaterHeating": {
         "minRSOC": 80,
         "minVoltage": 13.2
-    },
-    "wifiStatus": {
-        "pinghost": "8.8.8.8"
     }
 }

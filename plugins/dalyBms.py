@@ -8,13 +8,11 @@ from general.logger import logging
 
 class data:
     currentMiliAmper = 0
-    currentAmper = 0
-    currentDisplay = ""
-
     totalVoltage = 0
-    totalVoltageDisplay = ""
-
     RSOC = 0
+
+    currenFlex = 0
+    currentFlexUnit = "A"
 
     lastUpdate = None
 
@@ -56,17 +54,8 @@ class plugin:
             data.totalVoltage = 13.345
             data.RSOC = 89
 
-            data.currentAmper = data.currentMiliAmper / 1000
-            if abs(data.currentMiliAmper) < 100:
-                data.currentDisplay = "{:.0f}mA".format(data.currentMiliAmper)
-            elif abs(data.currentAmper) < 10:
-                data.currentDisplay = "{:.2f}A".format(data.currentAmper)
-            elif abs(data.currentAmper) < 100:
-               data.currentDisplay = "{:.1f}A".format(data.currentAmper)
-            else:
-               data.currentDisplay = "{:.0f}A".format(data.currentAmper)
-            
-            data.totalVoltageDisplay = "{:.2f}V".format(data.totalVoltage)
+            data.currenFlex = (data.currentMiliAmper if data.currentMiliAmper < 1000 else data.currentMiliAmper / 1000)
+            data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
 
             data.lastUpdate = datetime.now()
             

@@ -16,6 +16,7 @@ class data:
     host = config.influxDB.host
     port = config.influxDB.port
     database = config.influxDB.database
+    retentionData = config.influxDB.retentionData
     client = None
     
 class plugin:
@@ -27,6 +28,17 @@ class plugin:
                 data.client = InfluxDBClient(data.host, data.port)
             except Exception as e:
                 logging.error(f"InfluxDb: {e}")
+
+    @classmethod
+    def deleteOldData(cls, bucket):
+        try:
+            cls.connectToInfluxDB()
+            data.client.switch_database(data.database)
+            query = f'DELETE FROM "{bucket}" WHERE time < now() - {data.retentionData}'
+            data.client.query(query)
+            data.client.close()
+        except Exception as e:
+            logging.error(f"InfluxDb: {e}")
 
     @classmethod
     def createDatabaseIfNotExists(cls):
@@ -92,8 +104,8 @@ class plugin:
                     "tags": {},
                     "time": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
                     "fields": {
-                        "temp1": temperatures.data.temp1,
-                        "temp2": temperatures.data.temp2
+                        "inTemp": temperatures.data.inTemp,
+                        "outTemp": temperatures.data.outTemp
                     }
                 }
             ]
@@ -115,8 +127,18 @@ class plugin:
         cls.addToInfluxDB(jsonBody)
 
     @classmethod
+    async def CutOldData(cls, interval):
+        while True:
+            cls.deleteOldData("BMS")
+            cls.deleteOldData("WaterLevel")
+            cls.deleteOldData("Temperature")
+            cls.deleteOldData("Relays")
+            await nest_asyncio.asyncio.sleep(interval)  
+
+    @classmethod
     async def initialize(cls, event_loop):
         #cls.createDatabaseIfNotExists(cls)
         event_loop.create_task(cls.logBmsData(5))
         event_loop.create_task(cls.logTemperatureData(60))
         event_loop.create_task(cls.logWaterLevelData(60))
+        event_loop.create_task(cls.CutOldData(1500))

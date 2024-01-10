@@ -63,12 +63,24 @@
                                 </tr>
                                 <tr>
                                     <td>Napięcie akumulatora</td>
-                                    <td class="text-end">Vue{ bms.totalVoltageDisplay }</td>
+                                    <td class="text-end">Vue{ bms.totalVoltage }V</td>
                                 </tr>
                                 <tr>
                                     <td>Natężenie prądu</td>
-                                    <td class="text-end">Vue{ bms.currentDisplay }</td>
+                                    <td class="text-end">Vue{ bms.currenFlexWithUnit }</td>
                                 </tr>
+                                <tr>
+                                    <td>Napięcie PV</td>
+                                    <td class="text-end">Vue{ solar.pvVoltage }V</td>
+                                </tr>   
+                                <tr>
+                                    <td>Natężenie PV</td>
+                                    <td class="text-end">Vue{ solar.pvCurrent }A</td>
+                                </tr>     
+                                <tr>
+                                    <td>Moc PV</td>
+                                    <td class="text-end">Vue{ solar.pvPower }W</td>
+                                </tr>                                                                                              
                                 <tr>
                                     <td>Poziom wody czystej</td>
                                     <td class="text-end">
@@ -106,6 +118,8 @@
                 updateOK: false,
                 waterLevel: {},
                 bms: {},
+                temperature: {},
+                solar: {},
                 relays: [],
             },
             delimiters: ['Vue{', '}'],
@@ -116,7 +130,9 @@
                         .then(data => {
                             this.waterLevel = data.waterLevel;
                             this.bms = data.bms;
+                            this.solar = data.solar;
                             this.relays = data.relays;
+                            this.temperature = data.temperature
                             this.updateOK = true
                         })
                         .catch(error => {

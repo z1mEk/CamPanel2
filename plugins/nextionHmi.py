@@ -17,8 +17,8 @@ class plugin:
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            MainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.temp1)
-            MainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.temp2)
+            MainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
+            MainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
@@ -26,18 +26,39 @@ class plugin:
         while True:
             MainPage.jRSOC.val = dalyBms.data.RSOC
             MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
-            MainPage.tVoltage.txt = dalyBms.data.totalVoltageDisplay
-            MainPage.tCurrent.txt = dalyBms.data.currentDisplay
+            MainPage.tVoltage.txt = '{:.2f}'.format(dalyBms.data.totalVoltage)
+
+            MainPage.tCurrent.txt = (
+                '{:.0f}mA'.format(dalyBms.data.currenFlex) if dalyBms.data.currenFlex < 100 else
+                '{:.3f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currenFlex < 1000 else
+                '{:.2f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currenFlex / 1000 < 10 else
+                '{:.1f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currenFlex / 1000 < 100 else
+                '{:.0f}A'.format(dalyBms.data.currenFlex)
+            )
+            
             MainPage.tPvPower.txt = '{:.0f}W'.format(88)
+
+            MainPage.jRSOC.pco = (
+                helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
+                helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
+                helper.RGB2NextionColour(0, 255, 0)
+            )
+            
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
     async def updateWaterLevel(cls, interval):
         while True:
             MainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel 
-            MainPage.jWhiteWater.pco = helper.RGB2NextionColour(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else helper.RGB2NextionColour(255, 0, 0)
+            MainPage.jWhiteWater.pco = (
+                helper.RGB2NextionColour(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else
+                helper.RGB2NextionColour(255, 0, 0)
+            )
             MainPage.jGrayWater.val = waterLevel.data.greyWaterLevel
-            MainPage.jGrayWater.pco = helper.RGB2NextionColour(150, 150, 150) if waterLevel.data.greyWaterLevel < 80 else helper.RGB2NextionColour(255, 0, 0)
+            MainPage.jGrayWater.pco = (
+                helper.RGB2NextionColour(150, 150, 150) if waterLevel.data.greyWaterLevel < 80
+                else helper.RGB2NextionColour(255, 0, 0)
+            )
             MainPage.tWhiteWater.txt = '{:.0f}%'.format(waterLevel.data.whiteWaterLevel)
             MainPage.tGrayWater.txt = '{:.0f}%'.format(waterLevel.data.greyWaterLevel)
             await nest_asyncio.asyncio.sleep(interval)      
