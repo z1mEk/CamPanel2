@@ -46,6 +46,7 @@
     },
     "solarWaterHeating": {
         "minRSOC": 80,
-        "minVoltage": 13.2
+        "minVoltage": 13.2,
+        "minPvVoltage": 32
     }
 }
