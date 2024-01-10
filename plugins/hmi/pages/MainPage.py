@@ -2,7 +2,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
-from plugins import relays, wifiStatus, dalyBms
+from plugins import relays, wifiStatus, dalyBms, waterLevel
 from general.logger import logging
 
 class MainPage(TPage):
@@ -14,6 +14,8 @@ class MainPage(TPage):
         @classmethod
         async def onRelease(cls):
             dalyBms.data.totalVoltage = 12.89 if cls.val == 0 else 13.34
+            waterLevel.data.whiteWaterLevel = 79 if cls.val == 0 else 12
+            waterLevel.data.greyWaterLevel = 14 if cls.val == 0 else 93
             relays.data.relay0.val = cls.val
 
     class btACInverter(TDualStateButton):
