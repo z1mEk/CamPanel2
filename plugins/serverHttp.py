@@ -54,10 +54,10 @@ def getData():
             "currentFlex": dalyBms.data.currenFlex,
             "currentFlexUnit": dalyBms.data.currentFlexUnit,
             "currenFlexWithUnit": (
-                '{:.0f}mA'.format(dalyBms.data.currenFlex) if dalyBms.data.currentMiliAmper < 100 else
-                '{:.3f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currentMiliAmper < 1000 else
-                '{:.2f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currentMiliAmper < 10000 else
-                '{:.1f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currentMiliAmper < 100000 else
+                '{:.0f}mA'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currentMiliAmper) < 100 else
+                '{:.3f}A'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
+                '{:.2f}A'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
+                '{:.1f}A'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
                 '{:.0f}A'.format(dalyBms.data.currenFlex)
             ),
             "RSOC": dalyBms.data.RSOC,

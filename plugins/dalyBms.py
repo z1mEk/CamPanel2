@@ -54,7 +54,7 @@ class plugin:
             data.totalVoltage = 13.345
             data.RSOC = 89
 
-            data.currenFlex = (data.currentMiliAmper if data.currentMiliAmper < 1000 else data.currentMiliAmper / 1000)
+            data.currenFlex = (data.currentMiliAmper if abs(data.currentMiliAmpe) < 1000 else data.currentMiliAmper / 1000)
             data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
 
             data.lastUpdate = datetime.now()

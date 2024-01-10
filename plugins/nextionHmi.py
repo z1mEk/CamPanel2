@@ -29,10 +29,10 @@ class plugin:
             MainPage.tVoltage.txt = '{:.2f}'.format(dalyBms.data.totalVoltage)
 
             MainPage.tCurrent.txt = (
-                '{:.0f}mA'.format(dalyBms.data.currenFlex) if dalyBms.data.currenFlex < 100 else
-                '{:.3f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currenFlex < 1000 else
-                '{:.2f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currenFlex / 1000 < 10 else
-                '{:.1f}A'.format(dalyBms.data.currenFlex) if dalyBms.data.currenFlex / 1000 < 100 else
+                '{:.0f}mA'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currenFlex) < 100 else
+                '{:.3f}A'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currenFlex) < 1000 else
+                '{:.2f}A'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currenFlex) / 1000 < 10 else
+                '{:.1f}A'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currenFlex) / 1000 < 100 else
                 '{:.0f}A'.format(dalyBms.data.currenFlex)
             )
             
