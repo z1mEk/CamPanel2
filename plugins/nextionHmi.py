@@ -26,7 +26,7 @@ class plugin:
         while True:
             MainPage.jRSOC.val = dalyBms.data.RSOC
             MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
-            MainPage.tVoltage.txt = '{:.2f}'.format(dalyBms.data.totalVoltage)
+            MainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
 
             MainPage.tCurrent.txt = (
                 '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100 else
