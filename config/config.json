@@ -6,7 +6,6 @@
         "waterLevel",
         "temperatures",
         "serverHttp",
-        "serverSocket",
         "solarWaterHeating",
         "influxDBLog"
     ],
