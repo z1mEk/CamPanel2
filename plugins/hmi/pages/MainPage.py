@@ -2,7 +2,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
-from plugins import relays
+from plugins import relays, wifiStatus
 from general.logger import logging
 
 class MainPage(TPage):
@@ -23,7 +23,8 @@ class MainPage(TPage):
     class btHeater(TDualStateButton):
         @classmethod
         async def onRelease(cls):
-            relays.data.relay2.val = cls.val
+            #relays.data.relay2.val = cls.val
+            wifiStatus.plugin.wlanUpDown(cls.val)
 
     class btBoiler(TDualStateButton):
         @classmethod

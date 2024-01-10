@@ -68,7 +68,7 @@ class plugin:
         while True:
             MainPage.btWaterPump.val = relays.data.relay0.val
             MainPage.btACInverter.val = relays.data.relay1.val
-            MainPage.btHeater.val = relays.data.relay2.val
+            MainPage.btHeater.val = wifiStatus.data.wifiStatus #relays.data.relay2.val
             MainPage.btBoiler.val = relays.data.relay3.val
             await nest_asyncio.asyncio.sleep(interval) 
         
