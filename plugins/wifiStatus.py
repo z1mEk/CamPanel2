@@ -35,4 +35,4 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        event_loop.create_task(cls.readData(10))
+        event_loop.create_task(cls.readData(2))
