@@ -7,9 +7,9 @@ from datetime import datetime
 from general.logger import logging
 
 class data:
-    currentMiliAmper = 0
-    totalVoltage = 0
-    RSOC = 0
+    currentMiliAmper = -452
+    totalVoltage = 12.86
+    RSOC = 89
 
     currentFlex = 0
     currentFlexUnit = "A"
@@ -50,9 +50,9 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         while True:
-            data.currentMiliAmper = -3456
-            data.totalVoltage = 13.345
-            data.RSOC = 89
+            # data.currentMiliAmper = -3456
+            # data.totalVoltage = 13.345
+            # data.RSOC = 89
 
             data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
             data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
