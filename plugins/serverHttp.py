@@ -51,13 +51,13 @@ def getData():
         {
             "totalVoltage": dalyBms.data.totalVoltage,
             "currentMiliamper": dalyBms.data.currentMiliAmper,
-            "currentFlex": dalyBms.data.currenFlex,
+            "currentFlex": dalyBms.data.currentFlex,
             "currentFlexUnit": dalyBms.data.currentFlexUnit,
             "currenFlexWithUnit": (
-                '{:.0f}mA'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
-                '{:.2f}A'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
-                '{:.1f}A'.format(dalyBms.data.currenFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
-                '{:.0f}A'.format(dalyBms.data.currenFlex)
+                '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
+                '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
+                '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
+                '{:.0f}A'.format(dalyBms.data.currentFlex)
             ),
             "RSOC": dalyBms.data.RSOC,
         },
