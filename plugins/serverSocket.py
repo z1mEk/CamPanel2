@@ -1,4 +1,3 @@
-import random
 import socket
 import inspect
 import nest_asyncio
@@ -54,7 +53,9 @@ class plugin:
 
             print(f"response {response}")
             data.client_socket.send(response.encode('utf-8'))
-            data.client_socket.close()    
+            data.client_socket.close()  
+            await nest_asyncio.asyncio.sleep(1)   
+
 
     @classmethod
     async def initialize(cls, event_loop):
