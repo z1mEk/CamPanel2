@@ -22,7 +22,9 @@ class plugin:
         try:
             result = subprocess.check_output(["ifconfig", "wlan0"])
             result_str = result.decode("utf-8")
+            print(result_str)
             data.wifiStatus = 1 if "UP" in result_str else 0
+            print(data.wifiStatus)
             return "UP" in result_str
         except subprocess.CalledProcessError:
             data.wifiStatus = 0
