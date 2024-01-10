@@ -23,8 +23,7 @@ class MainPage(TPage):
     class btHeater(TDualStateButton):
         @classmethod
         async def onRelease(cls):
-            #relays.data.relay2.val = cls.val
-            wifiStatus.plugin.wlanUpDown(cls.val)
+            relays.data.relay2.val = cls.val
 
     class btBoiler(TDualStateButton):
         @classmethod
