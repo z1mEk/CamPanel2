@@ -47,9 +47,11 @@ class plugin:
             daly.reconnect()
 
             bms_recv = data.bms.get_all()
-            data.currentMiliAmper = bms_recv['soc']['current'] * 1000
-            data.totalVoltage = bms_recv['soc']['total_voltage']
             data.RSOC = int(bms_recv['soc']['soc_percent'])
+            
+            current = bms_recv['soc']['current']
+            data.currentMiliAmper = int(current * 1000)
+            data.totalVoltage = bms_recv['soc']['total_voltage']
 
             data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
             data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
