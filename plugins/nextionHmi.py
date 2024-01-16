@@ -28,7 +28,7 @@ class plugin:
             MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
             MainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
             MainPage.tCurrent.txt = '{:.2f}V'.format(dalyBms.data.current)           
-            MainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.pv.power)
+            MainPage.tPvPower.txt = '{:.0f}W'.format(385)
 
             MainPage.jRSOC.pco = (
                 helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
