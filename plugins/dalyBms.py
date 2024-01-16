@@ -13,6 +13,7 @@ class data:
     bms = None
 
     currentMiliAmper = 0
+    current = 0
     totalVoltage = 0
     RSOC = 0
 
@@ -48,9 +49,9 @@ class plugin:
 
             bms_recv = data.bms.get_all()
             data.RSOC = int(bms_recv['soc']['soc_percent'])
-            
-            current = bms_recv['soc']['current']
-            data.currentMiliAmper = int(current * 1000)
+
+            data.current = bms_recv['soc']['current']
+            data.currentMiliAmper = int(data.current * 1000)
             data.totalVoltage = bms_recv['soc']['total_voltage']
 
             data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
