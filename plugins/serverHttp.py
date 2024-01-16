@@ -50,15 +50,7 @@ def getData():
         "bms":
         {
             "totalVoltage": dalyBms.data.totalVoltage,
-            "currentMiliamper": dalyBms.data.currentMiliAmper,
-            "currentFlex": dalyBms.data.currentFlex,
-            "currentFlexUnit": dalyBms.data.currentFlexUnit,
-            "currenFlexWithUnit": (
-                '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
-                '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
-                '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
-                '{:.0f}A'.format(dalyBms.data.currentFlex)
-            ),
+            "current": dalyBms.data.current,
             "RSOC": dalyBms.data.RSOC,
         },
         "solar":

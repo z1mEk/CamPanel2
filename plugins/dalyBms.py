@@ -12,7 +12,7 @@ class data:
     bms_device = device.FindUsbDevice(config.bms.device)
     bms = None
 
-    currentMiliAmper = 0
+    current = 0
     totalVoltage = 0
     RSOC = 0
 
@@ -51,12 +51,12 @@ class plugin:
 
             print(bms_recv['soc']['total_voltage'])
 
-            #data.currentMiliAmper = bms_recv.soc.current
+            data.current = bms_recv['soc']['current']
             data.totalVoltage = bms_recv['soc']['total_voltage']
             data.RSOC = bms_recv['soc']['soc_percent']
 
-            data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
-            data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
+            # data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
+            # data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
 
             data.lastUpdate = datetime.now()
             
