@@ -109,7 +109,7 @@ class relayMethod(metaclass=relayMeta):
     
     @classmethod
     def setRelayState(cls, value:int):
-        cmd = [0, 0, 0, 0, 0, 0, 0, 0]
+        cmd = [0] * 8
         cmd[0] = cls.address.value[0]
         cmd[1] = 0x05
         cmd[3] = cls.address.value[1]
@@ -126,7 +126,7 @@ class relayMethod(metaclass=relayMeta):
 
     @classmethod
     def getRelaysState(cls):
-        cmd = [0, 0, 0, 0, 0, 0, 0, 0]
+        cmd = [0] * 8
         cmd[0] = 0x00
         cmd[1] = 0x01
         cmd[3] = 0xff

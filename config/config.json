@@ -29,7 +29,7 @@
         "baudrate": 9600
     },
     "bms": {
-        "device": "/dev/ttyUSB4",
+        "device": "1A86:7523",
         "baudrate": 9600
     },
     "httpServer": {
@@ -46,8 +46,17 @@
         "retentionData": "30d"
     },
     "solarWaterHeating": {
-        "minRSOC": 80,
-        "minVoltage": 13.2,
-        "minPvVoltage": 32
+        "active": 1,
+        "RsocControl": 1,
+        "onRsoc": 90,
+        "offRsoc": 80,
+        "pvVoltageControl": 0,
+        "onPvVoltage": 34,
+        "offPvVoltage": 18,
+        "pvPowerControl": 0,
+        "minPVPower": 100,
+        "hourControl": 0,
+        "onHour": "09:30",
+        "offHour": "19:30"
     }
 }

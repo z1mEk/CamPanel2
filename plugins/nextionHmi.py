@@ -2,7 +2,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi import hmi, helper
 from plugins.hmi.pages.MainPage import MainPage
-from plugins import dalyBms, waterLevel, relays, temperatures, wifiStatus
+from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures, wifiStatus
 from datetime import datetime
 from general.logger import logging
 
@@ -46,6 +46,12 @@ class plugin:
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
+    async def updateEpeverTracer(cls, interval):
+        while True:
+            MainPage.tPvPower = '{:.0f}W'.format(epeverTracer.data.pv.power)
+            await nest_asyncio.asyncio.sleep(interval)
+
+    @classmethod
     async def updateWaterLevel(cls, interval):
         while True:
             MainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel 
@@ -77,5 +83,6 @@ class plugin:
         event_loop.create_task(cls.updateTime(1))
         event_loop.create_task(cls.updateTemperatures(5))   
         event_loop.create_task(cls.updateBMS(2))
+        event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(5))
         event_loop.create_task(cls.updateDualStateButtonValue(1))

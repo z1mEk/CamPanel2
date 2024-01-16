@@ -5,11 +5,16 @@ from general.deviceManager import device
 from serial.serialposix import Serial
 from datetime import datetime
 from general.logger import logging
+from dalybms import DalyBMSSinowealth
 
 class data:
-    currentMiliAmper = -452
-    totalVoltage = 12.86
-    RSOC = 89
+
+    bms_device = device.FindUsbDevice(config.bms.device)
+    bms = None
+
+    currentMiliAmper = 0
+    totalVoltage = 0
+    RSOC = 0
 
     currentFlex = 0
     currentFlexUnit = "A"
@@ -23,36 +28,29 @@ class daly:
     @classmethod
     def reconnect(cls):
         try:
-            if cls.dalySerial == None:
+            if cls.bms == None:
                 bms_device = device.FindUsbDevice(config.bms.device)
-                cls.dalySerial = Serial(bms_device, config.bms.baudrate)
+                data.bms = DalyBMSSinowealth()
+                data.bms.connect(bms_device)
         except Exception as e:
             logging.error(f"DalyBMS: {e}")
             return False
         return True
-        
-    @classmethod
-    #TODO: tu zrobić to co trzeba żeby daly zwracało odpowiednie dane
-    def getData(cls):
-        buffer = None
-        cmd = [0, 0, 0, 0]
-        cmd[0] = 0x0a
-        cmd[1] = 0x01
-        cmd[2] = 0x0f
-        cmd[3] = 0x01
-        if cls.reconnect():
-            cls.dalySerial.write(cmd)
-            buffer = cls.dalySerial.read(0x0f)
-        return buffer
+    
 
 class plugin:
 
     @classmethod
     async def readData(cls, interval):
         while True:
-            # data.currentMiliAmper = -3456
-            # data.totalVoltage = 13.345
-            # data.RSOC = 89
+
+            daly.reconnect()
+
+            bms_recv = data.bms.get_all()
+
+            data.currentMiliAmper = bms_recv.soc.current
+            data.totalVoltage = bms_recv.soc.total_voltage
+            data.RSOC = bms_recv.soc.soc_percent
 
             data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
             data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),

@@ -6,7 +6,7 @@ import nest_asyncio
 nest_asyncio.apply()
 from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
-from plugins import waterLevel, dalyBms, relays, temperatures
+from plugins import waterLevel, dalyBms, epeverTracer, relays, temperatures
 from general.configLoader import config
 import logging
 import logging.handlers
@@ -63,9 +63,9 @@ def getData():
         },
         "solar":
         {
-            "pvVoltage": 35,
-            "pvCurrent": 6,
-            "pvPower": 180
+            "pvVoltage": '{:.1f}V'.format(epeverTracer.pv.voltage),
+            "pvCurrent": '{:.1f}A'.format(epeverTracer.pv.current),
+            "pvPower": '{:.0f}W'.format(epeverTracer.pv.power)
         },
         "temperature":
         {
