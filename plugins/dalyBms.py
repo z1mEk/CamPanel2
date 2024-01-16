@@ -28,7 +28,7 @@ class daly:
     @classmethod
     def reconnect(cls):
         try:
-            if cls.bms == None:
+            if data.bms == None:
                 bms_device = device.FindUsbDevice(config.bms.device)
                 data.bms = DalyBMSSinowealth()
                 data.bms.connect(bms_device)
@@ -47,6 +47,7 @@ class plugin:
             daly.reconnect()
 
             bms_recv = data.bms.get_all()
+            print(bms_recv)
 
             data.currentMiliAmper = bms_recv.soc.current
             data.totalVoltage = bms_recv.soc.total_voltage
