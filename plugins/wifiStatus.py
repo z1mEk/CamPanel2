@@ -22,7 +22,6 @@ class plugin:
         try:
             result = subprocess.check_output(["sudo", "ip", "link", "show", "wlan0"])
             result_str = result.decode("utf-8")
-            print(result_str)
             data.wifiStatus = 1 if ",UP," in result_str else 0
         except subprocess.CalledProcessError:
             data.wifiStatus = 0
