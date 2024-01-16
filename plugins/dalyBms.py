@@ -49,7 +49,7 @@ class plugin:
             bms_recv = data.bms.get_all()
             print(bms_recv)
 
-            data.currentMiliAmper = bms_recv.soc.current
+            #data.currentMiliAmper = bms_recv.soc.current
             data.totalVoltage = bms_recv.soc.total_voltage
             data.RSOC = bms_recv.soc.soc_percent
 
