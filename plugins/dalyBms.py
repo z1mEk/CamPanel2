@@ -49,11 +49,11 @@ class plugin:
             bms_recv = data.bms.get_all()
             print(bms_recv)
 
-            print(bms_recv.soc.total_voltage)
+            print(bms_recv['soc']['total_voltage'])
 
             #data.currentMiliAmper = bms_recv.soc.current
-            data.totalVoltage = bms_recv.soc.total_voltage
-            data.RSOC = bms_recv.soc.soc_percent
+            data.totalVoltage = bms_recv['soc']['total_voltage']
+            data.RSOC = bms_recv['soc']['soc_percent']
 
             data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
             data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
