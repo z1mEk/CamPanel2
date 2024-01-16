@@ -12,9 +12,13 @@ class data:
     bms_device = device.FindUsbDevice(config.bms.device)
     bms = None
 
-    current = 0.0
-    totalVoltage = 0.0
+    currentMiliAmper = 0
+    totalVoltage = 0
     RSOC = 0
+
+    currentFlex = 0
+    currentFlexUnit = "A"
+
     lastUpdate = None
 
 class daly:
@@ -43,10 +47,13 @@ class plugin:
             daly.reconnect()
 
             bms_recv = data.bms.get_all()
-
-            data.current = bms_recv['soc']['current']
+            data.currentMiliAmper = bms_recv['soc']['current'] * 1000
             data.totalVoltage = bms_recv['soc']['total_voltage']
-            data.RSOC = int(bms_recv['soc']['soc_percent'])
+            data.RSOC = bms_recv['soc']['soc_percent']
+
+            data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
+            data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
+
             data.lastUpdate = datetime.now()
             
             await nest_asyncio.asyncio.sleep(interval)       
