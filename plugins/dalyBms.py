@@ -14,7 +14,7 @@ class data:
 
     current = 0.0
     totalVoltage = 0.0
-    RSOC = 0.0
+    RSOC = 0
     lastUpdate = None
 
 class daly:

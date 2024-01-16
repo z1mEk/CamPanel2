@@ -24,7 +24,6 @@ class plugin:
     @classmethod
     async def updateBMS(cls, interval):
         while True:
-            print(f"rsoc: {dalyBms.data.RSOC}")
             MainPage.jRSOC.val = dalyBms.data.RSOC
             MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
             MainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
