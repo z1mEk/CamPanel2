@@ -35,8 +35,6 @@ class plugin:
                 '{:.0f}A'.format(dalyBms.data.currentFlex)
             )
             
-            MainPage.tPvPower.txt = '{:.0f}W'.format(88)
-
             MainPage.jRSOC.pco = (
                 helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
                 helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
@@ -48,7 +46,7 @@ class plugin:
     @classmethod
     async def updateEpeverTracer(cls, interval):
         while True:
-            MainPage.tPvPower = '{:.0f}W'.format(epeverTracer.data.pv.power)
+            MainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.data.pv.power)
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
