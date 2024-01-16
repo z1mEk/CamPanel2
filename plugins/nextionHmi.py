@@ -24,19 +24,11 @@ class plugin:
     @classmethod
     async def updateBMS(cls, interval):
         while True:
-            MainPage.jRSOC.val = int(dalyBms.data.RSOC)
+            MainPage.jRSOC.val = dalyBms.data.RSOC
             MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
             MainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
-            MainPage.tCurrent.txt = '{:.2f}V'.format(dalyBms.data.current)
-
-            # MainPage.tCurrent.txt = (
-            #     '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
-            #     '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
-            #     '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
-            #     '{:.0f}A'.format(dalyBms.data.currentFlex)
-            # )
-            
-            MainPage.tPvPower.txt = '{:.0f}W'.format(88)
+            MainPage.tCurrent.txt = '{:.2f}V'.format(dalyBms.data.current)           
+            MainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.pv.power)
 
             MainPage.jRSOC.pco = (
                 helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
