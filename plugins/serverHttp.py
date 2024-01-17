@@ -50,6 +50,7 @@ def getData():
         "bms":
         {
             "totalVoltage": dalyBms.data.totalVoltage,
+            "totalVoltageDisplay": '{:.2f}V'.format(dalyBms.data.totalVoltage),
             "currentMiliamper": dalyBms.data.currentMiliAmper,
             "currentFlex": dalyBms.data.currentFlex,
             "currentFlexUnit": dalyBms.data.currentFlexUnit,
