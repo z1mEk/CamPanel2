@@ -61,7 +61,9 @@ class modbusCRC:
             crcLow  = crcHigh ^ cls.CRCTableHigh[index]
             crcHigh = cls.CRCTableLow[index]
         ret = (crcHigh << 8 | crcLow)
-        print(crcmod.predefined.mkPredefinedCrcFun('modbus')(data))
+        crc16 = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
+        crc = crc16(data)
+        print(crc)
         print(ret)
         return (crcHigh << 8 | crcLow)
     
