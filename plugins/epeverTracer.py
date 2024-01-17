@@ -75,7 +75,22 @@ class plugin:
 
             except Exception as e:
                 logging.error(f"ePeverTracer: {e}")
+                #pv
+                data.pv.voltage = 0
+                data.pv.current = 0
+                data.pv.power = 0
 
+                #battery
+                data.battery.voltage = 0
+                data.battery.current = 0
+                data.battery.soc = 0
+                data.battery.temp = 0
+                data.battery.capacity = 0
+
+                #load
+                data.load.voltage = 0
+                data.load.current = 0
+                data.load.power = 0
             await nest_asyncio.asyncio.sleep(interval)       
 
     @classmethod
