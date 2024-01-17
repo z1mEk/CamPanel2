@@ -32,13 +32,13 @@ class plugin:
     async def readData(cls, interval):
         while True:
             try:
-                if cls.mcp == None:
-                    cls.reconnect()
-                cls.mcp.set_pin_function(gp1='ADC', gp2="ADC")
-                cls.mcp.ADC_config(ref="VDD")                
-                values = cls.mcp.ADC_read()
-                data.whiteWaterLevel = helper.map_value(158, 0, 190, 0, 100)
-                data.greyWaterLevel = helper.map_value(15, 0, 190, 0, 100)
+                # if cls.mcp == None:
+                #     cls.reconnect()
+                # cls.mcp.set_pin_function(gp1='ADC', gp2="ADC")
+                # cls.mcp.ADC_config(ref="VDD")                
+                # values = cls.mcp.ADC_read()
+                # data.whiteWaterLevel = helper.map_value(158, 0, 190, 0, 100)
+                # data.greyWaterLevel = helper.map_value(15, 0, 190, 0, 100)
                 data.lastUpdate = datetime.now()
             except Exception as e:
                 logging.error(f"MCP2221: {e}")
