@@ -60,7 +60,13 @@ class modbusCRC:
             index = crcLow ^ byte
             crcLow  = crcHigh ^ cls.CRCTableHigh[index]
             crcHigh = cls.CRCTableLow[index]
-        return (crcHigh << 8 | crcLow)    
+        ret = (crcHigh << 8 | crcLow)
+        print(crcmod.predefined.mkPredefinedCrcFun('modbus')(data))
+        print(ret)
+        return (crcHigh << 8 | crcLow)
+    
+
+    
 
 class RelayAddress(Enum):
     RELAY0 = (1,0)
