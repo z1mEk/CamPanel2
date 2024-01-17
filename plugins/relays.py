@@ -61,9 +61,6 @@ class modbusCRC:
             crcHigh = cls.CRCTableLow[index]
         return (crcHigh << 8 | crcLow)
     
-
-    
-
 class RelayAddress(Enum):
     RELAY0 = (1,0)
     RELAY1 = (1,1)
