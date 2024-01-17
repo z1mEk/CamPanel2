@@ -7,7 +7,6 @@ from serial.serialposix import Serial
 from plugins import influxDBLog
 from datetime import datetime
 from general.logger import logging
-import crcmod
 
 class modbusCRC:
     CRCTableHigh = [
@@ -60,11 +59,6 @@ class modbusCRC:
             index = crcLow ^ byte
             crcLow  = crcHigh ^ cls.CRCTableHigh[index]
             crcHigh = cls.CRCTableLow[index]
-        ret = (crcHigh << 8 | crcLow)
-        crc16 = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
-        crc = crc16(data)
-        print(crc)
-        print(ret)
         return (crcHigh << 8 | crcLow)
     
 
