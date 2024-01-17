@@ -17,8 +17,7 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
         while True:
-            data.inTemp = random.randint(18, 21)
-            data.outTemp = random.randint(0, 16)
+
             await nest_asyncio.asyncio.sleep(interval)  
 
     @classmethod

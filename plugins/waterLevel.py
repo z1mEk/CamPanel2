@@ -8,9 +8,9 @@ from datetime import datetime
 from general.logger import logging
 
 class data:
-    whiteWaterLevel = 12
-    greyWaterLevel = 92
-    lastUpdate = None
+    whiteWaterLevel = 0
+    greyWaterLevel = 0
+    lastUpdate = datetime.now()
 
 class helper:
     @classmethod
