@@ -9,7 +9,7 @@ import datetime
 import nest_asyncio
 from general.configLoader import config
 nest_asyncio.apply()
-from plugins import waterLevel, dalyBms, temperatures
+from plugins import waterLevel, dalyBms, temperatures, epeverTracer
 from general.logger import logging
 
 class data:
@@ -96,6 +96,32 @@ class plugin:
             await nest_asyncio.asyncio.sleep(interval)   
 
     @classmethod
+    async def logEpeverTracerData(cls, interval):
+        while True:
+            jsonBody = [
+                {
+                    "measurement": "EpeverTracer",
+                    "tags": {},
+                    "time": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+                    "fields": {
+                        "pvVoltage": epeverTracer.pv.voltage,
+                        "pvCurrent": epeverTracer.pv.current,
+                        "pvPower": epeverTracer.pv.power,
+                        "batVoltage": epeverTracer.battery.voltage,
+                        "batCurrent": epeverTracer.battery.current,
+                        "batSoc": epeverTracer.battery.soc,
+                        "batCapacity": epeverTracer.battery.capacity,
+                        "batTemperature": epeverTracer.battery.temp,
+                        "loadVoltage": epeverTracer.load.voltage,
+                        "loadCurrent": epeverTracer.load.current,
+                        "loadPower": epeverTracer.load.power
+                    }
+                }
+            ]
+            cls.addToInfluxDB(jsonBody)
+            await nest_asyncio.asyncio.sleep(interval)               
+
+    @classmethod
     async def logTemperatureData(cls, interval):
         while True:
             jsonBody = [
@@ -133,6 +159,7 @@ class plugin:
             cls.deleteOldData("WaterLevel")
             cls.deleteOldData("Temperature")
             cls.deleteOldData("Relays")
+            cls.deleteOldData("EpeverTracer")
             await nest_asyncio.asyncio.sleep(interval)  
 
     @classmethod
@@ -141,4 +168,5 @@ class plugin:
         event_loop.create_task(cls.logBmsData(5))
         event_loop.create_task(cls.logTemperatureData(60))
         event_loop.create_task(cls.logWaterLevelData(60))
+        event_loop.create_task(cls.logEpeverTracerData(5))
         event_loop.create_task(cls.CutOldData(1500))

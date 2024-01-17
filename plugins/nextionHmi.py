@@ -11,7 +11,7 @@ class plugin:
     @classmethod
     async def updateTime(cls, interval):
         while True:
-            MainPage.tTime.txt = datetime.now().strftime("%H:%M")
+            MainPage.tTime.txt = datetime.now().strftime("%-H:%M")
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
@@ -22,11 +22,11 @@ class plugin:
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
-    async def updateBMS(cls, interval):
+    async def updateDalyBMS(cls, interval):
         while True:
             MainPage.jRSOC.val = dalyBms.data.RSOC
             MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
-            MainPage.tVoltage.txt = '{:.3f}V'.format(dalyBms.data.totalVoltage)
+            MainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
 
             MainPage.tCurrent.txt = (
                 '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
@@ -80,7 +80,7 @@ class plugin:
         event_loop.create_task(hmi.create(event_loop))
         event_loop.create_task(cls.updateTime(1))
         event_loop.create_task(cls.updateTemperatures(10))   
-        event_loop.create_task(cls.updateBMS(2))
+        event_loop.create_task(cls.updateDalyBMS(2))
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))

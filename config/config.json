@@ -28,10 +28,12 @@
         "device": "0403:6001",
         "baudrate": 9600
     },
-    "bms": {
-        "device": "1A86:7523",
-        "baudrate": 9600
+    "dalyBms": {
+        "device": "1A86:7523"
     },
+    "ePeverTracer": {
+        "device": "/dev/ttyUSB9" 
+    },    
     "httpServer": {
         "host": "0.0.0.0",
         "port": 8080,

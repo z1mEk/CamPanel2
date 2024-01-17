@@ -18,24 +18,27 @@ class data:
 class plugin:
 
     @classmethod
-    async def readData(cls, interval):
+    async def readSOC(cls, interval):
 
-        bms_device = device.FindUsbDevice(config.bms.device)
-        bms = DalyBMSSinowealth()
+        bms_device = device.FindUsbDevice(config.dalyBms.device)
+        try:
+            dalyBms = DalyBMSSinowealth() #if daly BMS chip is Sinowealth
+        except Exception as e:
+            logging.error(f"DalyBMS: {e}")
 
         while True:
 
             try:
-                bms.connect(bms_device)
-                bms_recv = data.bms.get_all()
-                bms.disconnect()
+                dalyBms.connect(bms_device)
+                bms_recv = dalyBms.get_soc()
+                dalyBms.disconnect()
 
-                data.RSOC = int(bms_recv['soc']['soc_percent'])
-                data.current = bms_recv['soc']['current']
+                data.RSOC = int(bms_recv['soc_percent'])
+                data.current = bms_recv['current']
                 data.currentMiliAmper = int(data.current * 1000)
-                data.totalVoltage = bms_recv['soc']['total_voltage']
+                data.totalVoltage = bms_recv['total_voltage']
                 data.currentFlex = (data.currentMiliAmper if abs(data.currentMiliAmper) < 1000 else data.currentMiliAmper / 1000)
-                data.currentFlexUnit = ('mA' if data.currentMiliAmper < 1000 else 'A'),
+                data.currentFlexUnit = ('mA' if abs(data.currentMiliAmper < 1000) else 'A'),
                 data.lastUpdate = datetime.now()                
                 
             except Exception as e:
@@ -45,4 +48,4 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        event_loop.create_task(cls.readData(2))
+        event_loop.create_task(cls.readSOC(2))
