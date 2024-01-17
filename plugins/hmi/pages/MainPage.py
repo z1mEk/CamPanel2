@@ -13,9 +13,6 @@ class MainPage(TPage):
     class btWaterPump(TDualStateButton):
         @classmethod
         async def onRelease(cls):
-            dalyBms.data.totalVoltage = 12.89 if cls.val == 0 else 13.34
-            waterLevel.data.whiteWaterLevel = 79 if cls.val == 0 else 12
-            waterLevel.data.greyWaterLevel = 14 if cls.val == 0 else 93
             relays.data.relay0.val = cls.val
 
     class btACInverter(TDualStateButton):

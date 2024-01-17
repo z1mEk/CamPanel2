@@ -12,8 +12,8 @@ class data:
     totalVoltage = 0
     RSOC = 0
     currentFlex = 0
-    currentFlexUnit = "A"
-    lastUpdate = None 
+    currentFlexUnit = "mA"
+    lastUpdate = datetime.now()  
 
 class plugin:
 
@@ -43,6 +43,12 @@ class plugin:
                 
             except Exception as e:
                 logging.error(f"DalyBMS: {e}")
+                data.RSOC = 0
+                data.current = 0
+                data.currentMiliAmper = 0
+                data.totalVoltage = 0
+                data.currentFlex = 0
+                data.currentFlexUnit = 'mA'
             
             await nest_asyncio.asyncio.sleep(interval)       
 
