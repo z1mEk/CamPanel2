@@ -66,6 +66,9 @@ class MainPage(TPage):
     class tPvPower(TText):
         pass
 
+    class tPvVoltage(TText):
+        pass
+
     class pPvStatus(TPicture):
         pass
 
