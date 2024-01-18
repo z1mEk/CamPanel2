@@ -16,7 +16,7 @@ class data:
     onPvVoltage = config.solarWaterHeating.onPvVoltage
     offPvVoltage = config.solarWaterHeating.offPvVoltage
 
-    pvPowerControl = config.solarWaterHeating.pvPowerControl4
+    pvPowerControl = config.solarWaterHeating.pvPowerControl
     minPVPower = config.solarWaterHeating.minPVPower
 
     hourControl = config.solarWaterHeating.hourControl
@@ -38,7 +38,7 @@ class plugin:
         
     @classmethod
     def isPvVoltageControl(cls):
-        if data.pvPowerControl == 1:
+        if data.pvVoltageControl == 1:
             if epeverTracer.pv.voltage >= data.onPvVoltage:
                 return True
             if epeverTracer.pv.voltage <= data.offPvVoltage:
@@ -47,7 +47,7 @@ class plugin:
     
     @classmethod
     def isPvPowerControl(cls):
-        if data.isPvPowerControl == 1:
+        if data.pvPowerControl == 1:
             if epeverTracer.pv.power >= data.minPVPower:
                 return True
             else:
