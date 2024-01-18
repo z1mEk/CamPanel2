@@ -82,6 +82,8 @@ class plugin:
         solarWaterPage.tOnHour.txt = config.solarWaterHeating.onHour
         solarWaterPage.tOffHour.txt = config.solarWaterHeating.offHour
 
+        await nest_asyncio.asyncio.sleep(interval) 
+
         solarWaterPage.btActive.val = config.solarWaterHeating.activeHeating
         solarWaterPage.btBatRsoc.val = config.solarWaterHeating.RsocControl
         solarWaterPage.btPvVoltage.val = config.solarWaterHeating.pvVoltageControl
@@ -105,6 +107,8 @@ class plugin:
             solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
             solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
 
+            await nest_asyncio.asyncio.sleep(interval) 
+
             solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
             solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
             await nest_asyncio.asyncio.sleep(interval) 
@@ -127,6 +131,6 @@ class plugin:
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
-        event_loop.create_task(cls.setDataToSolarWaterPage(3))
+        event_loop.create_task(cls.setDataToSolarWaterPage(1))
         event_loop.create_task(cls.getDataFromSolarWaterPage(5))
       
