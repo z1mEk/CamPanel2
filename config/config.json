@@ -50,14 +50,14 @@
     "solarWaterHeating": {
         "active": 1,
         "RsocControl": 1,
-        "onRsoc": 83,
+        "onRsoc": 85,
         "offRsoc": 80,
-        "pvVoltageControl": 1,
+        "pvVoltageControl": 0,
         "onPvVoltage": 34,
         "offPvVoltage": 18,
-        "pvPowerControl": 1,
+        "pvPowerControl": 0,
         "minPVPower": 100,
-        "hourControl": 1,
+        "hourControl": 0,
         "onHour": "09:30",
         "offHour": "19:30"
     }
