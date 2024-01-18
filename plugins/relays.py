@@ -107,10 +107,9 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             relays_device = device.FindUsbDevice(config.relays.device)
-            TRelay.srl = Serial(relays_device, config.relays.baudrate)
-            TRelay.srl.write(cmd)
-            TRelay.srl.close()
-            TRelay.srl = None
+            srl = Serial(relays_device, config.relays.baudrate)
+            srl.write(cmd)
+            srl.close()
             data.relaysState[cls.address.value[1]] = value
             cls.onRelayChange(cls.address.value[1], value)
         except Exception as e:
@@ -127,11 +126,10 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             relays_device = device.FindUsbDevice(config.relays.device)
-            TRelay.srl = Serial(relays_device, config.relays.baudrate)
-            TRelay.srl.write(cmd)
-            buffer = TRelay.srl.read(6)
-            TRelay.srl.close()
-            TRelay.srl = None
+            srl = Serial(relays_device, config.relays.baudrate)
+            srl.write(cmd)
+            buffer = srl.read(6)
+            srl.close()
             data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
             data.lastUpdate = datetime.now() 
         except Exception as e:
@@ -149,7 +147,7 @@ class relayMethod(metaclass=relayMeta):
         logging.debug(f"onRelayChange({relayIndex}, {value})")
         
 class TRelay(relayMethod):
-    srl:Serial = None
+    pass
 
 class data:
 
