@@ -6,7 +6,7 @@ from general.logger import logging
 import datetime
     
 class data:
-    active = 0
+    activeHeating = 0
 
     RsocControl = 0
     onRsoc = 0

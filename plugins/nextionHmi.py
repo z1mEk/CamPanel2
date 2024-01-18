@@ -72,7 +72,7 @@ class plugin:
 
     @classmethod
     async def setDataToSolarWaterPage(cls, interval):
-        solarWaterPage.btActive.val = config.solarWaterHeating.active
+        solarWaterPage.btActive.val = config.solarWaterHeating.activeHeating
         solarWaterPage.btBatRsoc.val = config.solarWaterHeating.RsocControl
         solarWaterPage.btPvVoltage.val = config.solarWaterHeating.pvVoltageControl
         solarWaterPage.btPvPower.val = config.solarWaterHeating.pvPowerControl
@@ -90,7 +90,7 @@ class plugin:
     @classmethod
     async def getDataFromSolarWaterPage(cls, interval):
          while True:
-            solarWaterHeating.data.active = solarWaterPage.btActive.val
+            solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
             solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
             solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
             solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val

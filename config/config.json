@@ -48,7 +48,7 @@
         "retentionData": "30d"
     },
     "solarWaterHeating": {
-        "active": 1,
+        "activeHeating": 1,
         "RsocControl": 1,
         "onRsoc": 85,
         "offRsoc": 80,
