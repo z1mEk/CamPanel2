@@ -104,6 +104,7 @@ class relayMethod(metaclass=relayMeta):
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)
         except Exception as e:
             logging.error(f"Relays: {e}")
+            TRelay.srl = None
             return False
         return True
     
