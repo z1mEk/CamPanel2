@@ -118,7 +118,6 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             if cls.reconnect():
-                print(f"is_open = {TRelay.srl.is_open}")
                 TRelay.srl.write(cmd)
                 data.relaysState[cls.address.value[1]] = value
                 cls.onRelayChange(cls.address.value[1], value)
@@ -136,7 +135,6 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             if relayMethod.reconnect():
-                print(f"is_open = {TRelay.srl.is_open}")
                 TRelay.srl.write(cmd)
                 buffer = TRelay.srl.read(6)
                 data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
