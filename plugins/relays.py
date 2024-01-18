@@ -98,15 +98,17 @@ class relayMethod(metaclass=relayMeta):
 
     @classmethod
     def reconnect(cls):
-        print(f"srl = {TRelay.srl}")
         try:
             if TRelay.srl == None:
                 relays_device = device.FindUsbDevice(config.relays.device)
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)
-
-            if TRelay.srl.closed:
-                TRelay.srl.open()
-
+            
+            if TRelay.srl.is_open:
+                return True
+            else:
+                TRelay.srl = None
+                return False
+            
         except Exception as e:
             logging.error(f"Relays: {e}")
             return False
@@ -127,7 +129,7 @@ class relayMethod(metaclass=relayMeta):
                 data.relaysState[cls.address.value[1]] = value
                 cls.onRelayChange(cls.address.value[1], value)
         except Exception as e:
-                logging.error(f"Relays: {e}")
+                logging.error(f"Relays1: {e}")
 
     @classmethod
     def getRelaysState(cls):
@@ -145,7 +147,7 @@ class relayMethod(metaclass=relayMeta):
                 data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
                 data.lastUpdate = datetime.now() 
         except Exception as e:
-            logging.error(f"Relays: {e}")       
+            logging.error(f"Relays2: {e}")       
 
     @classmethod
     def getRelayState(cls) -> int:
