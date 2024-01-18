@@ -19,7 +19,7 @@
         "device": "067b:2303",
         "baudrate": 115200,
         "startup_commands" : [
-            "thsp=60",
+            "thsp=300",
             "thup=1",
             "dim=30"
         ]
