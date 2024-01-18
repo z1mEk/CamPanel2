@@ -98,6 +98,7 @@ class relayMethod(metaclass=relayMeta):
 
     @classmethod
     def reconnect(cls):
+        print(f"srl = {TRelay.srl}")
         try:
             if TRelay.srl == None:
                 relays_device = device.FindUsbDevice(config.relays.device)
@@ -105,7 +106,7 @@ class relayMethod(metaclass=relayMeta):
 
             if TRelay.srl.closed:
                 TRelay.srl.open()
-                
+
         except Exception as e:
             logging.error(f"Relays: {e}")
             return False
