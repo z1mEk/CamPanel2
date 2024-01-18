@@ -127,6 +127,6 @@ class plugin:
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
-        event_loop.create_task(cls.setDataToSolarWaterPage(1))
+        event_loop.create_task(cls.setDataToSolarWaterPage(3))
         event_loop.create_task(cls.getDataFromSolarWaterPage(5))
       
