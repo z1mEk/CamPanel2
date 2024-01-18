@@ -101,14 +101,7 @@ class relayMethod(metaclass=relayMeta):
         try:
             if TRelay.srl == None:
                 relays_device = device.FindUsbDevice(config.relays.device)
-                TRelay.srl = Serial(relays_device, config.relays.baudrate)
-            
-            if TRelay.srl.is_open:
-                return True
-            else:
-                TRelay.srl = None
-                return False
-            
+                TRelay.srl = Serial(relays_device, config.relays.baudrate)                       
         except Exception as e:
             logging.error(f"Relays: {e}")
             return False
@@ -125,9 +118,12 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             if cls.reconnect():
-                TRelay.srl.write(cmd)
-                data.relaysState[cls.address.value[1]] = value
-                cls.onRelayChange(cls.address.value[1], value)
+                if TRelay.srl.is_open:
+                    TRelay.srl.write(cmd)
+                    data.relaysState[cls.address.value[1]] = value
+                    cls.onRelayChange(cls.address.value[1], value)
+                else:
+                    print(f"Port nie jest otwarty1")
         except Exception as e:
                 logging.error(f"Relays1: {e}")
 
@@ -142,10 +138,13 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             if relayMethod.reconnect():
-                TRelay.srl.write(cmd)
-                buffer = TRelay.srl.read(6)
-                data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
-                data.lastUpdate = datetime.now() 
+                if TRelay.srl.is_open:
+                    TRelay.srl.write(cmd)
+                    buffer = TRelay.srl.read(6)
+                    data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
+                    data.lastUpdate = datetime.now() 
+                else:
+                    print(f"Port nie jest otwarty2")
         except Exception as e:
             logging.error(f"Relays2: {e}")       
 
