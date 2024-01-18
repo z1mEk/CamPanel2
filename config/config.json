@@ -52,12 +52,12 @@
         "RsocControl": 1,
         "onRsoc": 83,
         "offRsoc": 80,
-        "pvVoltageControl": 0,
+        "pvVoltageControl": 1,
         "onPvVoltage": 34,
         "offPvVoltage": 18,
-        "pvPowerControl": 0,
+        "pvPowerControl": 1,
         "minPVPower": 100,
-        "hourControl": 0,
+        "hourControl": 1,
         "onHour": "09:30",
         "offHour": "19:30"
     }
