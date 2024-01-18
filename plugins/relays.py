@@ -95,15 +95,6 @@ class relayMethod(metaclass=relayMeta):
     @classmethod
     def off(cls):
         cls.val = 0
-
-    @classmethod
-    def reconnect(cls):
-        try:
-            TRelay.srl = Serial(TRelay.relays_device, config.relays.baudrate)
-        except Exception as e:
-            logging.error(f"Relays reconnect: {e}")
-            return False
-        return True
     
     @classmethod
     def setRelayState(cls, value:int):
@@ -115,14 +106,15 @@ class relayMethod(metaclass=relayMeta):
         crc = modbusCRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
-            if cls.reconnect():
-                if not TRelay.srl.is_open:
-                    TRelay.srl.open()
-                TRelay.srl.write(cmd)
-                data.relaysState[cls.address.value[1]] = value
-                cls.onRelayChange(cls.address.value[1], value)
+            relays_device = device.FindUsbDevice(config.relays.device)
+            TRelay.srl = Serial(relays_device, config.relays.baudrate)
+            TRelay.srl.write(cmd)
+            TRelay.srl.close()
+            TRelay.srl = None
+            data.relaysState[cls.address.value[1]] = value
+            cls.onRelayChange(cls.address.value[1], value)
         except Exception as e:
-                logging.error(f"Relays set: {e}")
+            logging.error(f"Relays set: {e}")
 
     @classmethod
     def getRelaysState(cls):
@@ -134,15 +126,15 @@ class relayMethod(metaclass=relayMeta):
         crc = modbusCRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
-            if relayMethod.reconnect():
-                if not TRelay.srl.is_open:
-                    TRelay.srl.open()
-                TRelay.srl.write(cmd)
-                buffer = TRelay.srl.read(6)
-                data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
-                data.lastUpdate = datetime.now() 
+            relays_device = device.FindUsbDevice(config.relays.device)
+            TRelay.srl = Serial(relays_device, config.relays.baudrate)
+            TRelay.srl.write(cmd)
+            buffer = TRelay.srl.read(6)
+            TRelay.srl.close()
+            TRelay.srl = None
+            data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
+            data.lastUpdate = datetime.now() 
         except Exception as e:
-            
             logging.error(f"Relays get: {e}")       
 
     @classmethod
@@ -158,7 +150,6 @@ class relayMethod(metaclass=relayMeta):
         
 class TRelay(relayMethod):
     srl:Serial = None
-    relays_device = device.FindUsbDevice(config.relays.device)
 
 class data:
 
