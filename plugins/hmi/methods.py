@@ -1,5 +1,7 @@
 from plugins.hmi import hmi
 from general.logger import logging
+import nest_asyncio
+nest_asyncio.apply()
 
 async def wakeUp():
     try:
@@ -56,6 +58,7 @@ async def getProperty(component:str, property:str):
     try:
         ret = await hmi.client.get(f"{component}.{property}")
         logging.debug(f"methods.getProperty({component}, {property}) -> {ret}")
+        await nest_asyncio.asyncio.sleep(0.1)
         return ret
     except Exception as e:
         logging.error(f"Nextion: {e}")
