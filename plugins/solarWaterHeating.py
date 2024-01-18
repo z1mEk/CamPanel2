@@ -71,20 +71,22 @@ class plugin:
     @classmethod
     async def autoWaterHeating(cls, interval):
         while True:
-            
-            data.active = solarWaterPage.btActive.val
-            data.RsocControl = solarWaterPage.btBatRsoc.val
-            data.pvVoltageControl = solarWaterPage.btPvVoltage.val
-            data.pvPowerControl = solarWaterPage.btPvPower.val
-            data.hourControl = solarWaterPage.btPvPower.val
+            try:
+                data.active = solarWaterPage.btActive.val
+                data.RsocControl = solarWaterPage.btBatRsoc.val
+                data.pvVoltageControl = solarWaterPage.btPvVoltage.val
+                data.pvPowerControl = solarWaterPage.btPvPower.val
+                data.hourControl = solarWaterPage.btPvPower.val
 
-            data.onRsoc = solarWaterPage.nOnBatRsoc.val
-            data.offRsoc = solarWaterPage.nOffBatRsoc.val
-            data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
-            data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
-            data.minPVPower = solarWaterPage.nPvPower.val
-            data.onHour = solarWaterPage.tOnHour.txt
-            data.offHour = solarWaterPage.tOffHour.txt
+                data.onRsoc = solarWaterPage.nOnBatRsoc.val
+                data.offRsoc = solarWaterPage.nOffBatRsoc.val
+                data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
+                data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
+                data.minPVPower = solarWaterPage.nPvPower.val
+                data.onHour = solarWaterPage.tOnHour.txt
+                data.offHour = solarWaterPage.tOffHour.txt
+            except Exception as e:
+                logging.error(f"solarWaterHeating: {e}")  
 
             if data.active > 0 and cls.isRsocControl() and cls.isHourControl():
                 if relays.data.relay1.val == 0:
