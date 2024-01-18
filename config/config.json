@@ -5,9 +5,9 @@
         "waterLevel",
         "temperatures",
         "serverHttp",
-        "solarWaterHeating",
         "wifiStatus",
         "nextionHmi",
+        "solarWaterHeating",
         "influxDBLog"
     ],
     "logger" :{
