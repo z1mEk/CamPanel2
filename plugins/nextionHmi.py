@@ -72,11 +72,6 @@ class plugin:
 
     @classmethod
     async def setDataToSolarWaterPage(cls, interval):
-        solarWaterPage.btActive.val = config.solarWaterHeating.activeHeating
-        solarWaterPage.btBatRsoc.val = config.solarWaterHeating.RsocControl
-        solarWaterPage.btPvVoltage.val = config.solarWaterHeating.pvVoltageControl
-        solarWaterPage.btPvPower.val = config.solarWaterHeating.pvPowerControl
-        solarWaterPage.btHour.val = config.solarWaterHeating.hourControl
 
         solarWaterPage.nOnBatRsoc.val = config.solarWaterHeating.onRsoc
         solarWaterPage.nOffBatRsoc.val = config.solarWaterHeating.offRsoc
@@ -86,6 +81,13 @@ class plugin:
 
         solarWaterPage.tOnHour.txt = config.solarWaterHeating.onHour
         solarWaterPage.tOffHour.txt = config.solarWaterHeating.offHour
+
+        solarWaterPage.btActive.val = config.solarWaterHeating.activeHeating
+        solarWaterPage.btBatRsoc.val = config.solarWaterHeating.RsocControl
+        solarWaterPage.btPvVoltage.val = config.solarWaterHeating.pvVoltageControl
+        solarWaterPage.btPvPower.val = config.solarWaterHeating.pvPowerControl
+        solarWaterPage.btHour.val = config.solarWaterHeating.hourControl
+
         await nest_asyncio.asyncio.sleep(interval)      
     
     @classmethod
@@ -119,12 +121,12 @@ class plugin:
     @classmethod
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
-        event_loop.create_task(cls.setDataToSolarWaterPage(1))
         event_loop.create_task(cls.updateTime(1))
         event_loop.create_task(cls.updateTemperatures(10))   
         event_loop.create_task(cls.updateDalyBMS(2))
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
+        event_loop.create_task(cls.setDataToSolarWaterPage(1))
         event_loop.create_task(cls.getDataFromSolarWaterPage(5))
       
