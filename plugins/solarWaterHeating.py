@@ -6,22 +6,22 @@ from general.logger import logging
 import datetime
     
 class data:
-    active = config.solarWaterHeating.active
+    active = 0
 
-    RsocControl = config.solarWaterHeating.RsocControl
-    onRsoc = config.solarWaterHeating.onRsoc
-    offRsoc = config.solarWaterHeating.offRsoc
+    RsocControl = 0
+    onRsoc = 0
+    offRsoc = 0
 
-    pvVoltageControl = config.solarWaterHeating.pvVoltageControl
-    onPvVoltage = config.solarWaterHeating.onPvVoltage
-    offPvVoltage = config.solarWaterHeating.offPvVoltage
+    pvVoltageControl = 0
+    onPvVoltage = 0
+    offPvVoltage = 0
 
-    pvPowerControl = config.solarWaterHeating.pvPowerControl
-    minPVPower = config.solarWaterHeating.minPVPower
+    pvPowerControl = 0
+    minPVPower = 0
 
-    hourControl = config.solarWaterHeating.hourControl
-    onHour = config.solarWaterHeating.onHour
-    offHour = config.solarWaterHeating.offHour
+    hourControl = 0
+    onHour = ""
+    offHour = ""
 
 
 class plugin:

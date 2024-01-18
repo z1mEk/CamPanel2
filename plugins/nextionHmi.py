@@ -6,6 +6,7 @@ from plugins.hmi.pages.solarWaterPage import solarWaterPage
 from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures, wifiStatus, solarWaterHeating
 from datetime import datetime
 from general.logger import logging
+from general.configLoader import config
 
 class plugin:
 
@@ -71,19 +72,19 @@ class plugin:
 
     @classmethod
     async def setDataFToSolarWaterPage(cls, interval):
-        solarWaterPage.btActive.val = solarWaterHeating.data.active
-        solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
-        solarWaterPage.btPvVoltage.val =solarWaterHeating.data.pvVoltageControl
-        solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
-        solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
+        solarWaterPage.btActive.val = config.solarWaterHeating.active
+        solarWaterPage.btBatRsoc.val = config.solarWaterHeating.RsocControl
+        solarWaterPage.btPvVoltage.val = config.solarWaterHeating.pvVoltageControl
+        solarWaterPage.btPvPower.val = config.solarWaterHeating.pvPowerControl
+        solarWaterPage.btHour.val = config.solarWaterHeating.hourControl
 
-        solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc 
-        solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
-        solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
-        solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
-        solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
-        solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
-        solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour
+        solarWaterPage.nOnBatRsoc.val = config.solarWaterHeating.onRsoc
+        solarWaterPage.nOffBatRsoc.val = config.solarWaterHeating.offRsoc
+        solarWaterPage.nOnPvVoltage.val = config.solarWaterHeating.onPvVoltage
+        solarWaterPage.nOffPvVoltage.val = config.solarWaterHeating.offPvVoltage
+        solarWaterPage.nPvPower.val = config.solarWaterHeating.minPVPower
+        solarWaterPage.tOnHour.txt = config.solarWaterHeating.onHour
+        solarWaterPage.tOffHour.txt = config.solarWaterHeating.offHour
         await nest_asyncio.asyncio.sleep(1)      
     
     @classmethod
