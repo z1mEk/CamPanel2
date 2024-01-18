@@ -103,8 +103,8 @@ class plugin:
             solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
             solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
 
-            solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
-            solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
+            # solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
+            # solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
             await nest_asyncio.asyncio.sleep(interval) 
 
     @classmethod
