@@ -1,7 +1,6 @@
 import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi.controls import TPage, TText, TDualStateButton, TNumber
-from plugins import solarWaterHeating
 from general.logger import logging
 
 class solarWaterPage(TPage):
