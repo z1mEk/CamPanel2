@@ -58,7 +58,6 @@ async def getProperty(component:str, property:str):
     try:
         ret = await hmi.client.get(f"{component}.{property}")
         logging.debug(f"methods.getProperty({component}, {property}) -> {ret}")
-        await nest_asyncio.asyncio.sleep(0.1)
         return ret
     except Exception as e:
         logging.error(f"Nextion: {e}")
@@ -67,7 +66,6 @@ async def setProperty(component:str, property:str, val):
     try:
         logging.debug(f"methods.setProperty({component}, {property}, {val})")
         await hmi.client.set(f"{component}.{property}", val)
-        await nest_asyncio.asyncio.sleep(0.1)
     except Exception as e:
         logging.error(f"Nextion: {e}")
 
