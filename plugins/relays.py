@@ -99,7 +99,7 @@ class relayMethod(metaclass=relayMeta):
     @classmethod
     def reconnect(cls):
         try:
-            if TRelay.srl is not None:
+            if TRelay.srl is None:
                 relays_device = device.FindUsbDevice(config.relays.device)
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)                       
         except Exception as e:
