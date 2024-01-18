@@ -83,4 +83,4 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        event_loop.create_task(cls.autoWaterHeating(5))
+        event_loop.create_task(cls.autoWaterHeating(2))
