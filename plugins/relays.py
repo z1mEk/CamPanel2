@@ -85,6 +85,10 @@ class relayMeta(type):
 class relayMethod(metaclass=relayMeta):
 
     @classmethod
+    def isConnectionActive(cls):
+        return TRelay.srl is not None and TRelay.srl.is_open
+
+    @classmethod
     def toggle(cls):
         cls.val = 1 if cls.val == 0 else 0
 
@@ -99,12 +103,11 @@ class relayMethod(metaclass=relayMeta):
     @classmethod
     def reconnect(cls):
         try:
-            if TRelay.srl == None:
+            if not cls.isConnectionActive():
                 relays_device = device.FindUsbDevice(config.relays.device)
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)                       
         except Exception as e:
             logging.error(f"Relays: {e}")
-            TRelay.srl = None
             return False
         return True
     
@@ -118,7 +121,7 @@ class relayMethod(metaclass=relayMeta):
         crc = modbusCRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
-            if cls.reconnect():
+            if cls.reconnect() and cls.isConnectionActive():
                 TRelay.srl.write(cmd)
                 data.relaysState[cls.address.value[1]] = value
                 cls.onRelayChange(cls.address.value[1], value)
@@ -135,7 +138,7 @@ class relayMethod(metaclass=relayMeta):
         crc = modbusCRC.calculate(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
-            if relayMethod.reconnect():
+            if relayMethod.reconnect() and cls.isConnectionActive():
                 TRelay.srl.write(cmd)
                 buffer = TRelay.srl.read(6)
                 data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
