@@ -3,7 +3,6 @@ nest_asyncio.apply()
 from general.configLoader import config
 from plugins import dalyBms, relays, epeverTracer
 from general.logger import logging
-from plugins.hmi.pages.solarWaterPage import solarWaterPage
 import datetime
     
 class data:
@@ -71,23 +70,6 @@ class plugin:
     @classmethod
     async def autoWaterHeating(cls, interval):
         while True:
-            try:
-                data.active = solarWaterPage.btActive.val
-                data.RsocControl = solarWaterPage.btBatRsoc.val
-                data.pvVoltageControl = solarWaterPage.btPvVoltage.val
-                data.pvPowerControl = solarWaterPage.btPvPower.val
-                data.hourControl = solarWaterPage.btPvPower.val
-
-                data.onRsoc = solarWaterPage.nOnBatRsoc.val
-                data.offRsoc = solarWaterPage.nOffBatRsoc.val
-                data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
-                data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
-                data.minPVPower = solarWaterPage.nPvPower.val
-                data.onHour = solarWaterPage.tOnHour.txt
-                data.offHour = solarWaterPage.tOffHour.txt
-            except Exception as e:
-                logging.error(f"solarWaterHeating: {e}")  
-
             if data.active > 0 and cls.isRsocControl() and cls.isHourControl():
                 if relays.data.relay1.val == 0:
                     relays.data.relay1.on() #set on inverter 230V

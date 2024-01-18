@@ -2,7 +2,8 @@ import nest_asyncio
 nest_asyncio.apply()
 from plugins.hmi import hmi, helper
 from plugins.hmi.pages.MainPage import MainPage
-from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures, wifiStatus
+from plugins.hmi.pages.solarWaterPage import solarWaterPage
+from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures, wifiStatus, solarWaterHeating
 from datetime import datetime
 from general.logger import logging
 
@@ -69,6 +70,33 @@ class plugin:
             await nest_asyncio.asyncio.sleep(interval)      
 
     @classmethod
+    async def setDataFToSolarWaterPage(cls, interval):
+        solarWaterPage.btActive.val = solarWaterHeating.data.active
+        solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
+        solarWaterPage.btPvVoltage.val =solarWaterHeating.data.pvVoltageControl
+        solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
+        solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
+
+    
+    @classmethod
+    async def getDataFromSolarWaterPage(cls, interval):
+         while True:
+            solarWaterHeating.data.active = solarWaterPage.btActive.val
+            solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
+            solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
+            solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
+            solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
+
+            solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
+            solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
+            solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
+            solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
+            solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
+            # solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
+            # solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
+            await nest_asyncio.asyncio.sleep(interval) 
+
+    @classmethod
     async def updateDualStateButtonValue(cls, interval):
         while True:
             MainPage.btWaterPump.val = relays.data.relay0.val
@@ -86,3 +114,6 @@ class plugin:
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
+        event_loop.create_task(cls.setDataFToSolarWaterPage(0))
+        event_loop.create_task(cls.getDataFromSolarWaterPage(3))
+      
