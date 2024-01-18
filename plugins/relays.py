@@ -102,9 +102,12 @@ class relayMethod(metaclass=relayMeta):
             if TRelay.srl == None:
                 relays_device = device.FindUsbDevice(config.relays.device)
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)
+
+            if TRelay.srl.closed:
+                TRelay.srl.open()
+                
         except Exception as e:
             logging.error(f"Relays: {e}")
-            TRelay.srl = None
             return False
         return True
     
