@@ -104,6 +104,7 @@ class relayMethod(metaclass=relayMeta):
                 TRelay.srl = Serial(relays_device, config.relays.baudrate)                       
         except Exception as e:
             logging.error(f"Relays: {e}")
+            TRelay.srl = None
             return False
         return True
     
@@ -118,12 +119,9 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             if cls.reconnect():
-                if TRelay.srl.is_open:
-                    TRelay.srl.write(cmd)
-                    data.relaysState[cls.address.value[1]] = value
-                    cls.onRelayChange(cls.address.value[1], value)
-                else:
-                    print(f"Port nie jest otwarty1")
+                TRelay.srl.write(cmd)
+                data.relaysState[cls.address.value[1]] = value
+                cls.onRelayChange(cls.address.value[1], value)
         except Exception as e:
                 logging.error(f"Relays1: {e}")
 
@@ -138,13 +136,10 @@ class relayMethod(metaclass=relayMeta):
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             if relayMethod.reconnect():
-                if TRelay.srl.is_open:
-                    TRelay.srl.write(cmd)
-                    buffer = TRelay.srl.read(6)
-                    data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
-                    data.lastUpdate = datetime.now() 
-                else:
-                    print(f"Port nie jest otwarty2")
+                TRelay.srl.write(cmd)
+                buffer = TRelay.srl.read(6)
+                data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]
+                data.lastUpdate = datetime.now() 
         except Exception as e:
             logging.error(f"Relays2: {e}")       
 
