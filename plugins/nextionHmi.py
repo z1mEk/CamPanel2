@@ -46,8 +46,8 @@ class plugin:
     @classmethod
     async def updateEpeverTracer(cls, interval):
         while True:
-            MainPage.tPvVoltage.txt = '{:.1f}V'.format(epeverTracer.data.pv.voltage)
-            MainPage.tPvCurrent.txt = '{:.1f}V'.format(epeverTracer.data.pv.current)
+            MainPage.tPvVoltage.txt = '{:.0f}V'.format(epeverTracer.data.pv.voltage)
+            MainPage.tPvCurrent.txt = '{:.0f}A'.format(epeverTracer.data.pv.current)
             MainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.data.pv.power)
             await nest_asyncio.asyncio.sleep(interval)
 
