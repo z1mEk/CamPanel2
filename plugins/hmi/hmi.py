@@ -37,6 +37,7 @@ def eventHandler(type_, data):
 
 async def startupCommands():
     logging.debug(f"hmi.startupCommands()")
+    await hmiMethods.reset()
     await hmiMethods.wakeUp()
     for comm in config.nextion.startup_commands:
         await hmiMethods.command(comm)
