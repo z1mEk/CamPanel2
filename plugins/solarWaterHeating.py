@@ -70,7 +70,7 @@ class plugin:
     @classmethod
     async def autoWaterHeating(cls, interval):
         while True:
-            if data.active > 0 and cls.isRsocControl() and cls.isHourControl():
+            if data.active > 0 and cls.isRsocControl() and cls.isRsocControl() and cls.isPvVoltageControl() and cls.isPvPowerControl() and cls.isHourControl():
                 if relays.data.relay1.val == 0:
                     relays.data.relay1.on() #set on inverter 230V
             

@@ -77,6 +77,13 @@ class plugin:
         solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
         solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
 
+        solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc 
+        solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
+        solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
+        solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
+        solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
+        solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
+        solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour
     
     @classmethod
     async def getDataFromSolarWaterPage(cls, interval):
@@ -92,8 +99,8 @@ class plugin:
             solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
             solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
             solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
-            # solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
-            # solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
+            solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
+            solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
             await nest_asyncio.asyncio.sleep(interval) 
 
     @classmethod
