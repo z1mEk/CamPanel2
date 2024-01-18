@@ -77,12 +77,15 @@ class plugin:
         solarWaterPage.btPvVoltage.val = config.solarWaterHeating.pvVoltageControl
         solarWaterPage.btPvPower.val = config.solarWaterHeating.pvPowerControl
         solarWaterPage.btHour.val = config.solarWaterHeating.hourControl
+        await nest_asyncio.asyncio.sleep(0.01)  
 
         solarWaterPage.nOnBatRsoc.val = config.solarWaterHeating.onRsoc
         solarWaterPage.nOffBatRsoc.val = config.solarWaterHeating.offRsoc
         solarWaterPage.nOnPvVoltage.val = config.solarWaterHeating.onPvVoltage
         solarWaterPage.nOffPvVoltage.val = config.solarWaterHeating.offPvVoltage
         solarWaterPage.nPvPower.val = config.solarWaterHeating.minPVPower
+        await nest_asyncio.asyncio.sleep(0.01)  
+        
         solarWaterPage.tOnHour.txt = config.solarWaterHeating.onHour
         solarWaterPage.tOffHour.txt = config.solarWaterHeating.offHour
         await nest_asyncio.asyncio.sleep(0.01)      
@@ -95,12 +98,15 @@ class plugin:
             solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
             solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
             solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
+            await nest_asyncio.asyncio.sleep(0.01)  
 
             solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
             solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
             solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
             solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
             solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
+            await nest_asyncio.asyncio.sleep(0.01)  
+
             solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
             solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
             await nest_asyncio.asyncio.sleep(interval) 
