@@ -101,6 +101,4 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        event_loop.create_task(cls.initConfigDataToPage(1))
-        #event_loop.create_task(cls.getDataFromSolarWaterPage(2))
         event_loop.create_task(cls.autoWaterHeating(2))

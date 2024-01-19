@@ -3,7 +3,7 @@ nest_asyncio.apply()
 from plugins.hmi import hmi, helper, methods as methodsHmi
 from plugins.hmi.pages.MainPage import MainPage
 from plugins.hmi.pages.solarWaterPage import solarWaterPage
-from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures , wifiStatus, solarWaterHeating
+from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures , solarWaterHeating
 from datetime import datetime
 from general.logger import logging
 from general.configLoader import config
@@ -81,7 +81,7 @@ class plugin:
             await nest_asyncio.asyncio.sleep(interval) 
 
     @classmethod
-    async def initSolarsolarWaterHeatingDataToPage(cls):
+    async def initSolarsolarWaterHeatingDataToPage(cls, interval):
         solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
         solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
         solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
@@ -96,7 +96,7 @@ class plugin:
         
         solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
         solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
-        await nest_asyncio.asyncio.sleep(1) 
+        await nest_asyncio.asyncio.sleep(interval) 
 
     # @classmethod
     # async def updateSolarsolarWaterHeatingData(cls):
@@ -125,4 +125,4 @@ class plugin:
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
-        event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage())
+        event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage(1))
