@@ -61,10 +61,9 @@ class plugin:
                 onHour = datetime.strptime(data.onHour, "%H:%M").time()
                 offHour = datetime.strptime(data.offHour, "%H:%M").time()
                 now = datetime.now().time()
-                logging.info(f"isHourControl {onHour} {offHour} {now}")
                 if offHour >= now:
                     return False
-                if onHour >= now:
+                if now >= onHour:
                     return True
             except Exception as e:
                 logging.info(f"isHourControl {e}")
