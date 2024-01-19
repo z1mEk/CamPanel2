@@ -28,6 +28,7 @@ class plugin:
     @classmethod
     async def updateDalyBMS(cls, interval):
         while True:
+            logging.info(f"sendme = {await methodsHmi.sendme() }")
             if await methodsHmi.sendme() == 0:
                 MainPage.jRSOC.val = dalyBms.data.RSOC
                 MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
