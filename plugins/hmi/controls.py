@@ -2,6 +2,8 @@ import os, sys
 from plugins.hmi import methods as hmiMethods
 from general import methods as generalMethods
 from general.logger import logging
+import nest_asyncio
+nest_asyncio.apply()
 
 #region Base Control
 class BaseControl(type, object):
@@ -20,10 +22,15 @@ class BaseControl(type, object):
         return super().__new__(cls, name, bases, dct)
 
     def getAtrr(self, attr):
-        return generalMethods.RunAsync(hmiMethods.getProperty(self.fullname, attr))
+        async def getAtrrAsync():
+            return await hmiMethods.getProperty(self.fullname, attr)
+        return nest_asyncio.asyncio.run(getAtrrAsync())
+
 
     def setAttr(self, attr, value):
-        generalMethods.RunAsync(hmiMethods.setProperty(self.fullname, attr, value))
+        async def setAattrAsync():
+            await hmiMethods.setProperty(self.fullname, attr, value)
+        return nest_asyncio.asyncio.run(setAattrAsync())
 
     @property
     def type(self):
@@ -49,10 +56,14 @@ class BasePage(type, object):
     name = __name__
 
     def getAtrr(self, attr):
-        return generalMethods.RunAsync(hmiMethods.getProperty(self.name, attr))
+        async def getAtrrAsync():
+            return await hmiMethods.getProperty(self.fullname, attr)
+        return nest_asyncio.asyncio.run(getAtrrAsync())
 
     def setAttr(self, attr, value):
-        generalMethods.RunAsync(hmiMethods.setProperty(self.name, attr, value))
+        async def setAattrAsync():
+            await hmiMethods.setProperty(self.fullname, attr, value)
+        return nest_asyncio.asyncio.run(setAattrAsync())
 
     @classmethod
     async def Show(cls):

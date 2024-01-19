@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import nest_asyncio
 nest_asyncio.apply()
-from general import events as generalEvents, plugins_loader
+from general import events as generalEvents, pluginsLoader
 import threading
 import time
 from general.logger import logging
@@ -11,7 +11,7 @@ def startCampanel():
         logging.info("CamPanel is running...")
         event_loop = nest_asyncio.asyncio.get_event_loop()
         event_loop.create_task(generalEvents.onRun(event_loop))
-        event_loop.create_task(plugins_loader.pluginsInit(event_loop))
+        event_loop.create_task(pluginsLoader.pluginsInit(event_loop))
         event_loop.run_forever()
 
 daemon_thread = threading.Thread(target=startCampanel)
