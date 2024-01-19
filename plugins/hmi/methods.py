@@ -90,4 +90,5 @@ async def show(page_id:int):
 
 async def sendme() -> int:
     logging.debug(f"methods.sendme()")
-    return await command(f"sendme")
+    await command(f"sendme")
+    return 0
