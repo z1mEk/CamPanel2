@@ -4,6 +4,15 @@ import nest_asyncio
 nest_asyncio.apply()
 from general.queueManager import QueueManager
 
+async def command(command):
+    async def commandQueue():
+        try:
+            logging.debug(f"methods.command({command})")
+            return await hmi.client.command(command)
+        except Exception as e:
+            logging.error(f"Nextion: {e}")
+    return QueueManager.enqueue(commandQueue)
+
 async def wakeUp():
     async def wakeUpQueue():
         try:
@@ -24,15 +33,6 @@ async def sleep():
     
 async def reset():
     await command('rest')
-
-async def command(command):
-    async def commandQueue():
-        try:
-            logging.debug(f"methods.command({command})")
-            await hmi.client.command(command)
-        except Exception as e:
-            logging.error(f"Nextion: {e}")
-    QueueManager.enqueue(commandQueue)
 
 async def reconnect():
     async def reconnectQueue():
@@ -87,3 +87,7 @@ async def setProperty(component:str, property:str, val):
 async def show(page_id:int):
     logging.debug(f"methods.show({page_id})")
     await command(f"page {page_id}")
+
+async def sendme() -> int:
+    logging.debug(f"methods.sendme()")
+    return await command(f"sendme")
