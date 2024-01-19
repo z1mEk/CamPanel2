@@ -4,7 +4,7 @@ from general.configLoader import config
 from plugins import dalyBms, relays, epeverTracer
 from plugins.hmi import methods as methodsHmi
 from general.logger import logging
-import datetime
+from datetime import datetime, timedelta
     
 class data:
         activeHeating = config.solarWaterHeating.activeHeating
