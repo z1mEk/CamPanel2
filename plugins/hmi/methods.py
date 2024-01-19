@@ -69,7 +69,7 @@ async def getProperty(component:str, property:str):
     async def getPropertyQueue():
         try:
             ret = await hmi.client.get(f"{component}.{property}")
-            logging.debug(f"methods.getProperty({component}, {property}) -> {ret}")
+            logging.info(f"methods.getProperty({component}, {property}) -> {ret}")
             return ret
         except Exception as e:
             logging.error(f"Nextion: {e}")
@@ -78,7 +78,7 @@ async def getProperty(component:str, property:str):
 async def setProperty(component:str, property:str, val):
     async def setPropertyQueue():
         try:
-            logging.debug(f"methods.setProperty({component}, {property}, {val})")
+            logging.info(f"methods.setProperty({component}, {property}, {val})")
             await hmi.client.set(f"{component}.{property}", val)
         except Exception as e:
             logging.error(f"Nextion: {e}")

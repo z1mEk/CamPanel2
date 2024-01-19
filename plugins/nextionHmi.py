@@ -3,7 +3,7 @@ nest_asyncio.apply()
 from plugins.hmi import hmi, helper, methods as methodsHmi
 from plugins.hmi.pages.MainPage import MainPage
 from plugins.hmi.pages.solarWaterPage import solarWaterPage
-from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures, wifiStatus, solarWaterHeating
+from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures #, wifiStatus, solarWaterHeating
 from datetime import datetime
 from general.logger import logging
 from general.configLoader import config
@@ -85,41 +85,41 @@ class plugin:
                 MainPage.btBoiler.val = relays.data.relay3.val
             await nest_asyncio.asyncio.sleep(interval) 
 
-    @classmethod
-    async def initSolarsolarWaterHeatingDataToPage(cls):
-        solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
-        solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
-        solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
-        solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
-        solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
+    # @classmethod
+    # async def initSolarsolarWaterHeatingDataToPage(cls):
+    #     solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
+    #     solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
+    #     solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
+    #     solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
+    #     solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
 
-        solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc
-        solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
-        solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
-        solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
-        solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
+    #     solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc
+    #     solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
+    #     solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
+    #     solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
+    #     solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
         
-        solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
-        solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
-        await nest_asyncio.asyncio.sleep(1) 
+    #     solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
+    #     solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
+    #     await nest_asyncio.asyncio.sleep(1) 
 
-    @classmethod
-    async def updateSolarsolarWaterHeatingData(cls):
-        solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
-        solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
-        solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
-        solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
-        solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
+    # @classmethod
+    # async def updateSolarsolarWaterHeatingData(cls):
+    #     solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
+    #     solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
+    #     solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
+    #     solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
+    #     solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
 
-        solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
-        solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
-        solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
-        solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
-        solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
-        
-        solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
-        solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
-        await nest_asyncio.asyncio.sleep(1)                
+    #     solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
+    #     solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
+    #     solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
+    #     solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
+    #     solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
+
+    #     solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
+    #     solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
+    #     await nest_asyncio.asyncio.sleep(1)                
         
     @classmethod
     async def initialize(cls, event_loop): 
@@ -130,4 +130,4 @@ class plugin:
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
-        event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage())
+        #event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage())
