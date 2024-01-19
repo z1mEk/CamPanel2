@@ -22,15 +22,10 @@ class BaseControl(type, object):
         return super().__new__(cls, name, bases, dct)
 
     def getAtrr(self, attr):
-        async def getAtrrAsync():
-            return await hmiMethods.getProperty(self.fullname, attr)
-        return nest_asyncio.asyncio.run(getAtrrAsync())
-
+        return nest_asyncio.asyncio.run(hmiMethods.getProperty(self.fullname, attr))
 
     def setAttr(self, attr, value):
-        async def setAattrAsync():
-            await hmiMethods.setProperty(self.fullname, attr, value)
-        return nest_asyncio.asyncio.run(setAattrAsync())
+        nest_asyncio.asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
 
     @property
     def type(self):
@@ -56,14 +51,10 @@ class BasePage(type, object):
     name = __name__
 
     def getAtrr(self, attr):
-        #async def getAtrrAsync():
         return nest_asyncio.asyncio.run(hmiMethods.getProperty(self.fullname, attr))
-        #return nest_asyncio.asyncio.run(getAtrrAsync())
 
     def setAttr(self, attr, value):
-        #async def setAattrAsync():
         nest_asyncio.asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
-        #return nest_asyncio.asyncio.run(setAattrAsync())
 
     @classmethod
     async def Show(cls):
