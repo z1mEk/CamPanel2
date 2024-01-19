@@ -82,6 +82,7 @@ class plugin:
 
     @classmethod
     async def initSolarsolarWaterHeatingDataToPage(cls, interval):
+            await nest_asyncio.asyncio.sleep(10) 
             solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
             solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
             solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
@@ -125,4 +126,4 @@ class plugin:
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
-        event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage(15))
+        event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage(1))
