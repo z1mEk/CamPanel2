@@ -82,7 +82,7 @@ class plugin:
 
     @classmethod
     async def initSolarsolarWaterHeatingDataToPage(cls, interval):
-            await nest_asyncio.asyncio.sleep(10) 
+            await nest_asyncio.asyncio.sleep(1) 
             solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
             solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
             solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
