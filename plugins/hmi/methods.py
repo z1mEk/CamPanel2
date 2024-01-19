@@ -7,7 +7,7 @@ from general.queueManager import QueueManager
 async def command(command):
     async def commandQueue():
         try:
-            logging.debug(f"methods.command({command})")
+            logging.info(f"methods.command({command})")
             return await hmi.client.command(command)
         except Exception as e:
             logging.error(f"Nextion: {e}")
