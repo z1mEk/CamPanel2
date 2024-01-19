@@ -28,23 +28,22 @@ class plugin:
     @classmethod
     async def updateDalyBMS(cls, interval):
         while True:
-            if methodsHmi.sendme() == 0:
-                MainPage.jRSOC.val = dalyBms.data.RSOC
-                MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
-                MainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
-
-                MainPage.tCurrent.txt = (
+            #if methodsHmi.sendme() == 0:
+            MainPage.jRSOC.val = dalyBms.data.RSOC
+            MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
+            MainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
+            MainPage.tCurrent.txt = (
                     '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
                     '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
                     '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
                     '{:.0f}A'.format(dalyBms.data.currentFlex)
                 )
-                
-                MainPage.jRSOC.pco = (
-                    helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
-                    helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
-                    helper.RGB2NextionColour(0, 255, 0)
-                )
+            
+            MainPage.jRSOC.pco = (
+                helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
+                helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
+                helper.RGB2NextionColour(0, 255, 0)
+            )
             
             await nest_asyncio.asyncio.sleep(interval)
 
