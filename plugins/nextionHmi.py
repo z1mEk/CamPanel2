@@ -13,14 +13,14 @@ class plugin:
     @classmethod
     async def updateTime(cls, interval):
         while True:
-            if await methodsHmi.isSleeping() == False:
+            if await methodsHmi.isSleeping() == 0:
                 MainPage.tTime.txt = datetime.now().strftime("%-H:%M")
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            if await methodsHmi.isSleeping() == False:
+            if await methodsHmi.isSleeping() == 0:
                 MainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
                 MainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
             await nest_asyncio.asyncio.sleep(interval)
@@ -29,7 +29,7 @@ class plugin:
     async def updateDalyBMS(cls, interval):
         while True:
             logging.info(f"sendme = {await methodsHmi.sendme() }")
-            if await methodsHmi.isSleeping() == False:
+            if await methodsHmi.isSleeping() == 0:
                 MainPage.jRSOC.val = dalyBms.data.RSOC
                 MainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
                 MainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
@@ -52,7 +52,7 @@ class plugin:
     @classmethod
     async def updateEpeverTracer(cls, interval):
         while True:
-            if await methodsHmi.isSleeping() == False:
+            if await methodsHmi.isSleeping() == 0:
                 MainPage.tPvVoltage.txt = '{:.0f}V'.format(epeverTracer.data.pv.voltage)
                 MainPage.tPvCurrent.txt = '{:.0f}A'.format(epeverTracer.data.pv.current)
                 MainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.data.pv.power)
@@ -61,7 +61,7 @@ class plugin:
     @classmethod
     async def updateWaterLevel(cls, interval):
         while True:
-            if await methodsHmi.isSleeping() == False:
+            if await methodsHmi.isSleeping() == 0:
                 MainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel 
                 MainPage.jWhiteWater.pco = (
                     helper.RGB2NextionColour(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else
@@ -79,7 +79,7 @@ class plugin:
     @classmethod
     async def updateDualStateButtonValue(cls, interval):
         while True:
-            if await methodsHmi.isSleeping() == False:
+            if await methodsHmi.isSleeping() == 0:
                 MainPage.btWaterPump.val = relays.data.relay0.val
                 MainPage.btACInverter.val = relays.data.relay1.val
                 MainPage.btHeater.val = relays.data.relay2.val
