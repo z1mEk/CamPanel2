@@ -16,7 +16,7 @@ async def command(command):
 async def wakeUp():
     async def wakeUpQueue():
         try:
-            logging.debug(f"methods.wakeUp()")
+            logging.info(f"methods.wakeUp()")
             await hmi.client.wakeup()
         except Exception as e:
             logging.error(f"Nextion: {e}")
@@ -25,7 +25,7 @@ async def wakeUp():
 async def sleep():
     async def sleepQueue():
         try:
-            logging.debug(f"methods.sleep()")
+            logging.info(f"methods.sleep()")
             await hmi.client.sleep()
         except Exception as e:
             logging.error(f"Nextion: {e}")
@@ -37,29 +37,29 @@ async def reset():
 async def reconnect():
     async def reconnectQueue():
         try:
-            logging.debug(f"methods.reconnect()")
+            logging.info(f"methods.reconnect()")
             await hmi.client.reconnect()
         except Exception as e:
             logging.error(f"Nextion: {e}")
     QueueManager.enqueue(reconnectQueue)
 
 async def dimmer(value:int, save:bool = False):
-    logging.debug(f"methods.dimmer({value}, {save})")
+    logging.info(f"methods.dimmer({value}, {save})")
     await command('dim{}={}'.format('s' if save else '', value))
 
 async def setTimeToSleep(value:int):
-    logging.debug(f"methods.setTimeToSleep({value})")
+    logging.info(f"methods.setTimeToSleep({value})")
     await command('thsp={}'.format(value))
 
 async def setWakeUpSerial(value:bool = False):
-    logging.debug(f"methods.setWakeUpSerial({value})")
+    logging.info(f"methods.setWakeUpSerial({value})")
     await command('thup={}'.format(0 if value else 1))
 
 async def isSleeping() -> bool:
     async def isSleepingQueue():
         try:
             ret = await hmi.client.is_sleeping() 
-            logging.debug(f"methods.isSleeping() -> {ret}")
+            logging.info(f"methods.isSleeping() -> {ret}")
             return ret
         except Exception as e:
             logging.error(f"Nextion: {e}")
@@ -85,10 +85,10 @@ async def setProperty(component:str, property:str, val):
     QueueManager.enqueue(setPropertyQueue)
 
 async def show(page_id:int):
-    logging.debug(f"methods.show({page_id})")
+    logging.info(f"methods.show({page_id})")
     await command(f"page {page_id}")
 
 async def sendme() -> int:
-    logging.debug(f"methods.sendme()")
+    logging.info(f"methods.sendme()")
     await command(f"sendme")
     return 0
