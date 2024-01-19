@@ -57,36 +57,21 @@ class plugin:
     @classmethod
     def isHourControl(cls):
         if data.hourControl == 1:
-            onHour = datetime.strptime(data.onHour, "%H:%M").time()
-            offHour = datetime.strptime(data.offHour, "%H:%M").time()
-            now = datetime.now().time()
-            if offHour >= now:
-                return False
-            if onHour >= now:
-                return True
+            try:
+                onHour = datetime.strptime(data.onHour, "%H:%M").time()
+                offHour = datetime.strptime(data.offHour, "%H:%M").time()
+                now = datetime.now().time()
+                if offHour >= now:
+                    return False
+                if onHour >= now:
+                    return True
+            except Exception as e:
+                logging.info(f"isHourControl {e}")
         else:
             return True
     
     @classmethod
     async def autoWaterHeating(cls, interval):
-
-        # data.activeHeating = config.solarWaterHeating.activeHeating
-
-        # data.RsocControl = config.solarWaterHeating.RsocControl
-        # data.onRsoc = config.solarWaterHeating.onRsoc
-        # data.offRsoc = config.solarWaterHeating.offRsoc
-
-        # data.pvVoltageControl = config.solarWaterHeating.pvVoltageControl
-        # data.onPvVoltage = config.solarWaterHeating.onPvVoltage
-        # data.offPvVoltage = config.solarWaterHeating.offPvVoltage
-
-        # data.pvPowerControl = config.solarWaterHeating.pvPowerControl
-        # data.minPVPower = config.solarWaterHeating.minPVPower
-
-        # data.hourControl = config.solarWaterHeating.pvPowerControl
-        # data.onHour = config.solarWaterHeating.onHour
-        # data.offHour = config.solarWaterHeating.offHour
-
         while True:
             if data.activeHeating == 1 and cls.isRsocControl() and cls.isRsocControl() and cls.isPvVoltageControl() and cls.isPvPowerControl() and cls.isHourControl():
                 if relays.data.relay1.val == 0:
