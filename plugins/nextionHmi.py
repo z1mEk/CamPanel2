@@ -86,7 +86,7 @@ class plugin:
             await nest_asyncio.asyncio.sleep(interval) 
 
     @classmethod
-    async def initConfigDataToPage(cls):
+    async def initSolarsolarWaterHeatingDataToPage(cls):
         solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
         solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
         solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
@@ -104,20 +104,22 @@ class plugin:
         await nest_asyncio.asyncio.sleep(1) 
 
     @classmethod
-    async def updateSolarsolarWaterHeatingData(cls, interval):
+    async def updateSolarsolarWaterHeatingData(cls):
         solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
         solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
         solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
         solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
         solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
+
         solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
         solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
         solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
         solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
         solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
+        
         solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
         solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
-        await nest_asyncio.asyncio.sleep(interval)                
+        await nest_asyncio.asyncio.sleep(1)                
         
     @classmethod
     async def initialize(cls, event_loop): 
@@ -128,3 +130,4 @@ class plugin:
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
+        event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage())
