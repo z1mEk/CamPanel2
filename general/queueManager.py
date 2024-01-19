@@ -12,7 +12,6 @@ class QueueManager:
     async def process_queue(self):
         while not self.queue.empty():
             task = self.queue.get()
-            logging.info(f"wlazłow queue1")
             await task()
 
         self.processing = False
@@ -22,6 +21,5 @@ class QueueManager:
         self.queue.put(task)
         if not self.processing:
             nest_asyncio.asyncio.create_task(self.process_queue())
-            logging.info(f"wlazłow queue2")
             self.processing = True
 #endregion

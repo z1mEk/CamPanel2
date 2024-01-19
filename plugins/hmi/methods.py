@@ -2,46 +2,46 @@ from plugins.hmi import hmi
 from general.logger import logging
 import nest_asyncio
 nest_asyncio.apply()
-from general.queueManager import QueueManager
+#from general.queueManager import QueueManager
 
 async def command(command):
-    async def commandQueue():
+    #async def commandQueue():
         try:
             logging.info(f"methods.command({command})")
             return await hmi.client.command(command)
         except Exception as e:
             logging.error(f"Nextion: {e}")
-    return QueueManager.enqueue(commandQueue)
+    #return QueueManager.enqueue(commandQueue)
 
 async def wakeUp():
-    async def wakeUpQueue():
+    #async def wakeUpQueue():
         try:
             logging.info(f"methods.wakeUp()")
             await hmi.client.wakeup()
         except Exception as e:
             logging.error(f"Nextion: {e}")
-    QueueManager.enqueue(wakeUpQueue)
+    #QueueManager.enqueue(wakeUpQueue)
 
 async def sleep():
-    async def sleepQueue():
+    #async def sleepQueue():
         try:
             logging.info(f"methods.sleep()")
             await hmi.client.sleep()
         except Exception as e:
             logging.error(f"Nextion: {e}")
-    QueueManager.enqueue(sleepQueue)
+    #QueueManager.enqueue(sleepQueue)
     
 async def reset():
     await command('rest')
 
 async def reconnect():
-    async def reconnectQueue():
+    #async def reconnectQueue():
         try:
             logging.info(f"methods.reconnect()")
             await hmi.client.reconnect()
         except Exception as e:
             logging.error(f"Nextion: {e}")
-    QueueManager.enqueue(reconnectQueue)
+    #QueueManager.enqueue(reconnectQueue)
 
 async def dimmer(value:int, save:bool = False):
     logging.info(f"methods.dimmer({value}, {save})")
@@ -56,33 +56,33 @@ async def setWakeUpSerial(value:bool = False):
     await command('thup={}'.format(0 if value else 1))
 
 async def isSleeping() -> bool:
-    async def isSleepingQueue():
+    #async def isSleepingQueue():
         try:
             ret = await hmi.client.is_sleeping() 
             logging.info(f"methods.isSleeping() -> {ret}")
             return ret
         except Exception as e:
             logging.error(f"Nextion: {e}")
-    return QueueManager.enqueue(isSleepingQueue)
+    #return QueueManager.enqueue(isSleepingQueue)
 
 async def getProperty(component:str, property:str):
-    async def getPropertyQueue():
+    #async def getPropertyQueue():
         try:
             ret = await hmi.client.get(f"{component}.{property}")
             logging.info(f"methods.getProperty({component}, {property}) -> {ret}")
             return ret
         except Exception as e:
             logging.error(f"Nextion: {e}")
-    return QueueManager.enqueue(getPropertyQueue)
+    #return QueueManager.enqueue(getPropertyQueue)
 
 async def setProperty(component:str, property:str, val):
-    async def setPropertyQueue():
+    #async def setPropertyQueue():
         try:
             logging.info(f"methods.setProperty({component}, {property}, {val})")
             await hmi.client.set(f"{component}.{property}", val)
         except Exception as e:
             logging.error(f"Nextion: {e}")
-    QueueManager.enqueue(setPropertyQueue)
+    #QueueManager.enqueue(setPropertyQueue)
 
 async def show(page_id:int):
     logging.info(f"methods.show({page_id})")
