@@ -5,7 +5,7 @@ from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualState
 from plugins import relays, wifiStatus, dalyBms, waterLevel
 from general.logger import logging
 
-class MainPage(TPage):
+class mainPage(TPage):
 
     class bExtPages(TButton):
         pass
