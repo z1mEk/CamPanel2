@@ -21,7 +21,7 @@
         "startup_commands" : [
             "thsp=300",
             "thup=1",
-            "dim=30"
+            "dims=30"
         ]
     },
     "relays": {
