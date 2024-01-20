@@ -58,8 +58,8 @@ class plugin:
     def isHourControl(cls):
         if data.hourControl == 1:
             try:
-                onHour = datetime.strptime(data.onHour, "%H:%M").time()
-                offHour = datetime.strptime(data.offHour, "%H:%M").time()
+                onHour = datetime.strptime(data.onHour, "%H.%M").time()
+                offHour = datetime.strptime(data.offHour, "%H.%M").time()
                 now = datetime.now().time()
                 if now > onHour and now < offHour:
                     return True
