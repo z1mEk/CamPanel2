@@ -58,7 +58,7 @@
         "pvPowerControl": 0,
         "minPVPower": 100,
         "hourControl": 0,
-        "onHour": "9.30",
-        "offHour": "19.30"
+        "onHour": "9:30",
+        "offHour": "19:30"
     }
 }
