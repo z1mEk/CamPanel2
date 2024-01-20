@@ -13,7 +13,7 @@ class plugin:
     @classmethod
     async def updateTime(cls, interval):
         while True:
-            MainPage.tTime.txt = datetime.now().strftime("%-H:%M" if datetime.now().second % 2 else "%-H.%M" )
+            MainPage.tTime.txt = datetime.now().strftime("%-H:%M")
             await nest_asyncio.asyncio.sleep(interval)
 
     @classmethod
