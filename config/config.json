@@ -4,6 +4,7 @@
         "dalyBms",
         "waterLevel",
         "temperatures",
+        "dieselHeater",
         "serverHttp",
         "wifiStatus",
         "solarWaterHeating",
