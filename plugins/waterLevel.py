@@ -39,6 +39,7 @@ class plugin:
                 cls.mcp.set_pin_function(gp1='ADC', gp2="ADC")
                 cls.mcp.ADC_config(ref="VDD")                
                 values = cls.mcp.ADC_read()
+                logging.info(f"values={values}")
                 data.whiteWaterLevel = helper.map_value(158, 0, 190, 0, 100)
                 data.greyWaterLevel = helper.map_value(15, 0, 190, 0, 100)
                 data.lastUpdate = datetime.now()
