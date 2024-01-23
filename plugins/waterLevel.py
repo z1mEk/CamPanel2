@@ -26,8 +26,9 @@ class plugin:
     def reconnect(cls):
         try:
             cls.mcp = EasyMCP2221.Device()
+            logging.info(f"MCP2221_connect:")
         except Exception as e:
-            logging.error(f"MCP2221: {e}") 
+            logging.error(f"MCP2221_connect: {e}") 
 
     @classmethod
     async def readData(cls, interval):
@@ -42,7 +43,7 @@ class plugin:
                 data.greyWaterLevel = 26 #.map_value(15, 0, 190, 0, 100)
                 data.lastUpdate = datetime.now()
             except Exception as e:
-                logging.error(f"MCP2221: {e}")
+                logging.error(f"MCP2221_get: {e}")
                 data.whiteWaterLevel = 0
                 data.greyWaterLevel = 0
 
