@@ -14,110 +14,118 @@ class plugin:
     @classmethod
     async def updateTime(cls, interval):
         while True:
-            mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
-            mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
+                mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateDalyBMS(cls, interval):
         while True:
-            mainPage.jRSOC.val = dalyBms.data.RSOC
-            mainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
-            mainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.jRSOC.val = dalyBms.data.RSOC
+                mainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
+                mainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
 
-            mainPage.tCurrent.txt = (
-                '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
-                '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
-                '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
-                '{:.0f}A'.format(dalyBms.data.currentFlex)
-            )
-            
-            mainPage.jRSOC.pco = (
-                helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
-                helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
-                helper.RGB2NextionColour(0, 255, 0)
-            )
+                mainPage.tCurrent.txt = (
+                    '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
+                    '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
+                    '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
+                    '{:.0f}A'.format(dalyBms.data.currentFlex)
+                )
+                
+                mainPage.jRSOC.pco = (
+                    helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
+                    helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
+                    helper.RGB2NextionColour(0, 255, 0)
+                )
             
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateEpeverTracer(cls, interval):
         while True:
-            mainPage.tPvVoltage.txt = '{:.0f}V'.format(epeverTracer.data.pv.voltage)
-            mainPage.tPvCurrent.txt = '{:.0f}A'.format(epeverTracer.data.pv.current)
-            mainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.data.pv.power)
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.tPvVoltage.txt = '{:.0f}V'.format(epeverTracer.data.pv.voltage)
+                mainPage.tPvCurrent.txt = '{:.0f}A'.format(epeverTracer.data.pv.current)
+                mainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.data.pv.power)
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateWaterLevel(cls, interval):
         while True:
-            mainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel 
-            mainPage.jWhiteWater.pco = (
-                helper.RGB2NextionColour(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else
-                helper.RGB2NextionColour(255, 0, 0)
-            )
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel 
+                mainPage.jWhiteWater.pco = (
+                    helper.RGB2NextionColour(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else
+                    helper.RGB2NextionColour(255, 0, 0)
+                )
 
-            mainPage.jGrayWater.val = waterLevel.data.greyWaterLevel
-            mainPage.jGrayWater.pco = (
-                helper.RGB2NextionColour(150, 150, 150) if waterLevel.data.greyWaterLevel < 80
-                else helper.RGB2NextionColour(255, 0, 0)
-            )
-            mainPage.tWhiteWater.txt = '{:.0f}%'.format(waterLevel.data.whiteWaterLevel)
-            mainPage.tGrayWater.txt = '{:.0f}%'.format(waterLevel.data.greyWaterLevel)
+                mainPage.jGrayWater.val = waterLevel.data.greyWaterLevel
+                mainPage.jGrayWater.pco = (
+                    helper.RGB2NextionColour(150, 150, 150) if waterLevel.data.greyWaterLevel < 80
+                    else helper.RGB2NextionColour(255, 0, 0)
+                )
+                mainPage.tWhiteWater.txt = '{:.0f}%'.format(waterLevel.data.whiteWaterLevel)
+                mainPage.tGrayWater.txt = '{:.0f}%'.format(waterLevel.data.greyWaterLevel)
             await asyncio.sleep(interval)      
 
     @classmethod
     async def updateDualStateButtonValue(cls, interval):
         while True:
-            mainPage.btWaterPump.val = relays.data.relay0.val
-            mainPage.btACInverter.val = relays.data.relay1.val
-            mainPage.btHeater.val = relays.data.relay2.val
-            mainPage.btBoiler.val = relays.data.relay3.val
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.btWaterPump.val = relays.data.relay0.val
+                mainPage.btACInverter.val = relays.data.relay1.val
+                mainPage.btHeater.val = relays.data.relay2.val
+                mainPage.btBoiler.val = relays.data.relay3.val
             await asyncio.sleep(interval) 
 
     @classmethod
     async def initSolarsolarWaterHeatingDataToPage(cls):
             await asyncio.sleep(1) 
-            solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
-            solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
-            solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
-            solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
-            solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
+            if await methodsHmi.getCurrentPageId() == 1:
+                solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
+                solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
+                solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
+                solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
+                solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
 
-            solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc
-            solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
-            solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
-            solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
-            solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
-            
-            solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
-            solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
+                solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc
+                solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
+                solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
+                solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
+                solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
+                
+                solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
+                solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
             await asyncio.sleep(1) 
 
     @classmethod
     async def updateSolarsolarWaterHeatingData(cls, interval):
         await asyncio.sleep(2) 
         while True:
-            solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
-            solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
-            solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
-            solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
-            solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
+            if await methodsHmi.getCurrentPageId() == 1:
+                solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
+                solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
+                solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
+                solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
+                solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
 
-            solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
-            solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
-            solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
-            solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
-            solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
+                solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
+                solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
+                solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
+                solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
+                solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
 
-            solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
-            solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
+                solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
+                solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
             await asyncio.sleep(interval)                
         
     @classmethod
