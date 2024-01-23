@@ -36,10 +36,11 @@ class plugin:
             try:
                 if cls.mcp == None:
                     cls.reconnect()
-                cls.mcp.set_pin_function(gp1='ADC', gp2="ADC")
-                cls.mcp.ADC_config(ref="VDD")                
+                cls.mcp.set_pin_function(gp0="GPIO_OUT", gp1='ADC', gp2="ADC")
+                cls.mcp.ADC_config(ref="VDD")
+                cls.mcp.GPIO_write(gp0 = True)     
                 values = cls.mcp.ADC_read()
-                logging.info(f"values={values}")
+                cls.mcp.GPIO_write(gp0 = False)
                 data.whiteWaterLevel = helper.map_value(values[0], 0, 1022, 0, 100)
                 data.greyWaterLevel = helper.map_value(values[1], 0, 1022, 0, 100)
                 data.lastUpdate = datetime.now()
