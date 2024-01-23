@@ -28,7 +28,7 @@ class plugin:
     async def updateDalyBMS(cls, interval):
         while True:
             mainPage.jRSOC.val = dalyBms.data.RSOC
-            mainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
+            mainPage.tRSOC.txt = "1°C".encode("latin-2","ignore") #'{:.0f}'.format(dalyBms.data.RSOC)
             mainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
 
             mainPage.tCurrent.txt = (
