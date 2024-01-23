@@ -2,9 +2,7 @@
 https://pypi.org/project/nextion/
 pip install nextion
 '''
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 from general.configLoader import config
 from general.deviceManager import device
 from nextion import Nextion, EventType, client

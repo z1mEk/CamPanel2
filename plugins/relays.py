@@ -1,6 +1,4 @@
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 from enum import Enum
 from general.configLoader import config
 from general.deviceManager import device

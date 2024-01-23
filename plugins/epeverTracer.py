@@ -2,9 +2,7 @@
 # pip install epevermodbus
 #--------------------------------------
 from epevermodbus.driver import EpeverChargeController
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 from general.configLoader import config
 from general.deviceManager import device
 from datetime import datetime

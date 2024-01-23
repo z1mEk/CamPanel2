@@ -1,5 +1,4 @@
-import nest_asyncio
-nest_asyncio.apply()
+import asyncio
 from general.logger import logging
 import subprocess
 

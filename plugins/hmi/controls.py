@@ -2,9 +2,7 @@ import os, sys
 from plugins.hmi import methods as hmiMethods
 from general import methods as generalMethods
 from general.logger import logging
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 
 #region Base Control
 class BaseControl(type, object):

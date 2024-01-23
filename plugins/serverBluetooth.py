@@ -1,9 +1,7 @@
 '''
 pip3 install pybluez
 '''
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 import bluetooth
 import json
 from general.logger import logging

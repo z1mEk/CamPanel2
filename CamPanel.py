@@ -1,7 +1,5 @@
 #!/usr/bin/python
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 from general import events as generalEvents, pluginsLoader
 import threading
 import time

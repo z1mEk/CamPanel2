@@ -3,9 +3,7 @@ sudo pip install w1thermsensor
 https://github.com/timofurrer/w1thermsensor
 https://bigl.es/ds18b20-temperature-sensor-with-python-raspberry-pi/
 '''
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 import random
 from general.logger import logging
 

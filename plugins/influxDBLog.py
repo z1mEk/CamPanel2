@@ -6,10 +6,8 @@
 #------------------------
 from influxdb import InfluxDBClient
 import datetime
-import nest_asyncio
-from nest_asyncio import asyncio
+import asyncio
 from general.configLoader import config
-nest_asyncio.apply()
 from plugins import waterLevel, dalyBms, temperatures, epeverTracer
 from general.logger import logging
 

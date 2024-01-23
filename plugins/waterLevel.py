@@ -1,10 +1,8 @@
 '''
 pip install EasyMCP2221
 '''
-import nest_asyncio
-from nest_asyncio import asyncio
+import asyncio
 import EasyMCP2221
-nest_asyncio.apply()
 from datetime import datetime
 from general.logger import logging
 

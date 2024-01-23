@@ -1,8 +1,6 @@
 import socket
 import inspect
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 from general.logger import logging
 from plugins import dalyBms
 import json

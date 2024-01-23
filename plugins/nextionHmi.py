@@ -1,6 +1,4 @@
-import nest_asyncio
-from nest_asyncio import asyncio
-nest_asyncio.apply()
+import asyncio
 from plugins.hmi import hmi, helper, methods as methodsHmi
 from plugins.hmi.pages.mainPage import mainPage
 from plugins.hmi.pages.solarWaterPage import solarWaterPage
