@@ -102,7 +102,7 @@ class heater:
     displayGradHzUnit = ""
     displayGradHzValue = 0
     #calculateFreq = helper.calculateFrequency()
-    lastSend = None
+    lastSend = time.time()
     semaphore = asyncio.Semaphore(1)
 
     @classmethod
@@ -155,6 +155,7 @@ class heater:
 
     @classmethod
     async def sendPacket(cls):
+        logging.info(f"dieselheager sendBpacket")
         try:
             async with cls.semaphore:
                 
