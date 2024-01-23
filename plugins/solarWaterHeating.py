@@ -1,4 +1,5 @@
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 from general.configLoader import config
 from plugins import dalyBms, relays, epeverTracer
@@ -87,7 +88,7 @@ class plugin:
             else:
                 relays.data.relay3.off() #set off boiler 230V
 
-            await nest_asyncio.asyncio.sleep(interval)   
+            await asyncio.sleep(interval)   
 
     @classmethod
     async def initialize(cls, event_loop):

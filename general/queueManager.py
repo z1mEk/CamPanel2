@@ -1,4 +1,5 @@
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 from queue import Queue
 from general.logger import logging
@@ -20,6 +21,6 @@ class QueueManager:
     def enqueue(self, task):
         self.queue.put(task)
         if not self.processing:
-            nest_asyncio.asyncio.create_task(self.process_queue())
+            asyncio.create_task(self.process_queue())
             self.processing = True
 #endregion

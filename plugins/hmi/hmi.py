@@ -3,6 +3,7 @@ https://pypi.org/project/nextion/
 pip install nextion
 '''
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 from general.configLoader import config
 from general.deviceManager import device
@@ -17,23 +18,23 @@ def callbackExecute(data):
     func = next((item for item in triggers.components_touch_event \
         if (item["page_id"], item["component_id"], item["touch_event"]) \
             == (data.page_id, data.component_id, data.touch_event)), None)
-    nest_asyncio.asyncio.create_task(func["call_back"]())
+    asyncio.create_task(func["call_back"]())
 
 def eventHandler(type_, data):
     if type_ == EventType.TOUCH:
         callbackExecute(data)
     elif type_ == EventType.TOUCH_COORDINATE:
-        nest_asyncio.asyncio.create_task(hmiEvents.onTouchCoordinate(data))
+        asyncio.create_task(hmiEvents.onTouchCoordinate(data))
     elif type_ == EventType.TOUCH_IN_SLEEP:
-        nest_asyncio.asyncio.create_task(hmiEvents.onTouchInSleep(data))
+        asyncio.create_task(hmiEvents.onTouchInSleep(data))
     elif type_ == EventType.AUTO_SLEEP:
-        nest_asyncio.asyncio.create_task(hmiEvents.onAutoSleep())
+        asyncio.create_task(hmiEvents.onAutoSleep())
     elif type_ == EventType.AUTO_WAKE:
-        nest_asyncio.asyncio.create_task(hmiEvents.onAutoWake())         
+        asyncio.create_task(hmiEvents.onAutoWake())         
     elif type_ == EventType.STARTUP:
-        nest_asyncio.asyncio.create_task(hmiEvents.onStartUp())
+        asyncio.create_task(hmiEvents.onStartUp())
     elif type_ == EventType.SD_CARD_UPGRADE:
-        nest_asyncio.asyncio.create_task(hmiEvents.onSdCardUpgrade())
+        asyncio.create_task(hmiEvents.onSdCardUpgrade())
 
 async def startupCommands():
     logging.debug(f"hmi.startupCommands()")

@@ -1,5 +1,6 @@
 from dalybms import DalyBMSSinowealth
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 from general.configLoader import config
 from general.deviceManager import device
@@ -50,7 +51,7 @@ class plugin:
                 data.currentFlex = 0
                 data.currentFlexUnit = 'mA'
             
-            await nest_asyncio.asyncio.sleep(interval)       
+            await asyncio.sleep(interval)       
 
     @classmethod
     async def initialize(cls, event_loop):

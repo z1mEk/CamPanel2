@@ -1,9 +1,10 @@
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 from enum import Enum
 from general.configLoader import config
 from general.deviceManager import device
-from serial.serialposix import Serial
+from serial import Serial
 from plugins import influxDBLog
 from datetime import datetime
 from general.logger import logging
@@ -52,7 +53,7 @@ class modbusCRC:
         ]
 
     @classmethod
-    def calculate(cls, data):
+    def calculateCrc16(cls, data):
         crcHigh, crcLow = 0xff, 0xff
         index = 0
         for byte in data:
@@ -103,7 +104,7 @@ class relayMethod(metaclass=relayMeta):
         cmd[1] = 0x05
         cmd[3] = cls.address.value[1]
         cmd[4] = value if (value == 0) else 0xFF
-        crc = modbusCRC.calculate(cmd[0:6])
+        crc = modbusCRC.calculateCrc16(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             relays_device = device.FindUsbDevice(config.relays.device)
@@ -122,7 +123,7 @@ class relayMethod(metaclass=relayMeta):
         cmd[1] = 0x01
         cmd[3] = 0xff
         cmd[5] = 0x01
-        crc = modbusCRC.calculate(cmd[0:6])
+        crc = modbusCRC.calculateCrc16(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             relays_device = device.FindUsbDevice(config.relays.device)

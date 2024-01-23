@@ -3,6 +3,7 @@ from plugins.hmi import methods as hmiMethods
 from general import methods as generalMethods
 from general.logger import logging
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 
 #region Base Control
@@ -22,10 +23,10 @@ class BaseControl(type, object):
         return super().__new__(cls, name, bases, dct)
 
     def getAtrr(self, attr):
-        return nest_asyncio.asyncio.run(hmiMethods.getProperty(self.fullname, attr))
+        return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
 
     def setAttr(self, attr, value):
-        nest_asyncio.asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
+        asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
 
     @property
     def type(self):
@@ -51,14 +52,14 @@ class BasePage(type, object):
     name = __name__
 
     def getAtrr(self, attr):
-        return nest_asyncio.asyncio.run(hmiMethods.getProperty(self.fullname, attr))
+        return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
 
     def setAttr(self, attr, value):
-        nest_asyncio.asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
+        asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
 
     @classmethod
     async def Show(cls):
-        await hmiMethods.show(cls.id)
+        await hmiMethods.showPageId(cls.id)
 
 #endregion
         

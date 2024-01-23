@@ -2,6 +2,7 @@
 pip3 install pybluez
 '''
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 import bluetooth
 import json
@@ -53,7 +54,7 @@ class plugin:
             client_sock, client_info = await event_loop.sock_accept(server_sock)
             logging.debug(f"Połączono z {client_info}")
 
-            nest_asyncio.asyncio.create_task(cls.handle_client(client_sock, event_loop))
+            asyncio.create_task(cls.handle_client(client_sock, event_loop))
 
     @classmethod
     async def initialize(cls, event_loop):

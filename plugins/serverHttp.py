@@ -3,6 +3,7 @@ pip3 install flask
 '''
 import os
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
@@ -33,7 +34,7 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        await nest_asyncio.asyncio.sleep(5)
+        await asyncio.sleep(5)
         thread = Thread(target=cls.start_flask_server)
         thread.daemon = True
         thread.start()

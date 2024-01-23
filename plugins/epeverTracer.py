@@ -3,6 +3,7 @@
 #--------------------------------------
 from epevermodbus.driver import EpeverChargeController
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 from general.configLoader import config
 from general.deviceManager import device
@@ -91,7 +92,7 @@ class plugin:
                 data.load.voltage = 0
                 data.load.current = 0
                 data.load.power = 0
-            await nest_asyncio.asyncio.sleep(interval)       
+            await asyncio.sleep(interval)       
 
     @classmethod
     async def initialize(cls, event_loop):

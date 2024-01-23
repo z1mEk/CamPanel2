@@ -1,6 +1,7 @@
 from plugins.hmi import hmi
 from general.logger import logging
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 
 async def command(command):
@@ -69,11 +70,14 @@ async def setProperty(component:str, property:str, val):
     except Exception as e:
         logging.error(f"Nextion: {e}")
 
-async def show(page_id:int):
+async def showPageId(page_id:int):
     logging.debug(f"methods.show({page_id})")
     await command(f"page {page_id}")
 
-async def sendme() -> int:
+async def showPageName(page_name:str):
+    logging.debug(f"methods.show({page_name})")
+    await command(f"page {page_name}")    
+
+async def getCurrentPageId() -> int:
     logging.debug(f"methods.sendme()")
-    await command(f"sendme")
-    return 0
+    return await command(f"sendme")[1]

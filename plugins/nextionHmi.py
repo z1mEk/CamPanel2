@@ -14,14 +14,14 @@ class plugin:
     async def updateTime(cls, interval):
         while True:
             mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
-            await nest_asyncio.asyncio.sleep(interval)
+            await asyncio.sleep(interval)
 
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
             mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
             mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
-            await nest_asyncio.asyncio.sleep(interval)
+            await asyncio.sleep(interval)
 
     @classmethod
     async def updateDalyBMS(cls, interval):
@@ -43,7 +43,7 @@ class plugin:
                 helper.RGB2NextionColour(0, 255, 0)
             )
             
-            await nest_asyncio.asyncio.sleep(interval)
+            await asyncio.sleep(interval)
 
     @classmethod
     async def updateEpeverTracer(cls, interval):
@@ -51,7 +51,7 @@ class plugin:
             mainPage.tPvVoltage.txt = '{:.0f}V'.format(epeverTracer.data.pv.voltage)
             mainPage.tPvCurrent.txt = '{:.0f}A'.format(epeverTracer.data.pv.current)
             mainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.data.pv.power)
-            await nest_asyncio.asyncio.sleep(interval)
+            await asyncio.sleep(interval)
 
     @classmethod
     async def updateWaterLevel(cls, interval):
@@ -69,7 +69,7 @@ class plugin:
             )
             mainPage.tWhiteWater.txt = '{:.0f}%'.format(waterLevel.data.whiteWaterLevel)
             mainPage.tGrayWater.txt = '{:.0f}%'.format(waterLevel.data.greyWaterLevel)
-            await nest_asyncio.asyncio.sleep(interval)      
+            await asyncio.sleep(interval)      
 
     @classmethod
     async def updateDualStateButtonValue(cls, interval):
@@ -78,11 +78,11 @@ class plugin:
             mainPage.btACInverter.val = relays.data.relay1.val
             mainPage.btHeater.val = relays.data.relay2.val
             mainPage.btBoiler.val = relays.data.relay3.val
-            await nest_asyncio.asyncio.sleep(interval) 
+            await asyncio.sleep(interval) 
 
     @classmethod
     async def initSolarsolarWaterHeatingDataToPage(cls):
-            await nest_asyncio.asyncio.sleep(1) 
+            await asyncio.sleep(1) 
             solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
             solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
             solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
@@ -97,11 +97,11 @@ class plugin:
             
             solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
             solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
-            await nest_asyncio.asyncio.sleep(1) 
+            await asyncio.sleep(1) 
 
     @classmethod
     async def updateSolarsolarWaterHeatingData(cls, interval):
-        await nest_asyncio.asyncio.sleep(2) 
+        await asyncio.sleep(2) 
         while True:
             solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
             solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
@@ -117,13 +117,13 @@ class plugin:
 
             solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
             solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
-            await nest_asyncio.asyncio.sleep(interval)                
+            await asyncio.sleep(interval)                
         
     @classmethod
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
         event_loop.create_task(cls.updateTime(1))
-        event_loop.create_task(cls.updateTemperatures(10))   
+        event_loop.create_task(cls.updateTemperatures(15))   
         event_loop.create_task(cls.updateDalyBMS(2))
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(30))

@@ -60,5 +60,22 @@
         "hourControl": 0,
         "onHour": "9.30",
         "offHour": "19.30"
+    },
+    "dieselHeater": {
+        "device": "123:123",
+        "tampSensor": 18,
+        "tempDesired": 18,
+        "pumpFreqMin": 1.4,
+        "pumpFreqMax": 5.5,
+        "funSpeedMin": 1680,
+        "funSpeedMax": 4500,
+        "voltageType": 12,
+        "fanspeedSensor": 1,
+        "thermostatMode": 1,
+        "tempDesiredMin": 8,
+        "tempDesiredMax": 35,
+        "glowPlugPower": 5,
+        "manualPump": 0,
+        "altitude": 230       
     }
 }

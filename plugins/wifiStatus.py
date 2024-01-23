@@ -1,4 +1,5 @@
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 import subprocess
 from general.logger import logging
@@ -30,7 +31,7 @@ class plugin:
     async def readData(cls, interval):
         while True:
             cls.isWlan0Up()
-            await nest_asyncio.asyncio.sleep(interval)       
+            await asyncio.sleep(interval)       
 
     @classmethod
     async def initialize(cls, event_loop):

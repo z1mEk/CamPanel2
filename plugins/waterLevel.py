@@ -2,6 +2,7 @@
 pip install EasyMCP2221
 '''
 import nest_asyncio
+from nest_asyncio import asyncio
 import EasyMCP2221
 nest_asyncio.apply()
 from datetime import datetime
@@ -45,7 +46,7 @@ class plugin:
                 data.whiteWaterLevel = 0
                 data.greyWaterLevel = 0
 
-            await nest_asyncio.asyncio.sleep(interval)       
+            await asyncio.sleep(interval)       
 
     @classmethod
     async def initialize(cls, event_loop):

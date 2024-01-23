@@ -7,6 +7,7 @@
 from influxdb import InfluxDBClient
 import datetime
 import nest_asyncio
+from nest_asyncio import asyncio
 from general.configLoader import config
 nest_asyncio.apply()
 from plugins import waterLevel, dalyBms, temperatures, epeverTracer
@@ -76,7 +77,7 @@ class plugin:
                 }
             ]
             cls.addToInfluxDB(jsonBody)
-            await nest_asyncio.asyncio.sleep(interval)
+            await asyncio.sleep(interval)
 
     @classmethod
     async def logWaterLevelData(cls, interval):
@@ -93,7 +94,7 @@ class plugin:
                 }
             ]
             cls.addToInfluxDB(jsonBody)
-            await nest_asyncio.asyncio.sleep(interval)   
+            await asyncio.sleep(interval)   
 
     @classmethod
     async def logEpeverTracerData(cls, interval):
@@ -119,7 +120,7 @@ class plugin:
                 }
             ]
             cls.addToInfluxDB(jsonBody)
-            await nest_asyncio.asyncio.sleep(interval)               
+            await asyncio.sleep(interval)               
 
     @classmethod
     async def logTemperatureData(cls, interval):
@@ -136,7 +137,7 @@ class plugin:
                 }
             ]
             cls.addToInfluxDB(jsonBody)
-            await nest_asyncio.asyncio.sleep(interval)  
+            await asyncio.sleep(interval)  
 
     @classmethod
     def logRelay(cls, relayIndex, value):
@@ -160,7 +161,7 @@ class plugin:
             cls.deleteOldData("Temperature")
             cls.deleteOldData("Relays")
             cls.deleteOldData("EpeverTracer")
-            await nest_asyncio.asyncio.sleep(interval)  
+            await asyncio.sleep(interval)  
 
     @classmethod
     async def initialize(cls, event_loop):

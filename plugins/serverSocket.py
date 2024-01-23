@@ -1,6 +1,7 @@
 import socket
 import inspect
 import nest_asyncio
+from nest_asyncio import asyncio
 nest_asyncio.apply()
 from general.logger import logging
 from plugins import dalyBms
@@ -54,7 +55,7 @@ class plugin:
             print(f"response {response}")
             data.client_socket.send(response.encode('utf-8'))
             data.client_socket.close()  
-            await nest_asyncio.asyncio.sleep(1)   
+            await asyncio.sleep(1)   
 
 
     @classmethod
