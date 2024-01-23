@@ -2,7 +2,9 @@
 pip3 install flask
 '''
 import os
-import asynctio
+import nest_asyncio
+from nest_asyncio import asyncio
+nest_asyncio.apply()
 from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
 from plugins import waterLevel, dalyBms, epeverTracer, relays, temperatures
