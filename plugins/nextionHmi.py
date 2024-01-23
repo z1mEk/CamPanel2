@@ -14,7 +14,7 @@ class plugin:
     @classmethod
     async def updateTime(cls, interval):
         while True:
-            mainPage.tTime.txt = "°C".encode("latin-2","ignore").decode("latin-2", "ignore") #datetime.now().strftime("%-H:%M")
+            mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
             await asyncio.sleep(interval)
 
     @classmethod
