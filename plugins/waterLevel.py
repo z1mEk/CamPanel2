@@ -16,7 +16,7 @@ class data:
 
 class helper:
     @classmethod
-    def map_value(value, in_min, in_max, out_min, out_max):
+    def map_value(cls, value, in_min, in_max, out_min, out_max):
         return int((value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
 class plugin:
