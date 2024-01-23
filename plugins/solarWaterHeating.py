@@ -1,4 +1,6 @@
-import asyncio
+import nest_asyncio
+from nest_asyncio import asyncio
+nest_asyncio.apply()
 from general.configLoader import config
 from plugins import dalyBms, relays, epeverTracer
 from plugins.hmi import methods as methodsHmi

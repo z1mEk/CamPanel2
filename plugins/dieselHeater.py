@@ -1,4 +1,6 @@
-import asyncio
+import nest_asyncio
+from nest_asyncio import asyncio
+nest_asyncio.apply()
 from general.configLoader import config
 from general.deviceManager import device
 from serial import Serial

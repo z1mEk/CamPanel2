@@ -1,6 +1,8 @@
 from plugins.hmi import hmi
 from general.logger import logging
-import asyncio
+import nest_asyncio
+from nest_asyncio import asyncio
+nest_asyncio.apply()
 
 async def command(command):
     try:

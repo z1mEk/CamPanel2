@@ -1,4 +1,6 @@
-import asyncio
+import nest_asyncio
+from nest_asyncio import asyncio
+nest_asyncio.apply()
 from general.logger import logging
 
 class data:
