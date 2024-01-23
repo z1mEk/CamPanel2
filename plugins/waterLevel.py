@@ -40,8 +40,8 @@ class plugin:
                 cls.mcp.ADC_config(ref="VDD")                
                 values = cls.mcp.ADC_read()
                 logging.info(f"values={values}")
-                data.whiteWaterLevel = helper.map_value(158, 0, 190, 0, 100)
-                data.greyWaterLevel = helper.map_value(15, 0, 190, 0, 100)
+                data.whiteWaterLevel = helper.map_value(values[0], 0, 1022, 0, 100)
+                data.greyWaterLevel = helper.map_value(values[1], 0, 1022, 0, 100)
                 data.lastUpdate = datetime.now()
             except Exception as e:
                 logging.error(f"MCP2221_get: {e}")
