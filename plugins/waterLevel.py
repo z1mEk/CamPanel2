@@ -1,5 +1,6 @@
 '''
 pip install EasyMCP2221
+permissions: https://github.com/electronicayciencia/EasyMCP2221/issues/5
 '''
 import nest_asyncio
 from nest_asyncio import asyncio
@@ -26,7 +27,6 @@ class plugin:
     def reconnect(cls):
         try:
             cls.mcp = EasyMCP2221.Device()
-            logging.info(f"MCP2221_connect:")
         except Exception as e:
             logging.error(f"MCP2221_connect: {e}") 
 
@@ -39,8 +39,8 @@ class plugin:
                 cls.mcp.set_pin_function(gp1='ADC', gp2="ADC")
                 cls.mcp.ADC_config(ref="VDD")                
                 values = cls.mcp.ADC_read()
-                data.whiteWaterLevel = 34 #helper.map_value(158, 0, 190, 0, 100)
-                data.greyWaterLevel = 26 #.map_value(15, 0, 190, 0, 100)
+                data.whiteWaterLevel = helper.map_value(158, 0, 190, 0, 100)
+                data.greyWaterLevel = helper.map_value(15, 0, 190, 0, 100)
                 data.lastUpdate = datetime.now()
             except Exception as e:
                 logging.error(f"MCP2221_get: {e}")
