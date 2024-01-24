@@ -81,4 +81,5 @@ async def showPageName(page_name:str):
 async def getCurrentPageId() -> int:
     logging.debug(f"methods.sendme()")
     ret = await command(f"sendme")
-    return ret
+    logging.info(f"methods.sendme() = {ret}")
+    return int(ret)
