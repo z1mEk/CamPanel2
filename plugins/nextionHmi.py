@@ -14,37 +14,36 @@ class plugin:
     @classmethod
     async def updateTime(cls, interval):
         while True:
-            mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
+            if methodsHmi.getCurrentPageId() == 1:
+                mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            if await methodsHmi.getCurrentPageId() == 0:
-                mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
-                mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
+            mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
+            mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateDalyBMS(cls, interval):
         while True:
-            if await methodsHmi.getCurrentPageId() == 0:
-                mainPage.jRSOC.val = dalyBms.data.RSOC
-                mainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
-                mainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
-
-                mainPage.tCurrent.txt = (
-                    '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
-                    '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
-                    '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
-                    '{:.0f}A'.format(dalyBms.data.currentFlex)
-                )
-                
-                mainPage.jRSOC.pco = (
-                    helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
-                    helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
-                    helper.RGB2NextionColour(0, 255, 0)
-                )
+            mainPage.jRSOC.val = dalyBms.data.RSOC
+            mainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
+            mainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
+            
+            mainPage.tCurrent.txt = (
+                '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
+                '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
+                '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
+                '{:.0f}A'.format(dalyBms.data.currentFlex)
+            )
+            
+            mainPage.jRSOC.pco = (
+                helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
+                helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
+                helper.RGB2NextionColour(0, 255, 0)
+            )
             
             await asyncio.sleep(interval)
 
