@@ -82,4 +82,4 @@ async def getCurrentPageId() -> int:
     logging.debug(f"methods.sendme()")
     ret = await command(f"sendme")
     logging.info(f"methods.sendme() = {ret}")
-    return int(ret)
+    return ret
