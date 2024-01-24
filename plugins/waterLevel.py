@@ -1,6 +1,6 @@
 '''
 pip install EasyMCP2221
-permissions: https://github.com/electronicayciencia/EasyMCP2221/issues/5
+grant permissions to the usb device: https://github.com/electronicayciencia/EasyMCP2221/issues/5
 '''
 import nest_asyncio
 from nest_asyncio import asyncio
@@ -36,16 +36,16 @@ class plugin:
             try:
                 if cls.mcp == None:
                     cls.reconnect()
-                cls.mcp.set_pin_function(gp0="GPIO_OUT", gp1='ADC', gp2="ADC")
+                cls.mcp.set_pin_function(gp0="GPIO_OUT", gp1='ADC', gp2="ADC", gp3="GPIO_IN")
                 cls.mcp.ADC_config(ref="VDD")
-                cls.mcp.GPIO_write(gp0 = True)     
+                cls.mcp.GPIO_write(gp0=True)     
                 values = cls.mcp.ADC_read()
-                cls.mcp.GPIO_write(gp0 = False)
+                cls.mcp.GPIO_write(gp0=False)
                 data.whiteWaterLevel = helper.map_value(values[0], 0, 1022, 0, 100)
                 data.greyWaterLevel = helper.map_value(values[1], 0, 1022, 0, 100)
                 data.lastUpdate = datetime.now()
             except Exception as e:
-                logging.error(f"MCP2221_get: {e}")
+                logging.error(f"MCP2221_readwrite: {e}")
                 data.whiteWaterLevel = 0
                 data.greyWaterLevel = 0
 

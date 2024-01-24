@@ -22,6 +22,7 @@ class plugin:
         while True:
             mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
             mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
+            await methodsHmi.getCurrentPageId()
             await asyncio.sleep(interval)
 
     @classmethod
