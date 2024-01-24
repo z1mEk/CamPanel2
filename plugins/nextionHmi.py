@@ -14,8 +14,8 @@ class plugin:
     @classmethod
     async def updateTime(cls, interval):
         while True:
-            idppage = await methodsHmi.getCurrentPageId()
-            mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
             await asyncio.sleep(interval)
 
     @classmethod
