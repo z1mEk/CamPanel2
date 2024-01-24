@@ -20,30 +20,31 @@ class plugin:
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
-            mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
-            await methodsHmi.getCurrentPageId()
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
+                mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateDalyBMS(cls, interval):
         while True:
-            mainPage.jRSOC.val = dalyBms.data.RSOC
-            mainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
-            mainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
+            if await methodsHmi.getCurrentPageId() == 0:
+                mainPage.jRSOC.val = dalyBms.data.RSOC
+                mainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
+                mainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
 
-            mainPage.tCurrent.txt = (
-                '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
-                '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
-                '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
-                '{:.0f}A'.format(dalyBms.data.currentFlex)
-            )
-            
-            mainPage.jRSOC.pco = (
-                helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
-                helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
-                helper.RGB2NextionColour(0, 255, 0)
-            )
+                mainPage.tCurrent.txt = (
+                    '{:.0f}mA'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 1000 else
+                    '{:.2f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 10000 else
+                    '{:.1f}A'.format(dalyBms.data.currentFlex) if abs(dalyBms.data.currentMiliAmper) < 100000 else
+                    '{:.0f}A'.format(dalyBms.data.currentFlex)
+                )
+                
+                mainPage.jRSOC.pco = (
+                    helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
+                    helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
+                    helper.RGB2NextionColour(0, 255, 0)
+                )
             
             await asyncio.sleep(interval)
 
@@ -124,6 +125,7 @@ class plugin:
     @classmethod
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
+        event_loop.create_task(cls.getCurrentPageId(1))
         event_loop.create_task(cls.updateTime(1))
         event_loop.create_task(cls.updateTemperatures(15))   
         event_loop.create_task(cls.updateDalyBMS(2))
