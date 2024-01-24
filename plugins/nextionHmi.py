@@ -124,7 +124,6 @@ class plugin:
     @classmethod
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
-        event_loop.create_task(cls.getCurrentPageId(1))
         event_loop.create_task(cls.updateTime(1))
         event_loop.create_task(cls.updateTemperatures(15))   
         event_loop.create_task(cls.updateDalyBMS(2))
