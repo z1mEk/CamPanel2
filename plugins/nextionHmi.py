@@ -137,4 +137,4 @@ class plugin:
         event_loop.create_task(cls.updateWaterLevel(30))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
         event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage())
-        event_loop.create_task(cls.updateSolarsolarWaterHeatingData(2))
+        event_loop.create_task(cls.updateSolarsolarWaterHeatingData(1))
