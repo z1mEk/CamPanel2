@@ -49,7 +49,7 @@ async def setWakeUpSerial(value:bool = False):
 
 async def isSleeping():
     try:
-        ret = await hmi.client.is_sleeping() 
+        ret = hmi.client.is_sleeping() 
         logging.debug(f"methods.isSleeping() -> {ret}")
         return ret
     except Exception as e:
