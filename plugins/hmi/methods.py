@@ -81,7 +81,7 @@ async def showPageName(page_name:str):
 async def getCurrentPageId() -> int:
     logging.debug(f"methods.sendme()")
     try:
-        pp = await isSleeping()
+        pp = isSleeping()
         logging.info(f"issliping {pp}")
         ret = await command(f"sendme")
     except Exception as e:
