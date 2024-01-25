@@ -80,4 +80,12 @@ async def showPageName(page_name:str):
 
 async def getCurrentPageId() -> int:
     logging.debug(f"methods.sendme()")
-    return await command(f"sendme")
+    try:
+        if await isSleeping() == 1:
+            ret = await command(f"sendme")
+        else:
+            ret = -1
+    except Exception as e:
+        logging.error(f"sendme:{e}")
+        ret -1
+    return ret

@@ -103,7 +103,6 @@ class heater:
     displayGradHzValue = 0
     #calculateFreq = helper.calculateFrequency()
     lastSend = time.time()
-    semaphore = asyncio.Semaphore(1)
 
     @classmethod
     def createTransmitPacket(cls):
@@ -158,18 +157,19 @@ class heater:
         try:
             async with cls.semaphore:
                 
-                if cls.srl is None:
-                    dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
-                    cls.srl = Serial(dieselHeaterDevice, 25000)
+                # if cls.srl is None:
+                #     dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
+                #     cls.srl = Serial(dieselHeaterDevice, 25000)
 
-                if cls.srl.closed:
-                    cls.srl.open()
+                # if cls.srl.closed:
+                #     cls.srl.open()
 
                 buf_transmit = heater.createTransmitPacket()
-                cls.srl.write(buf_transmit)
+                logging.info(f"DieselHeater buf_transmit = {buf_transmit}")
+                #cls.srl.write(buf_transmit)
                 await asyncio.sleep(0.1)
-                buf_receive = cls.srl.read(48) # 48?
-                heater.translateReceivePacket(buf_receive[:24])
+                #buf_receive = cls.srl.read(48) # 48?
+                #heater.translateReceivePacket(buf_receive[:24])
                 cls.lastSend = time.time()
 
         except Exception as e:
