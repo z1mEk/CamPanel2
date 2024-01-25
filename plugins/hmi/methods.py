@@ -47,7 +47,7 @@ async def setWakeUpSerial(value:bool = False):
     logging.debug(f"methods.setWakeUpSerial({value})")
     await command('thup={}'.format(0 if value else 1))
 
-async def isSleeping():
+def isSleeping():
     try:
         ret = hmi.client.is_sleeping() 
         logging.debug(f"methods.isSleeping() -> {ret}")
@@ -81,9 +81,10 @@ async def showPageName(page_name:str):
 async def getCurrentPageId() -> int:
     logging.debug(f"methods.sendme()")
     try:
-        pp = await isSleeping()
-        logging.info(f"issliping {pp}")
-        ret = await command(f"sendme")
+        if isSleeping() == False:
+            ret = await command(f"sendme")
+        else:
+            ret = -1
     except Exception as e:
         logging.error(f"sendme:{e}")
         ret -1
