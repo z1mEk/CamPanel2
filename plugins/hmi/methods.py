@@ -81,7 +81,8 @@ async def showPageName(page_name:str):
 async def getCurrentPageId() -> int:
     logging.debug(f"methods.sendme()")
     try:
-        if await isSleeping() == 1:
+        isSleeping = await isSleeping()
+        if isSleeping == True:
             ret = await command(f"sendme")
         else:
             ret = -1
