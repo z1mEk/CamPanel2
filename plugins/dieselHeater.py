@@ -78,7 +78,7 @@ class transmitPacket:
     funSpeedMax = config.dieselHeater.funSpeedMax
     voltageType = config.dieselHeater.voltageType
     fanspeedSensor = config.dieselHeater.fanspeedSensor
-    thermostatMode = config.dieselHeater.thermostatFixMode
+    thermostatMode = config.dieselHeater.thermostatMode
     tempDesiredMin = config.dieselHeater.tempDesiredMin
     tempDesiredMax = config.dieselHeater.tempDesiredMax
     glowPlugPower = config.dieselHeater.glowPlugPower
