@@ -116,14 +116,14 @@ class heater:
             buf[2] = transmitPacket.command.to_bytes(1, byteorder='big') #command
             transmitPacket.command = 0 # reset command to 0x00
             buf[3] = int(transmitPacket.tempSensor).to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0x00 #temp sensor
-            buf[4] = transmitPacket.tempDesired.to_bytes(1, byteorder='big') #desired temp
+            buf[4] = int(transmitPacket.tempDesired).to_bytes(1, byteorder='big') #desired temp
             buf[5] = int(transmitPacket.pumpFreqMin  * 10).to_bytes(1, byteorder='big') #Minimum Pump frequency
             buf[6] = int(transmitPacket.pumpFreqMax * 10).to_bytes(1, byteorder='big') #Maximum Pump frequency
             buf[7], buf[8] = int(transmitPacket.funSpeedMin).to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
             buf[9], buf[10] = int(transmitPacket.funSpeedMax).to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
             buf[11] = int(transmitPacket.voltageType).to_bytes(1, byteorder='big') * 10 #Heater Operating Voltage 
             buf[12] = int(transmitPacket.fanspeedSensor).to_bytes(1, byteorder='big') #Fan speed sensor
-            buf[13] = 0x32 if transmitPacket.thermostatMode == 1 else 0xCD #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
+            buf[13] = 0x32.to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0xCD.to_bytes(1, byteorder='big') #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
             buf[14] = int(transmitPacket.tempDesiredMin).to_bytes(1, byteorder='big') #Lower temperature limit
             buf[15] = int(transmitPacket.tempDesiredMax).to_bytes(1, byteorder='big') #Upper temperature limit
             buf[16] = int(transmitPacket.glowPlugPower).to_bytes(1, byteorder='big') #Glow Plug Power
