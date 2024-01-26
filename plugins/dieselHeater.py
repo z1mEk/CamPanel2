@@ -107,117 +107,117 @@ class heater:
     #calculateFreq = helper.calculateFrequency()
     lastSend = time.time()
 
-    @classmethod
-    def createTransmitPacket(cls):
-        try:
-            buf = [0] * 24
-            buf[0] = 0x76 #Start of Frame - 0x76 for LCD
-            buf[1] = 0x16 #Data Size 24bytes
-            buf[2] = transmitPacket.command.to_bytes(1) #command
-            transmitPacket.command = 0 # reset command to 0x00
-            buf[3] = transmitPacket.tempSensor.to_bytes(1) if transmitPacket.thermostatMode == 1 else 0x00 #temp sensor
-            buf[4] = transmitPacket.tempDesired.to_bytes(1) #desired temp
-            buf[5] = transmitPacket.pumpFreqMin.to_bytes(1) * 10 #Minimum Pump frequency
-            buf[6] = transmitPacket.pumpFreqMax.to_bytes(1) * 10 #Maximum Pump frequency
-            buf[7], buf[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
-            buf[9], buf[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
-            buf[11] = transmitPacket.voltageType.to_bytes(1) * 10 #Heater Operating Voltage 
-            buf[12] = transmitPacket.fanspeedSensor.to_bytes(1) #Fan speed sensor
-            buf[13] = 0x32 if transmitPacket.thermostatMode == 1 else 0xCD #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
-            buf[14] = transmitPacket.tempDesiredMin.to_bytes(1) #Lower temperature limit
-            buf[15] = transmitPacket.tempDesiredMax.to_bytes(1) #Upper temperature limit
-            buf[16] = transmitPacket.glowPlugPower.to_bytes(1) #Glow Plug Power
-            buf[17] = transmitPacket.manualPump.to_bytes(1) #Manual pump (fuel prime) 0x5A
-            buf[18], buf[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
-            buf[20], buf[21] = transmitPacket.altitude(2, byteorder='big') #Altitude MSB, LSB
+    # @classmethod
+    # def createTransmitPacket(cls):
+    #     try:
+    #         buf = [0] * 24
+    #         buf[0] = 0x76 #Start of Frame - 0x76 for LCD
+    #         buf[1] = 0x16 #Data Size 24bytes
+    #         buf[2] = transmitPacket.command.to_bytes(1) #command
+    #         transmitPacket.command = 0 # reset command to 0x00
+    #         buf[3] = transmitPacket.tempSensor.to_bytes(1) if transmitPacket.thermostatMode == 1 else 0x00 #temp sensor
+    #         buf[4] = transmitPacket.tempDesired.to_bytes(1) #desired temp
+    #         buf[5] = transmitPacket.pumpFreqMin.to_bytes(1) * 10 #Minimum Pump frequency
+    #         buf[6] = transmitPacket.pumpFreqMax.to_bytes(1) * 10 #Maximum Pump frequency
+    #         buf[7], buf[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
+    #         buf[9], buf[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
+    #         buf[11] = transmitPacket.voltageType.to_bytes(1) * 10 #Heater Operating Voltage 
+    #         buf[12] = transmitPacket.fanspeedSensor.to_bytes(1) #Fan speed sensor
+    #         buf[13] = 0x32 if transmitPacket.thermostatMode == 1 else 0xCD #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
+    #         buf[14] = transmitPacket.tempDesiredMin.to_bytes(1) #Lower temperature limit
+    #         buf[15] = transmitPacket.tempDesiredMax.to_bytes(1) #Upper temperature limit
+    #         buf[16] = transmitPacket.glowPlugPower.to_bytes(1) #Glow Plug Power
+    #         buf[17] = transmitPacket.manualPump.to_bytes(1) #Manual pump (fuel prime) 0x5A
+    #         buf[18], buf[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
+    #         buf[20], buf[21] = transmitPacket.altitude(2, byteorder='big') #Altitude MSB, LSB
 
-            crc = modbusCRC.calculateCrc16(buf[0:21])
-            buf[22], buf[23] = crc & 0xFF, crc >> 8
-        except Exception as e:
-            logging.error("dieselHeater - createTransmitPacket - {e}")
+    #         crc = modbusCRC.calculateCrc16(buf[0:21])
+    #         buf[22], buf[23] = crc & 0xFF, crc >> 8
+    #     except Exception as e:
+    #         logging.error("dieselHeater - createTransmitPacket - {e}")
 
-        return buf
+    #     return buf
     
-    @classmethod
-    def translateReceivePacket(cls, buf:bytearray[24]):
-        try:
-            cls.runState = int.from_bytes(buf[2])
-            cls.onOff = int.from_bytes(buf[3])
-            cls.supplyVoltage = int.from_bytes(buf[4]) / 10
-            cls.fanRpm = int.from_bytes(buf[6:7])
-            cls.fanVoltage = int.from_bytes(buf[8:9]) / 10
-            cls.heatExchTemp = int.from_bytes(buf[10:11])
-            cls.glowPlugVoltage = int.from_bytes(buf[12:13]) / 10
-            cls.glowPlugCurrent = int.from_bytes(buf[14:15]) / 100
-            cls.actualPumpFreq = int.from_bytes(buf[16]) / 10
-            cls.errorCode = int.from_bytes(buf[17])
-            cls.fixedModePumpFreq = int.from_bytes(buf[19])
+    # @classmethod
+    # def translateReceivePacket(cls, buf:bytearray[24]):
+    #     try:
+    #         cls.runState = int.from_bytes(buf[2])
+    #         cls.onOff = int.from_bytes(buf[3])
+    #         cls.supplyVoltage = int.from_bytes(buf[4]) / 10
+    #         cls.fanRpm = int.from_bytes(buf[6:7])
+    #         cls.fanVoltage = int.from_bytes(buf[8:9]) / 10
+    #         cls.heatExchTemp = int.from_bytes(buf[10:11])
+    #         cls.glowPlugVoltage = int.from_bytes(buf[12:13]) / 10
+    #         cls.glowPlugCurrent = int.from_bytes(buf[14:15]) / 100
+    #         cls.actualPumpFreq = int.from_bytes(buf[16]) / 10
+    #         cls.errorCode = int.from_bytes(buf[17])
+    #         cls.fixedModePumpFreq = int.from_bytes(buf[19])
 
-            cls.displayGradHzValue = transmitPacket.tempDesired if transmitPacket.thermostatMode == 1 else cls.actualPumpFreq
-            cls.displayGradHzUnit = "°C".encode("latin-2","ignore") if transmitPacket.thermostatMode == 1 else "Hz"
-        except Exception as e:
-            logging.error(f"dieselHeater: {e}")
+    #         cls.displayGradHzValue = transmitPacket.tempDesired if transmitPacket.thermostatMode == 1 else cls.actualPumpFreq
+    #         cls.displayGradHzUnit = "°C".encode("latin-2","ignore") if transmitPacket.thermostatMode == 1 else "Hz"
+    #     except Exception as e:
+    #         logging.error(f"dieselHeater: {e}")
 
-    @classmethod
-    async def sendPacket(cls):
-        try:
+    # @classmethod
+    # async def sendPacket(cls):
+    #     try:
                
-                # if cls.srl is None:
-                #     dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
-                #     cls.srl = Serial(dieselHeaterDevice, 25000)
+    #             # if cls.srl is None:
+    #             #     dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
+    #             #     cls.srl = Serial(dieselHeaterDevice, 25000)
 
-                # if cls.srl.closed:
-                #     cls.srl.open()
+    #             # if cls.srl.closed:
+    #             #     cls.srl.open()
 
-                buf_transmit = heater.createTransmitPacket()
-                logging.info(f"DieselHeater buf_transmit = {buf_transmit}")
-                #cls.srl.write(buf_transmit)
-                await asyncio.sleep(0.1)
-                #buf_receive = cls.srl.read(48) # 48?
-                #heater.translateReceivePacket(buf_receive[:24])
-                cls.lastSend = time.time()
+    #             buf_transmit = heater.createTransmitPacket()
+    #             logging.info(f"DieselHeater buf_transmit = {buf_transmit}")
+    #             #cls.srl.write(buf_transmit)
+    #             await asyncio.sleep(0.1)
+    #             #buf_receive = cls.srl.read(48) # 48?
+    #             #heater.translateReceivePacket(buf_receive[:24])
+    #             cls.lastSend = time.time()
 
-        except Exception as e:
-            logging.error(f"dieselHeater: {e}")
+    #     except Exception as e:
+    #         logging.error(f"dieselHeater: {e}")
 
-        await asyncio.sleep(0.1)
+    #     await asyncio.sleep(0.1)
 
-    @classmethod
-    async def sendPacketLoop(cls):
-        while True:
-            try:
-                if time.time() - cls.lastSend < 2:
-                    await asyncio.sleep(3)
-                await cls.sendPacket()
-                #await asyncio.sleep(interval)
-            except Exception as e:
-                logging.error(f"dieselHeater - sendPacketLoop - {e}")
+    # @classmethod
+    # async def sendPacketLoop(cls):
+    #     while True:
+    #         try:
+    #             if time.time() - cls.lastSend < 2:
+    #                 await asyncio.sleep(3)
+    #             await cls.sendPacket()
+    #             #await asyncio.sleep(interval)
+    #         except Exception as e:
+    #             logging.error(f"dieselHeater - sendPacketLoop - {e}")
 
-    @classmethod
-    async def start(cls):
-            transmitPacket.command = 0xA0
-            await cls.sendPacket()
+    # @classmethod
+    # async def start(cls):
+    #         transmitPacket.command = 0xA0
+    #         await cls.sendPacket()
 
-    @classmethod
-    async def stop(cls):
-            transmitPacket.command = 0x05
-            await cls.sendPacket()
+    # @classmethod
+    # async def stop(cls):
+    #         transmitPacket.command = 0x05
+    #         await cls.sendPacket()
 
-    @classmethod
-    async def up(cls):
-            if transmitPacket.tempDesired < transmitPacket.tempDesiredMax:
-                transmitPacket.tempDesired += 1
-                await cls.sendPacket()
+    # @classmethod
+    # async def up(cls):
+    #         if transmitPacket.tempDesired < transmitPacket.tempDesiredMax:
+    #             transmitPacket.tempDesired += 1
+    #             await cls.sendPacket()
 
-    @classmethod
-    async def down(cls):
-            if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
-                transmitPacket.tempDesired -= 1
-                await cls.sendPacket()
+    # @classmethod
+    # async def down(cls):
+    #         if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
+    #             transmitPacket.tempDesired -= 1
+    #             await cls.sendPacket()
 
-    @classmethod
-    async def readData(cls, interval):
-         await heater.sendPacketLoop()
+    # @classmethod
+    # async def readData(cls, interval):
+    #      await heater.sendPacketLoop()
     
 class plugin:
 
