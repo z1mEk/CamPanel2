@@ -123,8 +123,8 @@ class heater:
             transmitPacket.altitude = int(config.dieselHeater.altitude) # or get altitude from BME280
 
             buf = [0] * 24
-            buf[0] = 0x76 #Start of Frame - 0x76 for LCD
-            buf[1] = 0x16 #Data Size 24bytes
+            buf[0] = 0x76.to_bytes(1, byteorder='big') #Start of Frame - 0x76 for LCD
+            buf[1] = 0x16.to_bytes(1, byteorder='big') #Data Size 24bytes
             buf[2] = transmitPacket.command.to_bytes(1, byteorder='big')[0] #command
             transmitPacket.command = 0 # reset command to 0x00
             buf[3] = transmitPacket.tempSensor.to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0 #temp sensor
@@ -147,8 +147,8 @@ class heater:
             buf[20] = transmitPacket.altitude.to_bytes(2, byteorder='big')[0].to_bytes(1, byteorder='big') #Altitude MSB, LSB
             buf[21] = transmitPacket.altitude.to_bytes(2, byteorder='big')[1].to_bytes(1, byteorder='big')
 
-            #crc = modbusCRC.calculateCrc16(buf[0:21])
-            #buf[22], buf[23] = crc & 0xFF, crc >> 8
+            crc = modbusCRC.calculateCrc16(buf[0:21])
+            buf[22], buf[23] = crc & 0xFF, crc >> 8
         except Exception as e:
             logging.error(f"dieselHeater - createTransmitPacket - {e}")
 
