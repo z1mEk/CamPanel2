@@ -5,7 +5,7 @@ from plugins.hmi import hmi, helper, methods as methodsHmi
 from plugins.hmi.pages.mainPage import mainPage
 from plugins.hmi.pages.solarWaterPage import solarWaterPage
 #from plugins.hmi.pages.dieselHeaterPage import dieselHeaterPage
-from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures , solarWaterHeating, dieselHeater
+from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures , solarWaterHeating #, dieselHeater
 from datetime import datetime
 from general.logger import logging
 from general.configLoader import config
@@ -84,7 +84,7 @@ class plugin:
             if await methodsHmi.getCurrentPageId() == 0:
                 mainPage.btWaterPump.val = relays.data.relay0.val
                 mainPage.btACInverter.val = relays.data.relay1.val
-                mainPage.btHeater.val = dieselHeater.heater.onOff
+                #mainPage.btHeater.val = dieselHeater.heater.onOff
                 mainPage.btBoiler.val = relays.data.relay3.val
             #if await methodsHmi.getCurrentPageId() == 2:
                 #dieselHeaterPage.btHeater.val = dieselHeater.heater.onOff
