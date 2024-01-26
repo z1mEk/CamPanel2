@@ -147,8 +147,8 @@ class heater:
             buf[20] = transmitPacket.altitude.to_bytes(2, byteorder='big')[0] #Altitude MSB, LSB
             buf[21] = transmitPacket.altitude.to_bytes(2, byteorder='big')[1]
 
-            #crc = modbusCRC.calculateCrc16(buf[0:21])
-            #buf[22], buf[23] = crc & 0xFF, crc >> 8
+            crc = modbusCRC.calculateCrc16(buf[0:21])
+            buf[22], buf[23] = crc & 0xFF, crc >> 8
         except Exception as e:
             logging.error(f"dieselHeater - createTransmitPacket - {e}")
 
