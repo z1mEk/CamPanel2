@@ -2,7 +2,7 @@ import nest_asyncio
 from nest_asyncio import asyncio
 nest_asyncio.apply()
 from plugins.hmi.controls import TPage, TText, TDualStateButton, TNumber
-# from plugins import relays, dieselHeater
+from plugins import dieselHeater
 from general.logger import logging
 
 class dieselHeatPage(TPage):
