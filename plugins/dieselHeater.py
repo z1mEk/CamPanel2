@@ -69,21 +69,24 @@ class modbusCRC:
 #             * (transmitPacket.pumpFreqMax - transmitPacket.pumpFreqMin)
 
 class transmitPacket:
-    command = 0 # default command
-    tempSensor = config.dieselHeater.tampSensor # default or get temperature from BME280
-    tempDesired = config.dieselHeater.tempDesired
-    pumpFreqMin = config.dieselHeater.pumpFreqMin
-    pumpFreqMax = config.dieselHeater.pumpFreqMax
-    funSpeedMin = config.dieselHeater.funSpeedMin
-    funSpeedMax = config.dieselHeater.funSpeedMax
-    voltageType = config.dieselHeater.voltageType
-    fanspeedSensor = config.dieselHeater.fanspeedSensor
-    thermostatMode = config.dieselHeater.thermostatMode
-    tempDesiredMin = config.dieselHeater.tempDesiredMin
-    tempDesiredMax = config.dieselHeater.tempDesiredMax
-    glowPlugPower = config.dieselHeater.glowPlugPower
-    manualPump = config.dieselHeater.manualPump
-    altitude = config.dieselHeater.altitude # or get altitude from BME280
+    try:
+        command = 0 # default command
+        tempSensor = config.dieselHeater.tampSensor # default or get temperature from BME280
+        tempDesired = config.dieselHeater.tempDesired
+        pumpFreqMin = config.dieselHeater.pumpFreqMin
+        pumpFreqMax = config.dieselHeater.pumpFreqMax
+        funSpeedMin = config.dieselHeater.funSpeedMin
+        funSpeedMax = config.dieselHeater.funSpeedMax
+        voltageType = config.dieselHeater.voltageType
+        fanspeedSensor = config.dieselHeater.fanspeedSensor
+        thermostatMode = config.dieselHeater.thermostatMode
+        tempDesiredMin = config.dieselHeater.tempDesiredMin
+        tempDesiredMax = config.dieselHeater.tempDesiredMax
+        glowPlugPower = config.dieselHeater.glowPlugPower
+        manualPump = config.dieselHeater.manualPump
+        altitude = config.dieselHeater.altitude # or get altitude from BME280
+    except Exception as e:
+        logging.error(f"dieselHeater - transmitPacket - {e}")
 
 class heater:
     srl:Serial = None
@@ -182,10 +185,13 @@ class heater:
     @classmethod
     async def sendPacketLoop(cls):
         while True:
-            if time.time() - cls.lastSend < 2:
-                await asyncio.sleep(3)
-            await cls.sendPacket()
-            #await asyncio.sleep(interval)
+            try:
+                if time.time() - cls.lastSend < 2:
+                    await asyncio.sleep(3)
+                await cls.sendPacket()
+                #await asyncio.sleep(interval)
+            except Exception as e:
+                logging.error(f"dieselHeater - sendPacketLoop - {e}")
 
     @classmethod
     async def start(cls):
