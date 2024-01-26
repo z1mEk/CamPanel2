@@ -127,7 +127,7 @@ class heater:
             buf[1] = 0x16 #(22).to_bytes(1, byteorder='big') #Data Size 24bytes
             buf[2] = transmitPacket.command.to_bytes(1, byteorder='big')[0] #command
             transmitPacket.command = 0 # reset command to 0x00
-            # buf[3] = transmitPacket.tempSensor.to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0 #temp sensor
+            buf[3] = transmitPacket.tempSensor.to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0 #temp sensor
             # buf[4] = transmitPacket.tempDesired.to_bytes(1, byteorder='big') #desired temp
             # buf[5] = transmitPacket.pumpFreqMin.to_bytes(1, byteorder='big') #Minimum Pump frequency
             # buf[6] = transmitPacket.pumpFreqMax.to_bytes(1, byteorder='big') #Maximum Pump frequency
