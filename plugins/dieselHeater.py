@@ -123,7 +123,7 @@ class heater:
             transmitPacket.altitude = int(config.dieselHeater.altitude) # or get altitude from BME280
 
             buf = [0] * 24
-            buf[0] = 0x76.to_bytes(1) #Start of Frame - 0x76 for LCD
+            buf[0] = 0x76.to_bytes(1, byteorder='big') #Start of Frame - 0x76 for LCD
             buf[1] = 0x16.to_bytes(1, byteorder='big') #Data Size 24bytes
             buf[2] = transmitPacket.command.to_bytes(1, byteorder='big') #command
             transmitPacket.command = 0 # reset command to 0x00
