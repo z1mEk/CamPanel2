@@ -131,8 +131,10 @@ class heater:
             buf[4] = transmitPacket.tempDesired.to_bytes(1, byteorder='big') #desired temp
             buf[5] = transmitPacket.pumpFreqMin.to_bytes(1, byteorder='big') #Minimum Pump frequency
             buf[6] = transmitPacket.pumpFreqMax.to_bytes(1, byteorder='big') #Maximum Pump frequency
-            buf[7], buf[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
-            buf[9], buf[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
+            buf[7] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big')[0] #Minimum fan speed MSB, LSB
+            buf[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big')[1]
+            buf[9] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big')[0] #Maximum fan speed MSB, LSB
+            buf[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big')[1]
             buf[11] = transmitPacket.voltageType.to_bytes(1, byteorder='big')#Heater Operating Voltage 
             buf[12] = transmitPacket.fanspeedSensor.to_bytes(1, byteorder='big') #Fan speed sensor
             buf[13] = (50).to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else (205).to_bytes(1, byteorder='big') #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
@@ -142,7 +144,8 @@ class heater:
             buf[17] = transmitPacket.manualPump.to_bytes(1, byteorder='big') #Manual pump (fuel prime) 0x5A
             buf[18] = (235).to_bytes(1, byteorder='big')
             buf[19] = (71).to_bytes(1, byteorder='big') #unknown 0xEB MSB and 0x47 LSB for LCD controller
-            buf[20], buf[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
+            buf[20] = transmitPacket.altitude.to_bytes(2, byteorder='big')[0] #Altitude MSB, LSB
+            buf[21] = transmitPacket.altitude.to_bytes(2, byteorder='big')[1]
 
             #crc = modbusCRC.calculateCrc16(buf[0:21])
             #buf[22], buf[23] = crc & 0xFF, crc >> 8
