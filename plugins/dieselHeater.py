@@ -113,39 +113,39 @@ class heater:
             transmitPacket.pumpFreqMax = int(config.dieselHeater.pumpFreqMax * 10)
             transmitPacket.funSpeedMin = int(config.dieselHeater.funSpeedMin)
             transmitPacket.funSpeedMax = int(config.dieselHeater.funSpeedMax)
-            transmitPacket.voltageType = config.dieselHeater.voltageType
-            transmitPacket.fanspeedSensor = config.dieselHeater.fanspeedSensor
-            transmitPacket.thermostatMode = config.dieselHeater.thermostatMode
-            transmitPacket.tempDesiredMin = config.dieselHeater.tempDesiredMin
-            transmitPacket.tempDesiredMax = config.dieselHeater.tempDesiredMax
-            transmitPacket.glowPlugPower = config.dieselHeater.glowPlugPower
-            transmitPacket.manualPump = config.dieselHeater.manualPump
-            transmitPacket.altitude = config.dieselHeater.altitude # or get altitude from BME280
+            transmitPacket.voltageType = int(config.dieselHeater.voltageType * 10)
+            transmitPacket.fanspeedSensor = int(config.dieselHeater.fanspeedSensor)
+            transmitPacket.thermostatMode = int(config.dieselHeater.thermostatMode)
+            transmitPacket.tempDesiredMin = int(config.dieselHeater.tempDesiredMin)
+            transmitPacket.tempDesiredMax = int(config.dieselHeater.tempDesiredMax)
+            transmitPacket.glowPlugPower = int(config.dieselHeater.glowPlugPower)
+            transmitPacket.manualPump = int(config.dieselHeater.manualPump)
+            transmitPacket.altitude = int(config.dieselHeater.altitude) # or get altitude from BME280
 
             buf = [0x00] * 24
             buf[0] = 0x76.to_bytes(1, byteorder='big') #Start of Frame - 0x76 for LCD
             buf[1] = 0x16.to_bytes(1, byteorder='big') #Data Size 24bytes
-            #buf[2] = transmitPacket.command.to_bytes(1, byteorder='big') #command
+            buf[2] = transmitPacket.command.to_bytes(1, byteorder='big') #command
             transmitPacket.command = 0 # reset command to 0x00
-            #buf[3] = transmitPacket.tempSensor.to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0 #temp sensor
-            #buf[4] = transmitPacket.tempDesired.to_bytes(1, byteorder='big') #desired temp
-            #buf[5] = transmitPacket.pumpFreqMin.to_bytes(1, byteorder='big') #Minimum Pump frequency
-            #buf[6] = transmitPacket.pumpFreqMax.to_bytes(1, byteorder='big') #Maximum Pump frequency
-            # buf[7], buf[8] = int(transmitPacket.funSpeedMin).to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
-            # buf[9], buf[10] = int(transmitPacket.funSpeedMax).to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
-            # buf[11] = int(transmitPacket.voltageType).to_bytes(1, byteorder='big') * 10 #Heater Operating Voltage 
-            # buf[12] = int(transmitPacket.fanspeedSensor).to_bytes(1, byteorder='big') #Fan speed sensor
-            # buf[13] = 0x32.to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0xCD.to_bytes(1, byteorder='big') #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
-            # buf[14] = int(transmitPacket.tempDesiredMin).to_bytes(1, byteorder='big') #Lower temperature limit
-            # buf[15] = int(transmitPacket.tempDesiredMax).to_bytes(1, byteorder='big') #Upper temperature limit
-            # buf[16] = int(transmitPacket.glowPlugPower).to_bytes(1, byteorder='big') #Glow Plug Power
-            # buf[17] = int(transmitPacket.manualPump).to_bytes(1, byteorder='big') #Manual pump (fuel prime) 0x5A
-            # buf[18] = 0xEB.to_bytes(1, byteorder='big'),
-            # buf[19] = 0x47.to_bytes(1, byteorder='big') #unknown 0xEB MSB and 0x47 LSB for LCD controller
-            # buf[20], buf[21] = int(transmitPacket.altitude(2, byteorder='big')) #Altitude MSB, LSB
+            buf[3] = transmitPacket.tempSensor.to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0 #temp sensor
+            buf[4] = transmitPacket.tempDesired.to_bytes(1, byteorder='big') #desired temp
+            buf[5] = transmitPacket.pumpFreqMin.to_bytes(1, byteorder='big') #Minimum Pump frequency
+            buf[6] = transmitPacket.pumpFreqMax.to_bytes(1, byteorder='big') #Maximum Pump frequency
+            buf[7], buf[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
+            buf[9], buf[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
+            buf[11] = transmitPacket.voltageType.to_bytes(1, byteorder='big') * 10 #Heater Operating Voltage 
+            buf[12] = transmitPacket.fanspeedSensor.to_bytes(1, byteorder='big') #Fan speed sensor
+            buf[13] = 0x32.to_bytes(1, byteorder='big') if transmitPacket.thermostatMode == 1 else 0xCD.to_bytes(1, byteorder='big') #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
+            buf[14] = transmitPacket.tempDesiredMin.to_bytes(1, byteorder='big') #Lower temperature limit
+            buf[15] = transmitPacket.tempDesiredMax.to_bytes(1, byteorder='big') #Upper temperature limit
+            buf[16] = transmitPacket.glowPlugPower.to_bytes(1, byteorder='big') #Glow Plug Power
+            buf[17] = transmitPacket.manualPump.to_bytes(1, byteorder='big') #Manual pump (fuel prime) 0x5A
+            buf[18] = 0xEB.to_bytes(1, byteorder='big'),
+            buf[19] = 0x47.to_bytes(1, byteorder='big') #unknown 0xEB MSB and 0x47 LSB for LCD controller
+            buf[20], buf[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
 
-            crc = modbusCRC.calculateCrc16(buf[0:21])
-            buf[22], buf[23] = crc & 0xFF, crc >> 8
+            #crc = modbusCRC.calculateCrc16(buf[0:21])
+            #buf[22], buf[23] = crc & 0xFF, crc >> 8
         except Exception as e:
             logging.error(f"dieselHeater - createTransmitPacket - {e}")
 
