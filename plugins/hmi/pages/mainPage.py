@@ -26,7 +26,7 @@ class mainPage(TPage):
         async def onRelease(cls):
             relays.data.relay2.val = cls.val
             if cls.val == 1:
-                await hmiMethods.showPageName("solarWaterPage")
+                await hmiMethods.showPageName("dieselHeater")
 
     class btBoiler(TDualStateButton):
         @classmethod
