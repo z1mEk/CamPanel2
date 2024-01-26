@@ -158,66 +158,66 @@ class heater:
         except Exception as e:
             logging.error(f"dieselHeater: {e}")
 
-    # @classmethod
-    # async def sendPacket(cls):
-    #     try:
+    @classmethod
+    async def sendPacket(cls):
+        try:
                
-    #             # if cls.srl is None:
-    #             #     dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
-    #             #     cls.srl = Serial(dieselHeaterDevice, 25000)
+                # if cls.srl is None:
+                #     dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
+                #     cls.srl = Serial(dieselHeaterDevice, 25000)
 
-    #             # if cls.srl.closed:
-    #             #     cls.srl.open()
+                # if cls.srl.closed:
+                #     cls.srl.open()
 
-    #             buf_transmit = heater.createTransmitPacket()
-    #             logging.info(f"DieselHeater buf_transmit = {buf_transmit}")
-    #             #cls.srl.write(buf_transmit)
-    #             await asyncio.sleep(0.1)
-    #             #buf_receive = cls.srl.read(48) # 48?
-    #             #heater.translateReceivePacket(buf_receive[:24])
-    #             cls.lastSend = time.time()
+                buf_transmit = heater.createTransmitPacket()
+                logging.info(f"DieselHeater buf_transmit = {buf_transmit}")
+                #cls.srl.write(buf_transmit)
+                await asyncio.sleep(0.1)
+                #buf_receive = cls.srl.read(48) # 48?
+                #heater.translateReceivePacket(buf_receive[:24])
+                cls.lastSend = time.time()
 
-    #     except Exception as e:
-    #         logging.error(f"dieselHeater: {e}")
+        except Exception as e:
+            logging.error(f"dieselHeater: {e}")
 
-    #     await asyncio.sleep(0.1)
+        await asyncio.sleep(0.1)
 
-    # @classmethod
-    # async def sendPacketLoop(cls):
-    #     while True:
-    #         try:
-    #             if time.time() - cls.lastSend < 2:
-    #                 await asyncio.sleep(3)
-    #             await cls.sendPacket()
-    #             #await asyncio.sleep(interval)
-    #         except Exception as e:
-    #             logging.error(f"dieselHeater - sendPacketLoop - {e}")
+    @classmethod
+    async def sendPacketLoop(cls):
+        while True:
+            try:
+                if time.time() - cls.lastSend < 2:
+                    await asyncio.sleep(3)
+                await cls.sendPacket()
+                #await asyncio.sleep(interval)
+            except Exception as e:
+                logging.error(f"dieselHeater - sendPacketLoop - {e}")
 
-    # @classmethod
-    # async def start(cls):
-    #         transmitPacket.command = 0xA0
-    #         await cls.sendPacket()
+    @classmethod
+    async def start(cls):
+            transmitPacket.command = 0xA0
+            await cls.sendPacket()
 
-    # @classmethod
-    # async def stop(cls):
-    #         transmitPacket.command = 0x05
-    #         await cls.sendPacket()
+    @classmethod
+    async def stop(cls):
+            transmitPacket.command = 0x05
+            await cls.sendPacket()
 
-    # @classmethod
-    # async def up(cls):
-    #         if transmitPacket.tempDesired < transmitPacket.tempDesiredMax:
-    #             transmitPacket.tempDesired += 1
-    #             await cls.sendPacket()
+    @classmethod
+    async def up(cls):
+            if transmitPacket.tempDesired < transmitPacket.tempDesiredMax:
+                transmitPacket.tempDesired += 1
+                await cls.sendPacket()
 
-    # @classmethod
-    # async def down(cls):
-    #         if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
-    #             transmitPacket.tempDesired -= 1
-    #             await cls.sendPacket()
+    @classmethod
+    async def down(cls):
+            if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
+                transmitPacket.tempDesired -= 1
+                await cls.sendPacket()
 
-    # @classmethod
-    # async def readData(cls, interval):
-    #      await heater.sendPacketLoop()
+    @classmethod
+    async def readData(cls, interval):
+         await heater.sendPacketLoop()
     
 class plugin:
 
