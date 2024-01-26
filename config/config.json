@@ -8,7 +8,7 @@
         "wifiStatus",
         "solarWaterHeating",
         "nextionHmi",
-        "influxDBLog"
+        "dieselHeater"
     ],
     "logger" :{
         "fileName": "CamPanel.log",
