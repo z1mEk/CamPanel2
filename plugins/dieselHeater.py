@@ -134,7 +134,7 @@ class heater:
             crc = modbusCRC.calculateCrc16(buf[0:21])
             buf[22], buf[23] = crc & 0xFF, crc >> 8
         except Exception as e:
-            logging.error("dieselHeater - createTransmitPacket - {e}")
+            logging.error(f"dieselHeater - createTransmitPacket - {e}")
 
         return buf
     
@@ -220,10 +220,6 @@ class heater:
          await heater.sendPacketLoop()
     
 class plugin:
-
-    @classmethod
-    async def readData(cls, interval):
-         pass
    
     @classmethod
     async def initialize(cls, event_loop):
