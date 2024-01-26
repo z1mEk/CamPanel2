@@ -8,7 +8,7 @@ from general.logger import logging
 class dieselHeatPage(TPage):
     pass
 
-    # class btHeater(TDualStateButton):
-    #     @classmethod
-    #     async def onRelease(cls):
-    #         dieselHeater.heater.onOff = cls.val
+    class btHeater(TDualStateButton):
+        @classmethod
+        async def onRelease(cls):
+            pass
