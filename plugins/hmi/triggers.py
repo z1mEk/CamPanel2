@@ -1,5 +1,5 @@
 from plugins.hmi.pages.mainPage import mainPage
-#from plugins.hmi.pages.dieselHeaterPage import dieselHeaterPage
+#from plugins.hmi.pages.dieselHeaterPage import dieselHeatPage
 
 ### definition of call name for nextion's components. "call_back" ###
 components_touch_event = [
