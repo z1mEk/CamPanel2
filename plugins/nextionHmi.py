@@ -4,7 +4,7 @@ nest_asyncio.apply()
 from plugins.hmi import hmi, helper, methods as methodsHmi
 from plugins.hmi.pages.mainPage import mainPage
 from plugins.hmi.pages.solarWaterPage import solarWaterPage
-#from plugins.hmi.pages.dieselHeatPage import dieselHeatPage
+from plugins.hmi.pages.dieselHeatPage import dieselHeatPage
 from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures , solarWaterHeating
 from datetime import datetime
 from general.logger import logging
