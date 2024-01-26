@@ -214,9 +214,13 @@ class heater:
             if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
                 transmitPacket.tempDesired -= 1
                 await cls.sendPacket()
+
+    @classmethod
+    async def readData(cls, interval):
+         await heater.sendPacketLoop()
     
 class plugin:
    
     @classmethod
     async def initialize(cls, event_loop):
-        event_loop.create_task(heater.sendPacketLoop())
+        event_loop.create_task(cls.readData(0))
