@@ -5,7 +5,7 @@ from plugins.hmi.controls import TPage, TText, TDualStateButton, TNumber
 from plugins import relays, dieselHeater
 from general.logger import logging
 
-class dieselHeaterPage(TPage):
+class dieselHeatPage(TPage):
 
     class btHeater(TDualStateButton):
         @classmethod
