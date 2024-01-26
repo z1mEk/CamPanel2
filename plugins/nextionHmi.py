@@ -4,6 +4,7 @@ nest_asyncio.apply()
 from plugins.hmi import hmi, helper, methods as methodsHmi
 from plugins.hmi.pages.mainPage import mainPage
 from plugins.hmi.pages.solarWaterPage import solarWaterPage
+from plugins.hmi.pages.dieselHeaterPage import dieselHeaterPage
 from plugins import dalyBms, epeverTracer, waterLevel, relays, temperatures , solarWaterHeating
 from datetime import datetime
 from general.logger import logging
@@ -85,6 +86,8 @@ class plugin:
                 mainPage.btACInverter.val = relays.data.relay1.val
                 mainPage.btHeater.val = relays.data.relay2.val
                 mainPage.btBoiler.val = relays.data.relay3.val
+            if await methodsHmi.getCurrentPageId() == 2:
+                dieselHeaterPage.btHeater.val = relays.data.relay3.val
             await asyncio.sleep(interval) 
 
     @classmethod
