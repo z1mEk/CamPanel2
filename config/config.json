@@ -7,7 +7,6 @@
         "serverHttp",
         "wifiStatus",
         "solarWaterHeating",
-        "dieselHeater",
         "nextionHmi",
         "influxDBLog"
     ],
