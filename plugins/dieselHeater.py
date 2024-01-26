@@ -122,8 +122,8 @@ class heater:
             transmitPacket.manualPump = int(config.dieselHeater.manualPump)
             transmitPacket.altitude = int(config.dieselHeater.altitude) # or get altitude from BME280
 
-            buf = [0x00] * 24
-            buf[0] = 0x76.to_bytes(1, byteorder='big') #Start of Frame - 0x76 for LCD
+            buf = [0] * 24
+            buf[0] = 0x76.to_bytes(1) #Start of Frame - 0x76 for LCD
             buf[1] = 0x16.to_bytes(1, byteorder='big') #Data Size 24bytes
             buf[2] = transmitPacket.command.to_bytes(1, byteorder='big') #command
             transmitPacket.command = 0 # reset command to 0x00
@@ -140,7 +140,7 @@ class heater:
             buf[15] = transmitPacket.tempDesiredMax.to_bytes(1, byteorder='big') #Upper temperature limit
             buf[16] = transmitPacket.glowPlugPower.to_bytes(1, byteorder='big') #Glow Plug Power
             buf[17] = transmitPacket.manualPump.to_bytes(1, byteorder='big') #Manual pump (fuel prime) 0x5A
-            buf[18] = 0xEB.to_bytes(1, byteorder='big'),
+            buf[18] = 0xEB.to_bytes(1, byteorder='big')
             buf[19] = 0x47.to_bytes(1, byteorder='big') #unknown 0xEB MSB and 0x47 LSB for LCD controller
             buf[20], buf[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
 
