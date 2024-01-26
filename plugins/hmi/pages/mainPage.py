@@ -3,7 +3,7 @@ from nest_asyncio import asyncio
 nest_asyncio.apply()
 from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
-from plugins import relays, wifiStatus, dalyBms, waterLevel
+from plugins import relays, wifiStatus, dalyBms, waterLevel, dieselHeater
 from general.logger import logging
 
 class mainPage(TPage):
@@ -24,7 +24,7 @@ class mainPage(TPage):
     class btHeater(TDualStateButton):
         @classmethod
         async def onRelease(cls):
-            relays.data.relay2.val = cls.val
+            dieselHeater.heater.onOff = cls.val
             if cls.val == 1:
                 await hmiMethods.showPageName("dieselHeater")
 
