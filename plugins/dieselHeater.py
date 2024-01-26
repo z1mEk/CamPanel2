@@ -106,29 +106,32 @@ class heater:
 
     @classmethod
     def createTransmitPacket(cls):
-        buf = [0] * 24
-        buf[0] = 0x76 #Start of Frame - 0x76 for LCD
-        buf[1] = 0x16 #Data Size 24bytes
-        buf[2] = transmitPacket.command.to_bytes(1) #command
-        transmitPacket.command = 0 # reset command to 0x00
-        buf[3] = transmitPacket.tempSensor.to_bytes(1) if transmitPacket.thermostatMode == 1 else 0x00 #temp sensor
-        buf[4] = transmitPacket.tempDesired.to_bytes(1) #desired temp
-        buf[5] = transmitPacket.pumpFreqMin.to_bytes(1) * 10 #Minimum Pump frequency
-        buf[6] = transmitPacket.pumpFreqMax.to_bytes(1) * 10 #Maximum Pump frequency
-        buf[7], buf[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
-        buf[9], buf[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
-        buf[11] = transmitPacket.voltageType.to_bytes(1) * 10 #Heater Operating Voltage 
-        buf[12] = transmitPacket.fanspeedSensor.to_bytes(1) #Fan speed sensor
-        buf[13] = 0x32 if transmitPacket.thermostatMode == 1 else 0xCD #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
-        buf[14] = transmitPacket.tempDesiredMin.to_bytes(1) #Lower temperature limit
-        buf[15] = transmitPacket.tempDesiredMax.to_bytes(1) #Upper temperature limit
-        buf[16] = transmitPacket.glowPlugPower.to_bytes(1) #Glow Plug Power
-        buf[17] = transmitPacket.manualPump.to_bytes(1) #Manual pump (fuel prime) 0x5A
-        buf[18], buf[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
-        buf[20], buf[21] = transmitPacket.altitude(2, byteorder='big') #Altitude MSB, LSB
+        try:
+            buf = [0] * 24
+            buf[0] = 0x76 #Start of Frame - 0x76 for LCD
+            buf[1] = 0x16 #Data Size 24bytes
+            buf[2] = transmitPacket.command.to_bytes(1) #command
+            transmitPacket.command = 0 # reset command to 0x00
+            buf[3] = transmitPacket.tempSensor.to_bytes(1) if transmitPacket.thermostatMode == 1 else 0x00 #temp sensor
+            buf[4] = transmitPacket.tempDesired.to_bytes(1) #desired temp
+            buf[5] = transmitPacket.pumpFreqMin.to_bytes(1) * 10 #Minimum Pump frequency
+            buf[6] = transmitPacket.pumpFreqMax.to_bytes(1) * 10 #Maximum Pump frequency
+            buf[7], buf[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
+            buf[9], buf[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
+            buf[11] = transmitPacket.voltageType.to_bytes(1) * 10 #Heater Operating Voltage 
+            buf[12] = transmitPacket.fanspeedSensor.to_bytes(1) #Fan speed sensor
+            buf[13] = 0x32 if transmitPacket.thermostatMode == 1 else 0xCD #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
+            buf[14] = transmitPacket.tempDesiredMin.to_bytes(1) #Lower temperature limit
+            buf[15] = transmitPacket.tempDesiredMax.to_bytes(1) #Upper temperature limit
+            buf[16] = transmitPacket.glowPlugPower.to_bytes(1) #Glow Plug Power
+            buf[17] = transmitPacket.manualPump.to_bytes(1) #Manual pump (fuel prime) 0x5A
+            buf[18], buf[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
+            buf[20], buf[21] = transmitPacket.altitude(2, byteorder='big') #Altitude MSB, LSB
 
-        crc = modbusCRC.calculateCrc16(buf[0:21])
-        buf[22], buf[23] = crc & 0xFF, crc >> 8
+            crc = modbusCRC.calculateCrc16(buf[0:21])
+            buf[22], buf[23] = crc & 0xFF, crc >> 8
+        except Exception as e:
+            logging.error("dieselHeater - createTransmitPacket - {e}")
 
         return buf
     
@@ -155,8 +158,7 @@ class heater:
     @classmethod
     async def sendPacket(cls):
         try:
-            async with cls.semaphore:
-                
+               
                 # if cls.srl is None:
                 #     dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
                 #     cls.srl = Serial(dieselHeaterDevice, 25000)
@@ -187,26 +189,22 @@ class heater:
 
     @classmethod
     async def start(cls):
-        async with cls.semaphore:
             transmitPacket.command = 0xA0
             await cls.sendPacket()
 
     @classmethod
     async def stop(cls):
-        async with cls.semaphore:
             transmitPacket.command = 0x05
             await cls.sendPacket()
 
     @classmethod
     async def up(cls):
-        async with cls.semaphore:
             if transmitPacket.tempDesired < transmitPacket.tempDesiredMax:
                 transmitPacket.tempDesired += 1
                 await cls.sendPacket()
 
     @classmethod
     async def down(cls):
-        async with cls.semaphore:
             if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
                 transmitPacket.tempDesired -= 1
                 await cls.sendPacket()
