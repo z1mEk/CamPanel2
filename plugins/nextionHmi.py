@@ -143,10 +143,10 @@ class plugin:
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
         event_loop.create_task(cls.updateTime(1))
-        event_loop.create_task(cls.updateTemperatures(15))   
+        event_loop.create_task(cls.updateTemperatures(2))   
         event_loop.create_task(cls.updateDalyBMS(2))
         event_loop.create_task(cls.updateEpeverTracer(2))
-        event_loop.create_task(cls.updateWaterLevel(30))
+        event_loop.create_task(cls.updateWaterLevel(2))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
         event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage(1))
         event_loop.create_task(cls.updateSolarsolarWaterHeatingData(1))
