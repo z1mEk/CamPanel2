@@ -134,7 +134,7 @@ class plugin:
         while True:
             if await methodsHmi.getCurrentPageId() == 2:
                 dieselHeatPage.btHeater.val = dieselHeater.heater.onOff
-                dieselHeatPage.btThermostat.val = dieselHeater.heater.fixedModePumpFreq
+                dieselHeatPage.btThermostat.val = dieselHeater.heater.transmitPacket.thermostatMode
             await asyncio.sleep(interval)  
 
     @classmethod
