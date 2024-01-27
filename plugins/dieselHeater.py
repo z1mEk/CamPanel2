@@ -99,7 +99,7 @@ class heater:
     actualPumpFreq = 0
     errorCode = 0
     fixedModePumpFreq = 0
-    displayGradHzUnit = ""
+    displayGradHzUnit = "Hz"
     displayGradHzValue = 0
     #calculateFreq = helper.calculateFrequency()
     lastSend = time.time()
@@ -152,8 +152,8 @@ class heater:
             cls.errorCode = int.from_bytes(buf[17], byteorder='big')
             cls.fixedModePumpFreq = int.from_bytes(buf[19], byteorder='big')
 
-            cls.displayGradHzValue = transmitPacket.tempDesired if transmitPacket.thermostatMode == 1 else cls.actualPumpFreq
-            cls.displayGradHzUnit = "°C".encode("latin-2","ignore") if transmitPacket.thermostatMode == 1 else "Hz"
+            #cls.displayGradHzValue = transmitPacket.tempDesired if transmitPacket.thermostatMode == 1 else cls.actualPumpFreq
+            #cls.displayGradHzUnit = "°C".encode("latin-2","ignore") if transmitPacket.thermostatMode == 1 else "Hz"
         except Exception as e:
             logging.error(f"dieselHeater: {e}")
 
