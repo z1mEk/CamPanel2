@@ -90,7 +90,6 @@ class plugin:
 
     @classmethod
     async def initSolarsolarWaterHeatingDataToPage(cls):
-        await asyncio.sleep(1) 
         if await methodsHmi.getCurrentPageId() == 1:
             solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
             solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
@@ -109,8 +108,7 @@ class plugin:
             await asyncio.sleep(1) 
 
     @classmethod
-    async def updateSolarsolarWaterHeatingData(cls, interval):
-        await asyncio.sleep(2) 
+    async def updateSolarsolarWaterHeatingData(cls, interval): 
         while True:
             if await methodsHmi.getCurrentPageId() == 1:
                 solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
@@ -131,11 +129,10 @@ class plugin:
 
     @classmethod
     async def updateDieselHeaterData(cls, interval):
-        #await asyncio.sleep(3)
         while True:
             try:
                 if await methodsHmi.getCurrentPageId() == 2:
-                    dieselHeatPage.btHeater.val = mainPage.btHeater.val
+                    dieselHeatPage.btHeater.val = relays.data.relay2.val
                     dieselHeatPage.btThermostat.val = dieselHeater.heater.transmitPacket.thermostatMode
                     dieselHeatPage.tStatus.txt = "{:.0f}".format(dieselHeater.heater.runState)
                     dieselHeatPage.tVoltage.txt = "{:.0f}V".format(dieselHeater.heater.supplyVoltage)
