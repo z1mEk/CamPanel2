@@ -155,7 +155,7 @@ class heater:
             #cls.displayGradHzValue = transmitPacket.tempDesired if transmitPacket.thermostatMode == 1 else cls.actualPumpFreq
             #cls.displayGradHzUnit = "°C".encode("latin-2","ignore") if transmitPacket.thermostatMode == 1 else "Hz"
         except Exception as e:
-            logging.error(f"dieselHeater: {e}")
+            logging.error(f"dieselHeater - translateReceivePacket: {e}")
 
     @classmethod
     async def sendPacket(cls):
@@ -180,7 +180,7 @@ class heater:
                 cls.lastSend = time.time()
 
         except Exception as e:
-            logging.error(f"dieselHeater: {e}")
+            logging.error(f"dieselHeater - sendPacket: {e}")
 
         await asyncio.sleep(0.1)
 
