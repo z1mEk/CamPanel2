@@ -25,7 +25,12 @@ class mainPage(TPage):
         @classmethod
         async def onRelease(cls):
             relays.data.relay2.val = cls.val
-            dieselHeater.heater.onOff = cls.val
+
+            if cls.val == 1:
+                await dieselHeater.heater.start()
+            else:
+                await dieselHeater.heater.stop()
+                
             await hmiMethods.showPageName("dieselHeatPage")
 
     class btBoiler(TDualStateButton):
