@@ -139,7 +139,7 @@ class plugin:
                     dieselHeatPage.tFrequency.txt = "{:.0f}Hz".format(dieselHeater.heater.actualPumpFreq)
                     dieselHeatPage.tHeaterTemp.txt = "{:.0f}*C".format(dieselHeater.heater.heatExchTemp)
                     dieselHeatPage.tGlowPlugCurr.txt = "{:.0f}A".format(dieselHeater.heater.glowPlugCurrent)
-                    dieselHeatPage.tError.txt = "{:.0f}".format(dieselHeater.heater.errorCode)
+                    dieselHeatPage.tError.txt = "{:2.0f}".format(dieselHeater.heater.errorCode)
             except Exception as e:
                 logging.error(f"updateDieselHeaterData - {e}")
             await asyncio.sleep(interval)  
