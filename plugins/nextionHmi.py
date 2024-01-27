@@ -131,11 +131,11 @@ class plugin:
 
     @classmethod
     async def updateDieselHeaterData(cls, interval):
-        await asyncio.sleep(2)
+        #await asyncio.sleep(3)
         while True:
             try:
                 if await methodsHmi.getCurrentPageId() == 2:
-                    dieselHeatPage.btHeater.val = dieselHeater.heater.onOff
+                    dieselHeatPage.btHeater.val = mainPage.btHeater.val
                     dieselHeatPage.btThermostat.val = dieselHeater.heater.transmitPacket.thermostatMode
                     dieselHeatPage.tStatus.txt = "{:.0f}".format(dieselHeater.heater.runState)
                     dieselHeatPage.tVoltage.txt = "{:.0f}V".format(dieselHeater.heater.supplyVoltage)
