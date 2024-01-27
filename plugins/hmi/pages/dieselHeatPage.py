@@ -13,3 +13,8 @@ class dieselHeatPage(TPage):
         async def onRelease(cls):
             relays.data.relay2.val = cls.val
             dieselHeater.heater.onOff = cls.val
+
+    class btThermostat(TDualStateButton):
+        @classmethod
+        async def onRelease(cls):
+            return await super().onRelease()

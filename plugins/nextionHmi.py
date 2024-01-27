@@ -86,8 +86,6 @@ class plugin:
                 mainPage.btACInverter.val = relays.data.relay1.val
                 mainPage.btHeater.val = relays.data.relay2.val
                 mainPage.btBoiler.val = relays.data.relay3.val
-            if await methodsHmi.getCurrentPageId() == 2:
-                dieselHeatPage.btHeater.val = dieselHeater.heater.onOff
             await asyncio.sleep(interval) 
 
     @classmethod
@@ -129,7 +127,16 @@ class plugin:
                 solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
                 solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
             await asyncio.sleep(interval)                
-        
+
+    @classmethod
+    async def updateDieselHeaterData(cls, interval):
+        await asyncio.sleep(2)
+        while True:
+            if await methodsHmi.getCurrentPageId() == 2:
+                dieselHeatPage.btHeater.val = dieselHeater.heater.onOff
+                dieselHeatPage.btThermostat.val = dieselHeater.heater.fixedModePumpFreq
+            await asyncio.sleep(interval)  
+
     @classmethod
     async def initialize(cls, event_loop): 
         event_loop.create_task(hmi.create(event_loop))
