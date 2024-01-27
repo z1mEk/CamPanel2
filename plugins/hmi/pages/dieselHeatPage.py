@@ -12,6 +12,7 @@ class dieselHeatPage(TPage):
         @classmethod
         async def onRelease(cls):
             relays.data.relay2.val = cls.val
+            dieselHeater.heater.onOff = cls.val #TODO: to trzeba zmienić, to ma działać inaczej
             if cls.val == 1:
                 await dieselHeater.heater.start()
             else:
