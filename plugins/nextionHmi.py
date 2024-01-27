@@ -90,22 +90,21 @@ class plugin:
 
     @classmethod
     async def initSolarsolarWaterHeatingDataToPage(cls):
-        if await methodsHmi.getCurrentPageId() == 1:
-            solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
-            solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
-            solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
-            solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
-            solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
+        solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
+        solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
+        solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
+        solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
+        solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
 
-            solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc
-            solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
-            solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
-            solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
-            solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
+        solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc
+        solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
+        solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
+        solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
+        solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
 
-            solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
-            solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
-            await asyncio.sleep(1) 
+        solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
+        solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
+        await asyncio.sleep(1) 
 
     @classmethod
     async def updateSolarsolarWaterHeatingData(cls, interval): 
