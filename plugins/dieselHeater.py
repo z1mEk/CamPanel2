@@ -173,7 +173,7 @@ class heater:
                 #cls.srl.write(buf_transmit)
                 await asyncio.sleep(0.1)
                 #buf_receive = cls.srl.read(48) # 48?
-                buf_receive = bytearray[0,0,5,1,0,15,0,216,0,131,28,0,121,0,25,15,52,56,52,12,21,25,25,12,25,21,25]
+                buf_receive = bytes[0,0,5,1,0,15,0,216,0,131,28,0,121,0,25,15,52,56,52,12,21,25,25,12,25,21,25]
                 heater.translateReceivePacket(buf_receive[:24])
                 cls.lastSend = time.time()
 
