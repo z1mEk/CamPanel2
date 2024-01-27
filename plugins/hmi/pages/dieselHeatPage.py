@@ -11,6 +11,6 @@ class dieselHeatPage(TPage):
     class btHeater(TDualStateButton):
         @classmethod
         async def onRelease(cls):
+            logging(f"BtHeater onRelease({cls.val})")
             relays.data.relay2.val = cls.val
             dieselHeater.heater.onOff = cls.val
-            await asyncio.sleep(0.1)
