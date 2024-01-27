@@ -124,8 +124,7 @@ class heater:
             buf[15] = transmitPacket.tempDesiredMax #Upper temperature limit
             buf[16] = transmitPacket.glowPlugPower #Glow Plug Power
             buf[17] = transmitPacket.manualPump #Manual pump (fuel prime) 0x5A
-            buf[18] = 0xEB
-            buf[19] = 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
+            buf[18], buf[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
             buf[20], buf[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
 
             crc = modbusCRC.calculateCrc16(buf[0:21])
