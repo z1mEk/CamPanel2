@@ -175,6 +175,7 @@ class heater:
                 #buf_receive = cls.srl.read(48) # 48?
                 lista = [0,0,5,1,0,15,0,216,0,131,28,0,121,0,25,15,52,56,52,12,21,25,25,12,25,21,25]
                 buf_receive = b''.join(x.to_bytes(1, 'big') for x in lista)
+                logging.info(f"{buf_receive}")
                 heater.translateReceivePacket(buf_receive[:24])
                 cls.lastSend = time.time()
 
