@@ -142,16 +142,16 @@ class heater:
         try:
             logging.info(f"{buf}")
             cls.runState = int.from_bytes(buf[2], byteorder='big')
-            # cls.onOff = int.from_bytes(buf[3], byteorder='big')
-            # cls.supplyVoltage = int.from_bytes(buf[4], byteorder='big') / 10
-            # cls.fanRpm = int.from_bytes(buf[6:7], byteorder='big')
-            # cls.fanVoltage = int.from_bytes(buf[8:9], byteorder='big') / 10
-            # cls.heatExchTemp = int.from_bytes(buf[10:11], byteorder='big')
-            # cls.glowPlugVoltage = int.from_bytes(buf[12:13], byteorder='big') / 10
-            # cls.glowPlugCurrent = int.from_bytes(buf[14:15], byteorder='big') / 100
-            # cls.actualPumpFreq = int.from_bytes(buf[16], byteorder='big') / 10
-            # cls.errorCode = int.from_bytes(buf[17], byteorder='big')
-            # cls.fixedModePumpFreq = int.from_bytes(buf[19], byteorder='big')
+            cls.onOff = int.from_bytes(buf[3], byteorder='big')
+            cls.supplyVoltage = int.from_bytes(buf[4], byteorder='big') / 10
+            cls.fanRpm = int.from_bytes(buf[6:7], byteorder='big')
+            cls.fanVoltage = int.from_bytes(buf[8:9], byteorder='big') / 10
+            cls.heatExchTemp = int.from_bytes(buf[10:11], byteorder='big')
+            cls.glowPlugVoltage = int.from_bytes(buf[12:13], byteorder='big') / 10
+            cls.glowPlugCurrent = int.from_bytes(buf[14:15], byteorder='big') / 100
+            cls.actualPumpFreq = int.from_bytes(buf[16], byteorder='big') / 10
+            cls.errorCode = int.from_bytes(buf[17], byteorder='big')
+            cls.fixedModePumpFreq = int.from_bytes(buf[19], byteorder='big')
 
             #cls.displayGradHzValue = transmitPacket.tempDesired if transmitPacket.thermostatMode == 1 else cls.actualPumpFreq
             #cls.displayGradHzUnit = "°C".encode("latin-2","ignore") if transmitPacket.thermostatMode == 1 else "Hz"
@@ -173,8 +173,8 @@ class heater:
                 #cls.srl.write(buf_transmit)
                 await asyncio.sleep(0.1)
                 #buf_receive = cls.srl.read(48) # 48?
-                lista = [0,0,5,1,0,15,0,216,0,131,28,0,121,0,25,15,52,56,52,12,21,25,25,12,25,21,25]
-                buf_receive = b''.join(x.to_bytes(1, 'big') for x in lista)
+                buf_receive = bytearray[0,0,5,1,0,15,0,216,0,131,28,0,121,0,25,15,52,56,52,12,21,25,25,12,25,21,25]
+                #buf_receive = b''.join(x.to_bytes(1, 'big') for x in lista)
                 heater.translateReceivePacket(buf_receive[:24])
                 cls.lastSend = time.time()
 
