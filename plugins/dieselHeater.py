@@ -11,10 +11,10 @@ import crcmod
 class helper:
     @classmethod
     def calculateFrequency(cls):
-        return transmitPacket.pumpFreqMin \
-            + (transmitPacket.tempDesired - transmitPacket.tempDesiredMin) \
-            / (transmitPacket.tempDesiredMax - transmitPacket.tempDesiredMin) \
-            * (transmitPacket.pumpFreqMax - transmitPacket.pumpFreqMin)
+        return data.transmitPacket.pumpFreqMin \
+            + (data.transmitPacket.tempDesired - data.transmitPacket.tempDesiredMin) \
+            / (data.transmitPacket.tempDesiredMax - data.transmitPacket.tempDesiredMin) \
+            * (data.transmitPacket.pumpFreqMax - data.transmitPacket.pumpFreqMin)
     
     @classmethod
     def getErrorDescription(cls, errorState):
@@ -73,6 +73,7 @@ class transmitPacket:
 
 class data:
     srl:Serial = None
+    transmitPacket = transmitPacket
     runState = 0
     runStateString = ""
     errorState = 0
@@ -99,22 +100,22 @@ class plugin:
             cmd = [0] * 24
             cmd[0] = 0x76 #Start of Frame - 0x76 for LCD
             cmd[1] = 0x16 #Data Size 24bytes
-            cmd[2] = transmitPacket.command #command
-            cmd[3] = transmitPacket.tempSensor if transmitPacket.thermostatMode == 1 else 0 #temp sensor
-            cmd[4] = transmitPacket.tempDesired #desired temp
-            cmd[5] = transmitPacket.pumpFreqMin #Minimum Pump frequency
-            cmd[6] = transmitPacket.pumpFreqMax #Maximum Pump frequency
-            cmd[7], cmd[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
-            cmd[9], cmd[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
-            cmd[11] = transmitPacket.voltageType #Heater Operating Voltage 
-            cmd[12] = transmitPacket.fanspeedSensor #Fan speed sensor
-            cmd[13] = 0x32 if transmitPacket.thermostatMode == 1 else 0xCD  #Thermostat/Fixed mode, cmd[3] = 0 when fixed mode
-            cmd[14] = transmitPacket.tempDesiredMin #Lower temperature limit
-            cmd[15] = transmitPacket.tempDesiredMax #Upper temperature limit
-            cmd[16] = transmitPacket.glowPlugPower #Glow Plug Power
-            cmd[17] = transmitPacket.manualPump #Manual pump (fuel prime) 0x5A
+            cmd[2] = data.transmitPacket.command #command
+            cmd[3] = data.transmitPacket.tempSensor if data.transmitPacket.thermostatMode == 1 else 0 #temp sensor
+            cmd[4] = data.transmitPacket.tempDesired #desired temp
+            cmd[5] = data.transmitPacket.pumpFreqMin #Minimum Pump frequency
+            cmd[6] = data.transmitPacket.pumpFreqMax #Maximum Pump frequency
+            cmd[7], cmd[8] = data.transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
+            cmd[9], cmd[10] = data.transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
+            cmd[11] = data.transmitPacket.voltageType #Heater Operating Voltage 
+            cmd[12] = data.transmitPacket.fanspeedSensor #Fan speed sensor
+            cmd[13] = 0x32 if data.transmitPacket.thermostatMode == 1 else 0xCD  #Thermostat/Fixed mode, cmd[3] = 0 when fixed mode
+            cmd[14] = data.transmitPacket.tempDesiredMin #Lower temperature limit
+            cmd[15] = data.transmitPacket.tempDesiredMax #Upper temperature limit
+            cmd[16] = data.transmitPacket.glowPlugPower #Glow Plug Power
+            cmd[17] = data.transmitPacket.manualPump #Manual pump (fuel prime) 0x5A
             cmd[18], cmd[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
-            cmd[20], cmd[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
+            cmd[20], cmd[21] = data.transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
 
             frame = b''.join(x.to_bytes(1, 'big') for x in cmd)            
 
@@ -122,7 +123,7 @@ class plugin:
             checksum = crc_func(frame)
             frame += checksum.to_bytes(2, 'big')
             
-            transmitPacket.command = 0 # reset command to 0
+            data.transmitPacket.command = 0 # reset command to 0
 
         except Exception as e:
             logging.error(f"dieselHeater - createTransmitPacket - {e}")
@@ -147,7 +148,7 @@ class plugin:
             data.errorDisplay = 'E-{:02}'.format(data.errorCode)
             data.errorDescription = helper.getErrorDescription(data.errorState)
             data.fixedModePumpFreq = frame[19]        
-            data.valueDisplay = "{:.0f}°C".format(transmitPacket.tempDesired / 10) if transmitPacket.thermostatMode == 1 else "{:.1f}Hz".format(data.actualPumpFreq)
+            data.valueDisplay = "{:.0f}°C".format(data.transmitPacket.tempDesired / 10) if data.transmitPacket.thermostatMode == 1 else "{:.1f}Hz".format(data.actualPumpFreq)
         except Exception as e:
             logging.error(f"dieselHeater - translateReceivePacket: {e}")
 
@@ -191,24 +192,24 @@ class plugin:
 
     @classmethod
     async def start(cls):
-            transmitPacket.command = 160
+            data.transmitPacket.command = 160
             await cls.sendPacket()
 
     @classmethod
     async def stop(cls):
-            transmitPacket.command = 5
+            data.transmitPacket.command = 5
             await cls.sendPacket()
 
     @classmethod
     async def up(cls):
-            if transmitPacket.tempDesired < transmitPacket.tempDesiredMax:
-                transmitPacket.tempDesired += 1
+            if data.transmitPacket.tempDesired < data.transmitPacket.tempDesiredMax:
+                data.transmitPacket.tempDesired += 1
                 await cls.sendPacket()
 
     @classmethod
     async def down(cls):
-            if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
-                transmitPacket.tempDesired -= 1
+            if data.transmitPacket.tempDesired > data.transmitPacket.tempDesiredMin:
+                data.transmitPacket.tempDesired -= 1
                 await cls.sendPacket()
    
     @classmethod
