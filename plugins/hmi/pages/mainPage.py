@@ -28,9 +28,9 @@ class mainPage(TPage):
                 relays.data.relay2.val = cls.val
 
                 if cls.val == 1:
-                    await dieselHeater.heater.start()
+                    await dieselHeater.plugin.start()
                 else:
-                    await dieselHeater.heater.stop()
+                    await dieselHeater.plugin.stop()
             except Exception as e:
                 logging.info(f"btHeater onRelease - {e}")
 
