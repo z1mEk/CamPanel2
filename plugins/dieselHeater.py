@@ -58,8 +58,8 @@ class transmitPacket:
     command: int = 0 # default command
     tempSensor:int = config.dieselHeater.tempSensor * 10 # default or get temperature from BME280
     tempDesired:int = config.dieselHeater.tempDesired * 10
-    pumpFreqMin:int = config.dieselHeater.pumpFreqMin * 10
-    pumpFreqMax:int = config.dieselHeater.pumpFreqMax * 10
+    pumpFreqMin:int = int(config.dieselHeater.pumpFreqMin * 10)
+    pumpFreqMax:int = int(config.dieselHeater.pumpFreqMax * 10)
     funSpeedMin:int = config.dieselHeater.funSpeedMin
     funSpeedMax:int = config.dieselHeater.funSpeedMax
     voltageType:int = config.dieselHeater.voltageType
@@ -150,7 +150,7 @@ class plugin:
             data.fixedModePumpFreq = frame[19]        
 
             data.displayGradHzValue = "{:.0f}".format(transmitPacket.tempDesired / 10) if transmitPacket.thermostatMode == 1 else "{:.1f}".format(data.actualPumpFreq)
-            data.displayGradHzUnit = "°C" if transmitPacket.thermostatMode == 1 else "Hz"
+            data.displayGradHzUnit = "°C".encode('iso-8859-2', 'replace') if transmitPacket.thermostatMode == 1 else "Hz"
         except Exception as e:
             logging.error(f"dieselHeater - translateReceivePacket: {e}")
 
