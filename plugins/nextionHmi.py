@@ -131,14 +131,15 @@ class plugin:
         while True:
             try:
                 if await methodsHmi.getCurrentPageId() == 2:
+                    dieselHeatPage.tValue.txt = "{:.1f}".format(dieselHeater.data.displayGradHzValue)
                     dieselHeatPage.btHeater.val = relays.data.relay2.val
                     dieselHeatPage.btThermostat.val = dieselHeater.transmitPacket.thermostatMode
                     dieselHeatPage.tStatus.txt = "{:.0f}".format(dieselHeater.data.runState)
-                    dieselHeatPage.tVoltage.txt = "{:.0f}V".format(dieselHeater.data.supplyVoltage)
+                    dieselHeatPage.tVoltage.txt = "{:.1f}V".format(dieselHeater.data.supplyVoltage)
                     dieselHeatPage.tRpm.txt = "{:.0f}".format(dieselHeater.data.fanRpm)
-                    dieselHeatPage.tFrequency.txt = "{:.0f}Hz".format(dieselHeater.data.actualPumpFreq)
+                    dieselHeatPage.tFrequency.txt = "{:.1f}Hz".format(dieselHeater.data.actualPumpFreq)
                     dieselHeatPage.tHeaterTemp.txt = "{:.0f}*C".format(dieselHeater.data.heatExchTemp)
-                    dieselHeatPage.tGlowPlugCurr.txt = "{:.0f}A".format(dieselHeater.data.glowPlugCurrent)
+                    dieselHeatPage.tGlowPlugCurr.txt = "{:.2f}A".format(dieselHeater.data.glowPlugCurrent)
                     dieselHeatPage.tError.txt = dieselHeater.data.errorDisplay
             except Exception as e:
                 logging.error(f"updateDieselHeaterData - {e}")

@@ -21,6 +21,9 @@ class dieselHeatPage(TPage):
         @classmethod
         async def onRelease(cls):
             dieselHeater.heater.transmitPacket.thermostatMode = cls.val
+
+    class tValue(TText):
+        pass
         
     class bUp(TButton):
         @classmethod
