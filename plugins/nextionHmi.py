@@ -138,7 +138,7 @@ class plugin:
                     dieselHeatPage.tVoltage.txt = "{:.1f}V".format(dieselHeater.data.supplyVoltage)
                     dieselHeatPage.tRpm.txt = "{:.0f}".format(dieselHeater.data.fanRpm)
                     dieselHeatPage.tFrequency.txt = "{:.1f}Hz".format(dieselHeater.data.actualPumpFreq)
-                    dieselHeatPage.tHeaterTemp.txt = "{:.0f}℃".format(dieselHeater.data.heatExchTemp).encode('utf-8')
+                    dieselHeatPage.tHeaterTemp.txt = "{:.0f}"+ chr(0xDF) + "C".format(dieselHeater.data.heatExchTemp)
                     dieselHeatPage.tGlowPlugCurr.txt = "{:.2f}A".format(dieselHeater.data.glowPlugCurrent)
                     dieselHeatPage.tError.txt = dieselHeater.data.errorDisplay
             except Exception as e:
