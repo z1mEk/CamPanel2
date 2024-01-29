@@ -48,7 +48,7 @@ async def create(event_loop):
     try:
         nextion_device = device.FindUsbDevice(config.nextion.device)
         logging.info(f"Create Nextion client")
-        client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
+        client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5)
         await client.connect()
         logging.info(f"Nextion device connected: {nextion_device}, {config.nextion.baudrate}")
         await startupCommands()
