@@ -87,8 +87,7 @@ class data:
     errorDisplay = ""
     errorDescription = ""
     fixedModePumpFreq = 0
-    displayGradHzUnit = "Hz"
-    displayGradHzValue = ""
+    valueDisplay = ""
     calculateFreq = helper.calculateFrequency()
     lastSend = time.time()
 
@@ -148,9 +147,7 @@ class plugin:
             data.errorDisplay = 'E-{:02}'.format(data.errorCode)
             data.errorDescription = helper.getErrorDescription(data.errorState)
             data.fixedModePumpFreq = frame[19]        
-
-            data.displayGradHzValue = "{:.0f}".format(transmitPacket.tempDesired / 10) if transmitPacket.thermostatMode == 1 else "{:.1f}".format(data.actualPumpFreq)
-            data.displayGradHzUnit = "°C".encode('iso-8859-2', 'replace') if transmitPacket.thermostatMode == 1 else "Hz"
+            data.valueDisplay = "{:.0f}°C".format(transmitPacket.tempDesired / 10) if transmitPacket.thermostatMode == 1 else "{:.1f}Hz".format(data.actualPumpFreq)
         except Exception as e:
             logging.error(f"dieselHeater - translateReceivePacket: {e}")
 

@@ -13,14 +13,14 @@ class dieselHeatPage(TPage):
         async def onRelease(cls):
             relays.data.relay2.val = cls.val
             if cls.val == 1:
-                await dieselHeater.heater.start()
+                await dieselHeater.plugin.start()
             else:
-                await dieselHeater.heater.stop()
+                await dieselHeater.plugin.stop()
 
     class btThermostat(TDualStateButton):
         @classmethod
         async def onRelease(cls):
-            dieselHeater.heater.transmitPacket.thermostatMode = cls.val
+            dieselHeater.transmitPacket.thermostatMode = cls.val
 
     class tValue(TText):
         pass
@@ -28,12 +28,12 @@ class dieselHeatPage(TPage):
     class bUp(TButton):
         @classmethod
         async def onTouch(cls):
-            await dieselHeater.heater.up()
+            await dieselHeater.plugin.up()
 
     class bDown(TButton):
         @classmethod
         async def onTouch(cls):
-            await dieselHeater.heater.down()
+            await dieselHeater.plugin.down()
         
     class tStatus(TText):
         pass
