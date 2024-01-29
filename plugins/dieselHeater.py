@@ -56,7 +56,7 @@ class helper:
 
 class transmitPacket:
     command: int = 0 # default command
-    tempSensor:int = config.dieselHeater.tampSensor * 10 # default or get temperature from BME280
+    tempSensor:int = config.dieselHeater.tempSensor * 10 # default or get temperature from BME280
     tempDesired:int = config.dieselHeater.tempDesired * 10
     pumpFreqMin:int = config.dieselHeater.pumpFreqMin * 10
     pumpFreqMax:int = config.dieselHeater.pumpFreqMax * 10

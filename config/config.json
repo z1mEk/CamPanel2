@@ -63,7 +63,7 @@
     },
     "dieselHeater": {
         "device": "123:123",
-        "tampSensor": 18,
+        "tempSensor": 18,
         "tempDesired": 18,
         "pumpFreqMin": 1.4,
         "pumpFreqMax": 5.5,
