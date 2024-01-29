@@ -56,37 +56,20 @@ class helper:
 
 class transmitPacket:
     command: int = 0 # default command
-    tempSensor:int = 0
-    tempDesired:int = 0
-    pumpFreqMin:int = 0
-    pumpFreqMax:int = 0
-    funSpeedMin:int = 0
-    funSpeedMax:int = 0
-    voltageType:int = 0
-    fanspeedSensor:int = 0
-    thermostatMode:int = 0
-    tempDesiredMin:int = 0
-    tempDesiredMax:int = 0
-    glowPlugPower:int = 0
-    manualPump:int = 0
-    altitude:int = 0
-
-    def loadFromConfig(self):
-        self.command: int = 0 # default command
-        self.tempSensor:int = config.dieselHeater.tempSensor * 10 # default or get temperature from BME280
-        self.tempDesired:int = config.dieselHeater.tempDesired * 10
-        self.pumpFreqMin:int = int(config.dieselHeater.pumpFreqMin * 10)
-        self.pumpFreqMax:int = int(config.dieselHeater.pumpFreqMax * 10)
-        self.funSpeedMin:int = config.dieselHeater.funSpeedMin
-        self.funSpeedMax:int = config.dieselHeater.funSpeedMax
-        self.voltageType:int = config.dieselHeater.voltageType
-        self.fanspeedSensor:int = config.dieselHeater.fanspeedSensor
-        self.thermostatMode:int = config.dieselHeater.thermostatMode
-        self.tempDesiredMin:int = config.dieselHeater.tempDesiredMin
-        self.tempDesiredMax:int = config.dieselHeater.tempDesiredMax
-        self.glowPlugPower:int = config.dieselHeater.glowPlugPower
-        self.manualPump:int = config.dieselHeater.manualPump
-        self.altitude:int = config.dieselHeater.altitude # or get altitude from BME280       
+    tempSensor:int = config.dieselHeater.tempSensor * 10 # default or get temperature from BME280
+    tempDesired:int = config.dieselHeater.tempDesired * 10
+    pumpFreqMin:int = int(config.dieselHeater.pumpFreqMin * 10)
+    pumpFreqMax:int = int(config.dieselHeater.pumpFreqMax * 10)
+    funSpeedMin:int = config.dieselHeater.funSpeedMin
+    funSpeedMax:int = config.dieselHeater.funSpeedMax
+    voltageType:int = config.dieselHeater.voltageType
+    fanspeedSensor:int = config.dieselHeater.fanspeedSensor
+    thermostatMode:int = config.dieselHeater.thermostatMode
+    tempDesiredMin:int = config.dieselHeater.tempDesiredMin
+    tempDesiredMax:int = config.dieselHeater.tempDesiredMax
+    glowPlugPower:int = config.dieselHeater.glowPlugPower
+    manualPump:int = config.dieselHeater.manualPump
+    altitude:int = config.dieselHeater.altitude # or get altitude from BME280       
 
 class data:
     srl:Serial = None
