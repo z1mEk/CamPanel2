@@ -6,90 +6,76 @@ from general.deviceManager import device
 from serial import Serial
 from general.logger import logging
 import time
+import crcmod
 
-class modbusCRC:
-    CRCTableHigh = [
-            0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
-            0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
-            0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01,
-            0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,
-            0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81,
-            0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,
-            0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01,
-            0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
-            0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
-            0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
-            0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01,
-            0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
-            0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
-            0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
-            0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01,
-            0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
-            0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
-            0x40
-        ]
-
-    CRCTableLow = [
-            0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06, 0x07, 0xC7, 0x05, 0xC5, 0xC4,
-            0x04, 0xCC, 0x0C, 0x0D, 0xCD, 0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,
-            0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9, 0x1B, 0xDB, 0xDA, 0x1A, 0x1E, 0xDE, 0xDF, 0x1F, 0xDD,
-            0x1D, 0x1C, 0xDC, 0x14, 0xD4, 0xD5, 0x15, 0xD7, 0x17, 0x16, 0xD6, 0xD2, 0x12, 0x13, 0xD3,
-            0x11, 0xD1, 0xD0, 0x10, 0xF0, 0x30, 0x31, 0xF1, 0x33, 0xF3, 0xF2, 0x32, 0x36, 0xF6, 0xF7,
-            0x37, 0xF5, 0x35, 0x34, 0xF4, 0x3C, 0xFC, 0xFD, 0x3D, 0xFF, 0x3F, 0x3E, 0xFE, 0xFA, 0x3A,
-            0x3B, 0xFB, 0x39, 0xF9, 0xF8, 0x38, 0x28, 0xE8, 0xE9, 0x29, 0xEB, 0x2B, 0x2A, 0xEA, 0xEE,
-            0x2E, 0x2F, 0xEF, 0x2D, 0xED, 0xEC, 0x2C, 0xE4, 0x24, 0x25, 0xE5, 0x27, 0xE7, 0xE6, 0x26,
-            0x22, 0xE2, 0xE3, 0x23, 0xE1, 0x21, 0x20, 0xE0, 0xA0, 0x60, 0x61, 0xA1, 0x63, 0xA3, 0xA2,
-            0x62, 0x66, 0xA6, 0xA7, 0x67, 0xA5, 0x65, 0x64, 0xA4, 0x6C, 0xAC, 0xAD, 0x6D, 0xAF, 0x6F,
-            0x6E, 0xAE, 0xAA, 0x6A, 0x6B, 0xAB, 0x69, 0xA9, 0xA8, 0x68, 0x78, 0xB8, 0xB9, 0x79, 0xBB,
-            0x7B, 0x7A, 0xBA, 0xBE, 0x7E, 0x7F, 0xBF, 0x7D, 0xBD, 0xBC, 0x7C, 0xB4, 0x74, 0x75, 0xB5,
-            0x77, 0xB7, 0xB6, 0x76, 0x72, 0xB2, 0xB3, 0x73, 0xB1, 0x71, 0x70, 0xB0, 0x50, 0x90, 0x91,
-            0x51, 0x93, 0x53, 0x52, 0x92, 0x96, 0x56, 0x57, 0x97, 0x55, 0x95, 0x94, 0x54, 0x9C, 0x5C,
-            0x5D, 0x9D, 0x5F, 0x9F, 0x9E, 0x5E, 0x5A, 0x9A, 0x9B, 0x5B, 0x99, 0x59, 0x58, 0x98, 0x88,
-            0x48, 0x49, 0x89, 0x4B, 0x8B, 0x8A, 0x4A, 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C,
-            0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42, 0x43, 0x83, 0x41, 0x81, 0x80,
-            0x40
-        ]
-
+class helper:
     @classmethod
-    def calculateCrc16(cls, data):
-        crcHigh, crcLow = 0xff, 0xff
-        index = 0
-        for byte in data:
-            index = crcLow ^ byte
-            crcLow  = crcHigh ^ cls.CRCTableHigh[index]
-            crcHigh = cls.CRCTableLow[index]
-        return (crcHigh << 8 | crcLow)
+    def calculateFrequency(cls):
+        return transmitPacket.pumpFreqMin \
+            + (transmitPacket.tempDesired - transmitPacket.tempDesiredMin) \
+            / (transmitPacket.tempDesiredMax - transmitPacket.tempDesiredMin) \
+            * (transmitPacket.pumpFreqMax - transmitPacket.pumpFreqMin)
+    
+    @classmethod
+    def getErrorDescription(cls, errorState):
+        errorMsg = [
+            "No Error",
+            "No Error, but started",
+            "Voltage too low",
+            "Voltage too high",
+            "Ignition plug failure",
+            "Pump Failure - over current",
+            "Too hot",
+            "Motor Failure",
+            "Serial connection lost",
+            "Fire is extinguished",
+            "Temperature sensor failure"
+        ]
 
-# class helper:
-#     @classmethod
-#     def calculateFrequency(cls):
-#         return transmitPacket.pumpFreqMin \
-#             + (transmitPacket.tempDesired - transmitPacket.tempDesiredMin) \
-#             / (transmitPacket.tempDesiredMax - transmitPacket.tempDesiredMin) \
-#             * (transmitPacket.pumpFreqMax - transmitPacket.pumpFreqMin)
+        if errorState == 0:
+            return "Idle"
+        elif errorState == 1:
+            return "Running normally"
+        else:
+            return errorMsg[errorState - 2]
+        
+    @classmethod
+    def getRunStateString(cls, runState):
+        runStateStrings = [
+            "Off / Standby",
+            "Start Acknowledge",
+            "Glow plug pre-heat",
+            "Failed ignition - pausing for retry",
+            "Ignited - heating to full temp phase",
+            "Running",
+            "Skipped - stop acknowledge",
+            "Stopping - Post run glow re-heat",
+            "Cooldown"
+        ]
+        return runStateStrings[runState]
 
 class transmitPacket:
     command = 0 # default command
-    tempSensor = int(config.dieselHeater.tampSensor) # default or get temperature from BME280
-    tempDesired = int(config.dieselHeater.tempDesired)
-    pumpFreqMin = int(config.dieselHeater.pumpFreqMin * 10)
-    pumpFreqMax = int(config.dieselHeater.pumpFreqMax * 10)
-    funSpeedMin = int(config.dieselHeater.funSpeedMin)
-    funSpeedMax = int(config.dieselHeater.funSpeedMax)
-    voltageType = int(config.dieselHeater.voltageType * 10)
-    fanspeedSensor = int(config.dieselHeater.fanspeedSensor)
-    thermostatMode = int(config.dieselHeater.thermostatMode)
-    tempDesiredMin = int(config.dieselHeater.tempDesiredMin)
-    tempDesiredMax = int(config.dieselHeater.tempDesiredMax)
-    glowPlugPower = int(config.dieselHeater.glowPlugPower)
-    manualPump = int(config.dieselHeater.manualPump)
-    altitude = int(config.dieselHeater.altitude) # or get altitude from BME280
+    tempSensor = config.dieselHeater.tampSensor # default or get temperature from BME280
+    tempDesired:int = config.dieselHeater.tempDesired
+    pumpFreqMin:float = config.dieselHeater.pumpFreqMin
+    pumpFreqMax:float = config.dieselHeater.pumpFreqMax
+    funSpeedMin:int = config.dieselHeater.funSpeedMin
+    funSpeedMax:int = config.dieselHeater.funSpeedMax
+    voltageType:int = config.dieselHeater.voltageType
+    fanspeedSensor:int = config.dieselHeater.fanspeedSensor
+    thermostatMode:int = config.dieselHeater.thermostatMode
+    tempDesiredMin:int = config.dieselHeater.tempDesiredMin
+    tempDesiredMax:int = config.dieselHeater.tempDesiredMax
+    glowPlugPower:int = config.dieselHeater.glowPlugPower
+    manualPump:int = config.dieselHeater.manualPump
+    altitude:int = config.dieselHeater.altitude # or get altitude from BME280
 
-class heater:
+class data:
     srl:Serial = None
-    transmitPacket = transmitPacket
     runState = 0
-    onOff = 0
+    runStateString = ""
+    errorState = 0
     supplyVoltage = 0
     fanRpm = 0
     fanVoltage = 0
@@ -98,63 +84,72 @@ class heater:
     glowPlugCurrent = 0
     actualPumpFreq = 0
     errorCode = 0
+    errorDisplay = ""
+    errorDescription = ""
     fixedModePumpFreq = 0
     displayGradHzUnit = "Hz"
     displayGradHzValue = 0
-    #calculateFreq = helper.calculateFrequency()
+    calculateFreq = helper.calculateFrequency()
     lastSend = time.time()
 
+class plugin:
     @classmethod
     def createTransmitPacket(cls):
         try:
-            buf = [0] * 24
-            buf[0] = 0x76#Start of Frame - 0x76 for LCD
-            buf[1] = 0x16 #Data Size 24bytes
-            buf[2] = transmitPacket.command #command
-            buf[3] = transmitPacket.tempSensor if transmitPacket.thermostatMode == 1 else 0 #temp sensor
-            buf[4] = transmitPacket.tempDesired #desired temp
-            buf[5] = transmitPacket.pumpFreqMin #Minimum Pump frequency
-            buf[6] = transmitPacket.pumpFreqMax #Maximum Pump frequency
-            buf[7], buf[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
-            buf[9], buf[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
-            buf[11] = transmitPacket.voltageType #Heater Operating Voltage 
-            buf[12] = transmitPacket.fanspeedSensor #Fan speed sensor
-            buf[13] = 0x32 if transmitPacket.thermostatMode == 1 else 0x32  #Thermostat/Fixed mode, buf[3] = 0 when fixed mode
-            buf[14] = transmitPacket.tempDesiredMin #Lower temperature limit
-            buf[15] = transmitPacket.tempDesiredMax #Upper temperature limit
-            buf[16] = transmitPacket.glowPlugPower #Glow Plug Power
-            buf[17] = transmitPacket.manualPump #Manual pump (fuel prime) 0x5A
-            buf[18], buf[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
-            buf[20], buf[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
+            cmd = [0] * 24
+            cmd[0] = 0x76 #Start of Frame - 0x76 for LCD
+            cmd[1] = 0x16 #Data Size 24bytes
+            cmd[2] = transmitPacket.command #command
+            cmd[3] = transmitPacket.tempSensor if transmitPacket.thermostatMode == 1 else 0 #temp sensor
+            cmd[4] = transmitPacket.tempDesired #desired temp
+            cmd[5] = transmitPacket.pumpFreqMin #Minimum Pump frequency
+            cmd[6] = transmitPacket.pumpFreqMax #Maximum Pump frequency
+            cmd[7], cmd[8] = transmitPacket.funSpeedMin.to_bytes(2, byteorder='big') #Minimum fan speed MSB, LSB
+            cmd[9], cmd[10] = transmitPacket.funSpeedMax.to_bytes(2, byteorder='big') #Maximum fan speed MSB, LSB
+            cmd[11] = transmitPacket.voltageType #Heater Operating Voltage 
+            cmd[12] = transmitPacket.fanspeedSensor #Fan speed sensor
+            cmd[13] = 0x32 if transmitPacket.thermostatMode == 1 else 0xCD  #Thermostat/Fixed mode, cmd[3] = 0 when fixed mode
+            cmd[14] = transmitPacket.tempDesiredMin #Lower temperature limit
+            cmd[15] = transmitPacket.tempDesiredMax #Upper temperature limit
+            cmd[16] = transmitPacket.glowPlugPower #Glow Plug Power
+            cmd[17] = transmitPacket.manualPump #Manual pump (fuel prime) 0x5A
+            cmd[18], cmd[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
+            cmd[20], cmd[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
 
-            crc = modbusCRC.calculateCrc16(buf[0:21])
-            buf[22], buf[23] = crc & 0xFF, crc >> 8
+            frame = b''.join(x.to_bytes(1, 'big') for x in cmd)            
+
+            crc_func = crcmod.predefined.mkPredefinedCrcFun('modbus')
+            checksum = crc_func(frame)
+            frame += checksum.to_bytes(2, 'big')
             
-            transmitPacket.command = 0 # reset command to 0x00
+            transmitPacket.command = 0 # reset command to 0
 
         except Exception as e:
             logging.error(f"dieselHeater - createTransmitPacket - {e}")
 
-        return buf
-    
+        return frame
+       
     @classmethod
-    def translateReceivePacket(cls, buf):
+    def translateReceivePacket(cls, frame):
         try:
-            logging.info(f"{buf}")
-            cls.runState = int.from_bytes(buf[2], byteorder='big')
-            cls.onOff = int.from_bytes(buf[3], byteorder='big')
-            cls.supplyVoltage = int.from_bytes(buf[4], byteorder='big') / 10
-            cls.fanRpm = int.from_bytes(buf[6:7], byteorder='big')
-            cls.fanVoltage = int.from_bytes(buf[8:9], byteorder='big') / 10
-            cls.heatExchTemp = int.from_bytes(buf[10:11], byteorder='big')
-            cls.glowPlugVoltage = int.from_bytes(buf[12:13], byteorder='big') / 10
-            cls.glowPlugCurrent = int.from_bytes(buf[14:15], byteorder='big') / 100
-            cls.actualPumpFreq = int.from_bytes(buf[16], byteorder='big') / 10
-            cls.errorCode = int.from_bytes(buf[17], byteorder='big')
-            cls.fixedModePumpFreq = int.from_bytes(buf[19], byteorder='big')
+            logging.info(f"{frame}")
+            data.runState = frame[2]
+            data.runStateString = helper.getRunStateString(data.runState)
+            data.errorState = frame[3]
+            data.supplyVoltage = int.from_bytes(frame[4:6], 'big') / 10
+            data.fanRpm = int.from_bytes(frame[6:8], 'big')
+            data.fanVoltage = int.from_bytes(frame[8:10], 'big') / 10
+            data.heatExchTemp = int.from_bytes(frame[10:12], 'big')
+            data.glowPlugVoltage = int.from_bytes(frame[12:14], 'big') / 10
+            data.glowPlugCurrent = int.from_bytes(frame[14:16], 'big') / 100
+            data.actualPumpFreq = frame[16] / 10
+            data.errorCode = frame[17] - 1
+            data.errorDisplay = 'E-{:02}'.format(data.errorCode)
+            data.errorDescription = helper.getErrorDescription(data.errorState)
+            data.fixedModePumpFreq = frame[19]        
 
-            #cls.displayGradHzValue = transmitPacket.tempDesired if transmitPacket.thermostatMode == 1 else cls.actualPumpFreq
-            #cls.displayGradHzUnit = "°C".encode("latin-2","ignore") if transmitPacket.thermostatMode == 1 else "Hz"
+            data.displayGradHzValue = transmitPacket.tempDesired if transmitPacket.thermostatMode == 1 else cls.actualPumpFreq
+            data.displayGradHzUnit = "°C" if transmitPacket.thermostatMode == 1 else "Hz"
         except Exception as e:
             logging.error(f"dieselHeater - translateReceivePacket: {e}")
 
@@ -169,13 +164,14 @@ class heater:
                 # if cls.srl.closed:
                 #     cls.srl.open()
 
-                buf_transmit = heater.createTransmitPacket()
-                #cls.srl.write(buf_transmit)
+                frame_transmit = cls.createTransmitPacket()
+                #cls.srl.write(frame_transmit)
                 await asyncio.sleep(0.1)
-                #buf_receive = cls.srl.read(48) # 48?
-                buf_receive = [0,0,5,1,0,15,0,216,0,131,28,0,121,0,25,15,52,56,52,12,21,25,25,12,25,21,25]
-                #buf_receive = b''.join(x.to_bytes(1, 'big') for x in lista)
-                heater.translateReceivePacket(buf_receive[:24])
+                #frame_receive = cls.srl.read(48) # 48?
+
+                frame_receive = b'\x76\x16\x05\x01\x00\x83\x06\x90\x00\x85\x00\x6A\x00\x82\x03\x85\x0e\x01\x00\x0e\x00\x00\x00\x00\x00'
+
+                cls.translateReceivePacket(frame_receive[:24])
                 cls.lastSend = time.time()
 
         except Exception as e:
@@ -196,12 +192,12 @@ class heater:
 
     @classmethod
     async def start(cls):
-            transmitPacket.command = 0xA0
+            transmitPacket.command = 160
             await cls.sendPacket()
 
     @classmethod
     async def stop(cls):
-            transmitPacket.command = 0x05
+            transmitPacket.command = 5
             await cls.sendPacket()
 
     @classmethod
@@ -215,13 +211,7 @@ class heater:
             if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
                 transmitPacket.tempDesired -= 1
                 await cls.sendPacket()
-
-    @classmethod
-    async def readData(cls, interval):
-         await heater.sendPacketLoop()
-    
-class plugin:
    
     @classmethod
     async def initialize(cls, event_loop):
-        event_loop.create_task(heater.sendPacketLoop())
+        event_loop.create_task(cls.sendPacketLoop())
