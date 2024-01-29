@@ -172,7 +172,7 @@ class plugin:
                 frame_receive = b'\x76\x16\x05\x01\x00\x83\x06\x90\x00\x85\x00\x6A\x00\x82\x03\x85\x0e\x01\x00\x0e\x00\x00\x00\x00\x00'
 
                 cls.translateReceivePacket(frame_receive[:24])
-                cls.lastSend = time.time()
+                data.lastSend = time.time()
 
         except Exception as e:
             logging.error(f"dieselHeater - sendPacket: {e}")
@@ -183,7 +183,7 @@ class plugin:
     async def sendPacketLoop(cls):
         while True:
             try:
-                if time.time() - cls.lastSend < 2:
+                if time.time() - data.lastSend < 2:
                     await asyncio.sleep(3)
                 await cls.sendPacket()
                 #await asyncio.sleep(interval)
