@@ -55,11 +55,11 @@ class helper:
         return runStateStrings[runState]
 
 class transmitPacket:
-    command = 0 # default command
-    tempSensor = config.dieselHeater.tampSensor # default or get temperature from BME280
-    tempDesired:int = config.dieselHeater.tempDesired
-    pumpFreqMin:float = config.dieselHeater.pumpFreqMin
-    pumpFreqMax:float = config.dieselHeater.pumpFreqMax
+    command: int = 0 # default command
+    tempSensor:int = config.dieselHeater.tampSensor * 10 # default or get temperature from BME280
+    tempDesired:int = config.dieselHeater.tempDesired * 10
+    pumpFreqMin:int = config.dieselHeater.pumpFreqMin * 10
+    pumpFreqMax:int = config.dieselHeater.pumpFreqMax * 10
     funSpeedMin:int = config.dieselHeater.funSpeedMin
     funSpeedMax:int = config.dieselHeater.funSpeedMax
     voltageType:int = config.dieselHeater.voltageType
@@ -95,6 +95,7 @@ class data:
 class plugin:
     @classmethod
     def createTransmitPacket(cls):
+        frame = b''
         try:
             cmd = [0] * 24
             cmd[0] = 0x76 #Start of Frame - 0x76 for LCD
