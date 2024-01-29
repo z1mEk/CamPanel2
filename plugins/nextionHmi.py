@@ -131,7 +131,7 @@ class plugin:
         while True:
             try:
                 if await methodsHmi.getCurrentPageId() == 2:
-                    dieselHeatPage.tValue.txt = "{:.1f}".format(dieselHeater.data.displayGradHzValue)
+                    dieselHeatPage.tValue.txt = dieselHeater.data.displayGradHzValue 
                     dieselHeatPage.btHeater.val = relays.data.relay2.val
                     dieselHeatPage.btThermostat.val = dieselHeater.transmitPacket.thermostatMode
                     dieselHeatPage.tStatus.txt = "{:.0f}".format(dieselHeater.data.runState)
