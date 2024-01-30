@@ -213,5 +213,4 @@ class plugin:
    
     @classmethod
     async def initialize(cls, event_loop):
-        transmitPacket.loadFromConfig()
         event_loop.create_task(cls.sendPacketLoop())
