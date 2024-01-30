@@ -56,8 +56,8 @@ class helper:
 
 class transmitPacket:
     command: int = 0 # default command
-    tempSensor:int = config.dieselHeater.tempSensor * 10 # default or get temperature from BME280
-    tempDesired:int = config.dieselHeater.tempDesired * 10
+    tempSensor:int = config.dieselHeater.tempSensor # default or get temperature from BME280
+    tempDesired:int = config.dieselHeater.tempDesired
     pumpFreqMin:int = int(config.dieselHeater.pumpFreqMin * 10)
     pumpFreqMax:int = int(config.dieselHeater.pumpFreqMax * 10)
     funSpeedMin:int = config.dieselHeater.funSpeedMin
@@ -146,7 +146,7 @@ class plugin:
             data.errorDisplay = 'E-{:02}'.format(data.errorCode)
             data.errorDescription = helper.getErrorDescription(data.errorState)
             data.fixedModePumpFreq = frame[19]        
-            data.valueDisplay = "OFF" if data.runState == 0 else "{:.0f}°C".format(transmitPacket.tempDesired / 10) \
+            data.valueDisplay = "OFF" if data.runState == 0 else "{:.0f}°C".format(transmitPacket.tempDesired) \
                     if transmitPacket.thermostatMode == 1 else "{:.1f}Hz".format(data.fixedModePumpFreq / 10) # data.actualPumpFreq ??
         except Exception as e:
             logging.error(f"dieselHeater - translateReceivePacket: {e}")
