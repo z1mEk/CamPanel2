@@ -6,6 +6,10 @@ from general.logger import logging
 
 class solarWaterPage(TPage):
 
+    @classmethod
+    async def onShow(cls):
+        logging.info(f"kurwa udało się")
+
     class btActive(TDualStateButton):
         pass
 
