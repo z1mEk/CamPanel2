@@ -147,7 +147,7 @@ class plugin:
             data.errorDescription = helper.getErrorDescription(data.errorState)
             data.fixedModePumpFreq = frame[19]        
             data.valueDisplay = "{:.0f}°C".format(transmitPacket.tempDesired / 10) \
-                    if transmitPacket.thermostatMode == 1 else "{:.1f}Hz".format(data.fixedModePumpFreq) # data.actualPumpFreq ??
+                    if transmitPacket.thermostatMode == 1 else "{:.1f}Hz".format(data.fixedModePumpFreq / 10) # data.actualPumpFreq ??
         except Exception as e:
             logging.error(f"dieselHeater - translateReceivePacket: {e}")
 

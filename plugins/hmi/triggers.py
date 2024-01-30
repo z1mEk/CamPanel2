@@ -12,7 +12,7 @@ components_touch_event = [
         {"page_id": 0, "component_id": 8, "touch_event": 0, "call_back": mainPage.btBoiler.onRelease},
 
         {"page_id": 2, "component_id": 8, "touch_event": 0, "call_back": dieselHeatPage.btHeater.onRelease},
-        {"page_id": 2, "component_id": 9, "touch_event": 1, "call_back": dieselHeatPage.btHeater.onTouch},
-        {"page_id": 2, "component_id": 10, "touch_event": 1, "call_back": dieselHeatPage.btHeater.onTouch},
+        {"page_id": 2, "component_id": 9, "touch_event": 1, "call_back": dieselHeatPage.bUp.onTouch},
+        {"page_id": 2, "component_id": 10, "touch_event": 1, "call_back": dieselHeatPage.bDown.onTouch},
         {"page_id": 2, "component_id": 11, "touch_event": 0, "call_back": dieselHeatPage.btThermostat.onRelease},
     ]
