@@ -32,11 +32,13 @@ class dieselHeatPage(TPage):
     class bUp(TButton):
         @classmethod
         async def onTouch(cls):
+            logging.info(f"onTOuch")
             await dieselHeater.plugin.up()
 
     class bDown(TButton):
         @classmethod
         async def onTouch(cls):
+            logging.info(f"onTOuch")
             await dieselHeater.plugin.down()
 
     class tValue(TText):

@@ -209,6 +209,7 @@ class plugin:
     @classmethod
     async def down(cls):
             if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
+                logging.info(f"up - {transmitPacket.tempDesired}, {transmitPacket.tempDesiredMin}")
                 transmitPacket.tempDesired -= 1
                 await cls.sendPacket()
    
