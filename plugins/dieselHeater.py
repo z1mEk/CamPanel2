@@ -132,7 +132,6 @@ class plugin:
     @classmethod
     def translateReceivePacket(cls, frame):
         try:
-            logging.info(f"{frame}")
             data.runState = frame[2]
             data.runStateString = helper.getRunStateString(data.runState)
             data.errorState = frame[3]
@@ -147,7 +146,8 @@ class plugin:
             data.errorDisplay = 'E-{:02}'.format(data.errorCode)
             data.errorDescription = helper.getErrorDescription(data.errorState)
             data.fixedModePumpFreq = frame[19]        
-            data.valueDisplay = "{:.0f}°C".format(transmitPacket.tempDesired / 10) if transmitPacket.thermostatMode == 1 else "{:.1f}Hz".format(data.actualPumpFreq)
+            data.valueDisplay = "{:.0f}°C".format(transmitPacket.tempDesired / 10) \
+                    if transmitPacket.thermostatMode == 1 else "{:.1f}Hz".format(data.fixedModePumpFreq) # data.actualPumpFreq ??
         except Exception as e:
             logging.error(f"dieselHeater - translateReceivePacket: {e}")
 
