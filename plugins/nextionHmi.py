@@ -109,7 +109,7 @@ class plugin:
 
     @classmethod
     async def updateSolarsolarWaterHeatingData(cls, interval): 
-        await asyncio.sleep(3)  
+        await cls.initSolarsolarWaterHeatingDataToPage()
         while True:
             if await methodsHmi.getCurrentPageId() == 1:
                 solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
@@ -156,6 +156,5 @@ class plugin:
         event_loop.create_task(cls.updateEpeverTracer(2))
         event_loop.create_task(cls.updateWaterLevel(2))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
-        event_loop.create_task(cls.initSolarsolarWaterHeatingDataToPage())
         event_loop.create_task(cls.updateSolarsolarWaterHeatingData(1))
         event_loop.create_task(cls.updateDieselHeaterData(1))
