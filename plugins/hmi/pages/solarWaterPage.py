@@ -6,7 +6,11 @@ from general.logger import logging
 from plugins import solarWaterHeating
 
 class solarWaterPage(TPage):
-   
+
+    @classmethod
+    async def onShow(cls):
+        return await super().onShow()
+    
     @classmethod
     async def onExit(cls):
         solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val

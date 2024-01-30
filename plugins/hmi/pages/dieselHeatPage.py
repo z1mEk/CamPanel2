@@ -6,7 +6,14 @@ from plugins import dieselHeater, relays
 from general.logger import logging
 
 class dieselHeatPage(TPage):
-    pass
+
+    @classmethod
+    async def onShow(cls):
+        return await super().onShow()
+    
+    @classmethod
+    async def onExit(cls):      
+        return await super().onExit()
 
     class btHeater(TDualStateButton):
         @classmethod
@@ -21,9 +28,6 @@ class dieselHeatPage(TPage):
         @classmethod
         async def onRelease(cls):
             dieselHeater.transmitPacket.thermostatMode = cls.val
-
-    class tValue(TText):
-        pass
         
     class bUp(TButton):
         @classmethod
@@ -34,6 +38,9 @@ class dieselHeatPage(TPage):
         @classmethod
         async def onTouch(cls):
             await dieselHeater.plugin.down()
+
+    class tValue(TText):
+        pass
         
     class tStatus(TText):
         pass

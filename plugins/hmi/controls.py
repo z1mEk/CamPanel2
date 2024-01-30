@@ -42,7 +42,7 @@ class BaseControl(type, object):
     
     @property
     def vscope(self):
-        return self.getAtrr('vscope')     
+        return self.getAtrr('vscope')
     
 #endregion
         
