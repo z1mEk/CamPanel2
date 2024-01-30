@@ -521,12 +521,29 @@ class ControlMethods:
     @classmethod
     async def onRelease(cls):
         pass
+
+class PageControlMethods:
+    @classmethod
+    async def onShow(cls):
+        pass
+
+    @classmethod
+    async def onExit(cls):
+        pass
+
+    @classmethod
+    async def onTouch(cls):
+        pass
+        
+    @classmethod
+    async def onRelease(cls):
+        pass
 #endregion
 
 #region MetaClass combine
 class TPageMeta(
             PageProperty,
-            ControlMethods
+            PageControlMethods
         ):
     pass
 
