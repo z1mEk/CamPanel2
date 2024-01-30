@@ -181,10 +181,11 @@ class plugin:
     async def sendPacketLoop(cls):
         while True:
             try:
-                if time.time() - data.lastSend < 2:
+                if time.time() - data.lastSend < 1:
                      await asyncio.sleep(1)
                 await cls.sendPacket()
                 #await asyncio.sleep(interval)
+                logging.info(f"blip- heater")
             except Exception as e:
                 logging.error(f"dieselHeater - sendPacketLoop - {e}")
             #await asyncio.sleep(1)
