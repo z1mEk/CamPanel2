@@ -6,14 +6,6 @@ from general.logger import logging
 
 class solarWaterPage(TPage):
 
-    # @classmethod
-    # async def onShow(cls):
-    #     logging.info(f"on Show Udało się")
-
-    # @classmethod
-    # async def onExit(cls):
-    #     logging.info(f"on Exit Udało się")
-
     class btActive(TDualStateButton):
         pass
 
