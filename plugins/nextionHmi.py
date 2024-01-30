@@ -108,6 +108,7 @@ class plugin:
 
     @classmethod
     async def updateSolarsolarWaterHeatingData(cls, interval): 
+        await asyncio.sleep(2)  
         while True:
             if await methodsHmi.getCurrentPageId() == 1:
                 solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
@@ -128,6 +129,7 @@ class plugin:
 
     @classmethod
     async def updateDieselHeaterData(cls, interval):
+        await asyncio.sleep(3)  
         while True:
             try:
                 if await methodsHmi.getCurrentPageId() == 2:
