@@ -92,7 +92,7 @@ class plugin:
     async def initSolarsolarWaterHeatingDataToPage(cls, interval):
         await asyncio.sleep(2)  
         while True:
-            if await methodsHmi.getCurrentPageId() != 1:
+            if await methodsHmi.getCurrentPageId() == 1:
                 solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
                 solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
                 solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
@@ -107,28 +107,7 @@ class plugin:
 
                 solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
                 solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour   
-            await asyncio.sleep(interval) 
-
-    # @classmethod
-    # async def updateSolarsolarWaterHeatingData(cls, interval): 
-    #     await cls.initSolarsolarWaterHeatingDataToPage()
-    #     while True:
-    #         if await methodsHmi.getCurrentPageId() == 1:
-    #             solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
-    #             solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
-    #             solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
-    #             solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
-    #             solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
-
-    #             solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
-    #             solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
-    #             solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
-    #             solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
-    #             solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
-
-    #             solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
-    #             solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt
-    #         await asyncio.sleep(interval)                
+            await asyncio.sleep(interval)            
 
     @classmethod
     async def updateDieselHeaterData(cls, interval):
