@@ -185,7 +185,6 @@ class plugin:
                      await asyncio.sleep(1)
                 await cls.sendPacket()
                 #await asyncio.sleep(interval)
-                logging.info(f"blip- heater")
             except Exception as e:
                 logging.error(f"dieselHeater - sendPacketLoop - {e}")
             #await asyncio.sleep(1)

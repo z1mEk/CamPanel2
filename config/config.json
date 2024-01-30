@@ -71,7 +71,7 @@
         "funSpeedMax": 4500,
         "voltageType": 12,
         "fanspeedSensor": 1,
-        "thermostatMode": 0,
+        "thermostatMode": 1,
         "tempDesiredMin": 8,
         "tempDesiredMax": 35,
         "glowPlugPower": 5,
