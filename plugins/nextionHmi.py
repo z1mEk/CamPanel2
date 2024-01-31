@@ -92,7 +92,7 @@ class plugin:
     async def initSolarsolarWaterHeatingDataToPage(cls, interval):
         await asyncio.sleep(2)  
         while True:
-            if await methodsHmi.getCurrentPageId() == 1:
+            if await methodsHmi.getCurrentPageId() != 1:
                 solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
                 solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
                 solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl
