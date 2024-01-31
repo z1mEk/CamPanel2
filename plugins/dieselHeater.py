@@ -99,7 +99,7 @@ class plugin:
             cmd = [0] * 24
             cmd[0] = 0x76 #Start of Frame - 0x76 for LCD
             cmd[1] = 0x16 #Data Size 24bytes
-            cmd[2] = transmitPacket.command #command
+            cmd[2] = transmitPacket.command #command 00h / 05h (stop) / A0h (start)
             cmd[3] = transmitPacket.tempSensor if transmitPacket.thermostatMode == 1 else 0 #temp sensor
             cmd[4] = transmitPacket.tempDesired #desired temp
             cmd[5] = transmitPacket.pumpFreqMin #Minimum Pump frequency
@@ -175,19 +175,15 @@ class plugin:
         except Exception as e:
             logging.error(f"dieselHeater - sendPacket: {e}")
 
-        await asyncio.sleep(0.1)
-
     @classmethod
     async def sendPacketLoop(cls):
         while True:
             try:
-                if time.time() - data.lastSend < 1:
-                     await asyncio.sleep(1)
+                if time.time() - data.lastSend < 0.5:
+                     await asyncio.sleep(0.7)
                 await cls.sendPacket()
-                #await asyncio.sleep(interval)
             except Exception as e:
                 logging.error(f"dieselHeater - sendPacketLoop - {e}")
-            #await asyncio.sleep(1)
 
     @classmethod
     async def start(cls):
@@ -202,14 +198,12 @@ class plugin:
     @classmethod
     async def up(cls):
             if transmitPacket.tempDesired < transmitPacket.tempDesiredMax:
-                logging.info(f"up - {transmitPacket.tempDesired}, {transmitPacket.tempDesiredMax}")
                 transmitPacket.tempDesired += 1
                 await cls.sendPacket()
 
     @classmethod
     async def down(cls):
             if transmitPacket.tempDesired > transmitPacket.tempDesiredMin:
-                logging.info(f"up - {transmitPacket.tempDesired}, {transmitPacket.tempDesiredMin}")
                 transmitPacket.tempDesired -= 1
                 await cls.sendPacket()
    

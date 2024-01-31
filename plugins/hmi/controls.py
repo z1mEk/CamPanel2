@@ -522,7 +522,7 @@ class ControlMethods:
     async def onRelease(cls):
         pass
 
-class PageControlMethods:
+class PageControlMethods:   
     @classmethod
     async def onShow(cls):
         pass

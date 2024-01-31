@@ -124,6 +124,14 @@ class plugin:
                     dieselHeatPage.tHeaterTemp.txt = "{:.0f}°C".format(dieselHeater.data.heatExchTemp)
                     dieselHeatPage.tGlowPlugCurr.txt = "{:.2f}A".format(dieselHeater.data.glowPlugCurrent)
                     dieselHeatPage.tError.txt = dieselHeater.data.errorDisplay
+                    #progressbars
+                    dieselHeatPage.jT1.val = 100 if dieselHeater.data.heatExchTemp > 20 else 0
+                    dieselHeatPage.jT2.val = 100 if dieselHeater.data.heatExchTemp > 40 else 0
+                    dieselHeatPage.jT3.val = 100 if dieselHeater.data.heatExchTemp > 60 else 0
+                    dieselHeatPage.jT4.val = 100 if dieselHeater.data.heatExchTemp > 80 else 0
+                    dieselHeatPage.jT5.val = 100 if dieselHeater.data.heatExchTemp > 100 else 0
+                    dieselHeatPage.jT6.val = 100 if dieselHeater.data.heatExchTemp > 120 else 0
+                    
             except Exception as e:
                 logging.error(f"updateDieselHeaterData - {e}")
             await asyncio.sleep(interval)  
