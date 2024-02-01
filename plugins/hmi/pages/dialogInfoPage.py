@@ -15,7 +15,7 @@ class dialogInfoPage(TPage):
         cls.message = message
         cls.previusPage = previusPage
         logging.info(f"{cls.message} - {cls.previusPage}")
-        await dialogInfoPage.Show()
+        await methodsHmi.showPageName("dialogInfoPage")
 
     @classmethod
     async def onShow(cls):
