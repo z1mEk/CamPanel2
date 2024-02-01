@@ -51,22 +51,22 @@ class BasePage(type, object):
     
     name = __name__.split('.')[-1]
 
-    def __new__(cls, name, bases, dct):
-        module = sys.modules[dct['__module__']]
-        module_name = os.path.splitext(os.path.basename(module.__file__))[0]
-        base_class_name = bases[0].__name__ if bases else None
+    # def __new__(cls, name, bases, dct):
+    #     module = sys.modules[dct['__module__']]
+    #     module_name = os.path.splitext(os.path.basename(module.__file__))[0]
+    #     base_class_name = bases[0].__name__ if bases else None
 
-        dct["fullname"] = module_name
-        dct["type_name"] = base_class_name
+    #     dct["fullname"] = module_name
+    #     dct["type_name"] = base_class_name
 
-        return super().__new__(cls, name, bases, dct)    
+    #     return super().__new__(cls, name, bases, dct)    
 
     def getAtrr(self, attr):
         logging.info(f"fullname = {self.name}")
-        return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
+        return asyncio.run(hmiMethods.getProperty(self.name, attr))
 
     def setAttr(self, attr, value):
-        asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
+        asyncio.run(hmiMethods.setProperty(self.name, attr, value))
 
 #endregion
         
