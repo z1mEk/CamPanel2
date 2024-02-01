@@ -1,7 +1,7 @@
 import nest_asyncio
 from nest_asyncio import asyncio
 nest_asyncio.apply()
-from plugins.hmi.controls import TPage, TText, TButton, TVariable
+from plugins.hmi.controls import TPage, TText, TButton
 from general.logger import logging
 from plugins.hmi import methods as methodsHmi
 
@@ -13,15 +13,7 @@ class dialogInfoPage(TPage):
     async def showMessage(cls, message, previusPage):
         cls.previusPage = previusPage
         cls.tMessage.txt = message
-        await methodsHmi.showPageName("dialogInfoPage")
-
-    @classmethod
-    async def onShow(cls):
-        pass
-    
-    @classmethod
-    async def onExit(cls):      
-        pass
+        await methodsHmi.showPageName(__name__)
 
     class tMessage(TText):
         pass
