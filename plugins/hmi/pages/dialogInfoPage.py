@@ -12,7 +12,7 @@ class dialogInfoPage(TPage):
     @classmethod
     async def showMessage(cls, message, previusPage):
         cls.previusPage = previusPage
-        cls.tMessage.txt_maxl = len(previusPage)
+        cls.tMessage.txt_maxl = len(message)
         cls.tMessage.txt = message
         await methodsHmi.showPageName("dialogInfoPage")
 
