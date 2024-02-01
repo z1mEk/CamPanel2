@@ -49,7 +49,7 @@ class BaseControl(type, object):
 #region Base Page
 class BasePage(type, object):
     
-    #name = __name__.split('.')[-1]
+    name = __name__.split('.')[-1]
 
     def __new__(cls, name, bases, dct):
         module = sys.modules[dct['__module__']]
