@@ -74,7 +74,6 @@ class mainPage(TPage):
     class jRSOC(TProgressBar):
         @classmethod
         async def onTouch(cls):
-            logging.info(f"Uruchomienie messageboxa")
             await dialogInfoPage.showMessage("To jest przykładowa wiadomość", 0)
             
 

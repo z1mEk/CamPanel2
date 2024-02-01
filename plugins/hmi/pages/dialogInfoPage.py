@@ -8,13 +8,11 @@ from plugins.hmi import methods as methodsHmi
 class dialogInfoPage(TPage):
 
     previusPage = 0
-    message = ""
 
     @classmethod
     async def showMessage(cls, message, previusPage):
-        cls.message = message
         cls.previusPage = previusPage
-        logging.info(f"{cls.message} - {cls.previusPage}")
+        cls.tMessage = message
         await methodsHmi.showPageName("dialogInfoPage")
 
     @classmethod
