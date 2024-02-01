@@ -7,13 +7,16 @@ from plugins.hmi import methods as methodsHmi
 
 class dialogInfoPage(TPage):
 
-    previusPage = 0
+    returnPageId = 0
 
     @classmethod
-    async def showMessage(cls, message, previusPage):
-        cls.previusPage = previusPage
+    async def showMessage(cls, message, returnPageId, autoCloseTime=0):
+        cls.returnPageId = returnPageId
         cls.tMessage.txt = message
         await methodsHmi.showPageName(dialogInfoPage.name)
+        if cls.autoCloseTime > 0:
+            await asyncio.sleep(autoCloseTime)
+            await methodsHmi.showPageId(dialogInfoPage.returnPageId)
 
     class tMessage(TText):
         pass
@@ -21,4 +24,4 @@ class dialogInfoPage(TPage):
     class bOK(TButton):
         @classmethod
         async def onTouch(cls):
-            await methodsHmi.showPageId(dialogInfoPage.previusPage)
+            await methodsHmi.showPageId(dialogInfoPage.returnPageId)
