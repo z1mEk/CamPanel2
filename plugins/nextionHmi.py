@@ -127,7 +127,7 @@ class plugin:
                     dieselHeatPage.tError.txt = dieselHeater.data.errorDisplay
 
                     dieselHeatPage.vaWent.val = dieselHeater.data.fanRpm
-                    dieselHeatPage.vaPump.val = dieselHeater.data.actualPumpFreq
+                    dieselHeatPage.vaPump.val = int(dieselHeater.data.actualPumpFreq * 10)
                     dieselHeatPage.vaHeaterTemp.val = dieselHeater.data.heatExchTemp
                     
             except Exception as e:
