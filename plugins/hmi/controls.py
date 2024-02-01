@@ -60,7 +60,7 @@ class BasePage(type, object):
     @classmethod
     async def Show(cls):
         logging.info(f"wlazło w Show")
-        await hmiMethods.showPageId(cls.id)
+        await hmiMethods.showPageName(cls.name)
 
 #endregion
         
