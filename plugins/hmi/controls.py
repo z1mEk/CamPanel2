@@ -57,21 +57,21 @@ class BasePage(type, object):
         base_class_name = bases[0].__name__ if bases else None
 
         dct["page"] = module_name
-        dct["fullname"] = f"{module_name}"
+        #dct["fullname"] = f"{module_name}"
         dct["type_name"] = base_class_name
 
         return super().__new__(cls, name, bases, dct)    
 
     def getAtrr(self, attr):
-        return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
+        return asyncio.run(hmiMethods.getProperty(self.page, attr))
 
     def setAttr(self, attr, value):
-        asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
+        asyncio.run(hmiMethods.setProperty(self.page, attr, value))
 
     @classmethod
     async def Show(cls):
         logging.info(f"wlazło w Show")
-        await hmiMethods.showPageName(cls.name)
+        await hmiMethods.showPageName(cls.page)
 
 #endregion
         
