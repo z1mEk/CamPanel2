@@ -49,7 +49,7 @@ class BaseControl(type, object):
 #region Base Page
 class BasePage(type, object):
     
-    name = __name__.split('.')[-1]
+    name = None
 
     def __new__(cls, name, bases, dct):
         module = sys.modules[dct['__module__']]
@@ -62,11 +62,11 @@ class BasePage(type, object):
         return super().__new__(cls, name, bases, dct)    
 
     def getAtrr(self, attr):
-        logging.info(f"fullname = {self.name}")
-        return asyncio.run(hmiMethods.getProperty(self.name, attr))
+        logging.info(f"fullname = {self.fullname}")
+        return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
 
     def setAttr(self, attr, value):
-        asyncio.run(hmiMethods.setProperty(self.name, attr, value))
+        asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
 
 #endregion
         
