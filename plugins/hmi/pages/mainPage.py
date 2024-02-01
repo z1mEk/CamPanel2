@@ -25,7 +25,7 @@ class mainPage(TPage):
         async def onRelease(cls):
             relays.data.relay0.val = cls.val
 
-    class btACInverter(TDualStateButton):
+    class btACInverter(TDualStateButton): 
         @classmethod
         async def onRelease(cls):
             relays.data.relay1.val = cls.val
