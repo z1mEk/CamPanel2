@@ -60,6 +60,8 @@ class BasePage(type, object):
         dct["fullname"] = f"{module_name}"
         dct["type_name"] = base_class_name
 
+        logging.info(f"fullname = {module_name}")
+
         return super().__new__(cls, name, bases, dct)    
 
     def getAtrr(self, attr):
