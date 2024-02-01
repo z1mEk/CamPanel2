@@ -13,7 +13,7 @@ class BaseControl(type, object):
 
     def __new__(cls, name, bases, dct):
         module = sys.modules[dct['__module__']]
-        module_name = os.path.splitext(os.path.basename(module.__file__))[0] #TODO: zweryfikować czy to jest OK
+        module_name = os.path.splitext(os.path.basename(module.__file__))[0]
         base_class_name = bases[0].__name__ if bases else None
 
         dct["page"] = module_name

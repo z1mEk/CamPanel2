@@ -8,6 +8,7 @@ from serial import Serial
 from plugins import influxDBLog
 from datetime import datetime
 from general.logger import logging
+import crcmod
 
 class modbusCRC:
     CRCTableHigh = [
@@ -104,12 +105,18 @@ class relayMethod(metaclass=relayMeta):
         cmd[1] = 0x05
         cmd[3] = cls.address.value[1]
         cmd[4] = value if (value == 0) else 0xFF
-        crc = modbusCRC.calculateCrc16(cmd[0:6])
-        cmd[6], cmd[7] = crc & 0xFF, crc >> 8
+
+        frame = b''.join(x.to_bytes(1, 'big') for x in cmd)            
+        crc_func = crcmod.predefined.mkPredefinedCrcFun('modbus')
+        checksum = crc_func(frame)
+        frame += checksum.to_bytes(2, 'big')
+        
+        # crc = modbusCRC.calculateCrc16(cmd[0:6])
+        # cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             relays_device = device.FindUsbDevice(config.relays.device)
             srl = Serial(relays_device, config.relays.baudrate)
-            srl.write(cmd)
+            srl.write(frame)
             srl.close()
             data.relaysState[cls.address.value[1]] = value
             cls.onRelayChange(cls.address.value[1], value)
@@ -123,12 +130,16 @@ class relayMethod(metaclass=relayMeta):
         cmd[1] = 0x01
         cmd[3] = 0xff
         cmd[5] = 0x01
-        crc = modbusCRC.calculateCrc16(cmd[0:6])
-        cmd[6], cmd[7] = crc & 0xFF, crc >> 8
+        frame = b''.join(x.to_bytes(1, 'big') for x in cmd)            
+        crc_func = crcmod.predefined.mkPredefinedCrcFun('modbus')
+        checksum = crc_func(frame)
+        frame += checksum.to_bytes(2, 'big')
+        # crc = modbusCRC.calculateCrc16(cmd[0:6])
+        # cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
             relays_device = device.FindUsbDevice(config.relays.device)
             srl = Serial(relays_device, config.relays.baudrate)
-            srl.write(cmd)
+            srl.write(frame)
             buffer = srl.read(6)
             srl.close()
             data.relaysState = [int(bit) for bit in f'{buffer[3]:08b}'][::-1]

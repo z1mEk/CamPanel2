@@ -35,22 +35,22 @@ class helper:
         if errorState == 0:
             return "Idle"
         elif errorState == 1:
-            return "Running normally"
+            return "Normala praca"
         else:
             return errorMsg[errorState - 2]
         
     @classmethod
     def getRunStateString(cls, runState):
         runStateStrings = [
-            "Off / Standby",
-            "Start Acknowledge",
-            "Glow plug pre-heat",
-            "Failed ignition - pausing for retry",
-            "Ignited - heating to full temp phase",
-            "Running",
-            "Skipped - stop acknowledge",
-            "Stopping - Post run glow re-heat",
-            "Cooldown"
+            "Wyłączony",
+            "Uruchamianie",
+            "Rozgrzewanie",
+            "Błąd rozpalania",
+            "Rozpalony",
+            "Praca",
+            "Skipped",
+            "Wyłączanie",
+            "Schładzanie"
         ]
         return runStateStrings[runState]
 

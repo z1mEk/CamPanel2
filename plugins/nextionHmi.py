@@ -43,9 +43,9 @@ class plugin:
                 )
                 
                 mainPage.jRSOC.pco = (
-                    helper.RGB2NextionColour(255, 0, 0) if dalyBms.data.RSOC <= 15 else
-                    helper.RGB2NextionColour(255, 255, 0) if dalyBms.data.RSOC <= 30 else
-                    helper.RGB2NextionColour(0, 255, 0)
+                    helper.RGB2NextionColor(255, 0, 0) if dalyBms.data.RSOC <= 15 else
+                    helper.RGB2NextionColor(255, 255, 0) if dalyBms.data.RSOC <= 30 else
+                    helper.RGB2NextionColor(0, 255, 0)
                 )
             
             await asyncio.sleep(interval)
@@ -65,14 +65,14 @@ class plugin:
             if await methodsHmi.getCurrentPageId() == 0:
                 mainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel 
                 mainPage.jWhiteWater.pco = (
-                    helper.RGB2NextionColour(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else
-                    helper.RGB2NextionColour(255, 0, 0)
+                    helper.RGB2NextionColor(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else
+                    helper.RGB2NextionColor(255, 0, 0)
                 )
 
                 mainPage.jGrayWater.val = waterLevel.data.greyWaterLevel
                 mainPage.jGrayWater.pco = (
-                    helper.RGB2NextionColour(150, 150, 150) if waterLevel.data.greyWaterLevel < 80
-                    else helper.RGB2NextionColour(255, 0, 0)
+                    helper.RGB2NextionColor(150, 150, 150) if waterLevel.data.greyWaterLevel < 80
+                    else helper.RGB2NextionColor(255, 0, 0)
                 )
                 mainPage.tWhiteWater.txt = '{:.0f}%'.format(waterLevel.data.whiteWaterLevel)
                 mainPage.tGrayWater.txt = '{:.0f}%'.format(waterLevel.data.greyWaterLevel)
@@ -117,6 +117,7 @@ class plugin:
                     dieselHeatPage.tValue.txt = dieselHeater.data.valueDisplay
                     dieselHeatPage.btHeater.val = relays.data.relay2.val
                     dieselHeatPage.btThermostat.val = dieselHeater.transmitPacket.thermostatMode
+
                     dieselHeatPage.tStatus.txt = "{:.0f}".format(dieselHeater.data.runState)
                     dieselHeatPage.tVoltage.txt = "{:.1f}V".format(dieselHeater.data.supplyVoltage)
                     dieselHeatPage.tRpm.txt = "{:.0f}".format(dieselHeater.data.fanRpm)
@@ -124,13 +125,7 @@ class plugin:
                     dieselHeatPage.tHeaterTemp.txt = "{:.0f}°C".format(dieselHeater.data.heatExchTemp)
                     dieselHeatPage.tGlowPlugCurr.txt = "{:.2f}A".format(dieselHeater.data.glowPlugCurrent)
                     dieselHeatPage.tError.txt = dieselHeater.data.errorDisplay
-                    #progressbars
-                    dieselHeatPage.jT1.val = 100 if dieselHeater.data.heatExchTemp > 20 else 0
-                    dieselHeatPage.jT2.val = 100 if dieselHeater.data.heatExchTemp > 40 else 0
-                    dieselHeatPage.jT3.val = 100 if dieselHeater.data.heatExchTemp > 60 else 0
-                    dieselHeatPage.jT4.val = 100 if dieselHeater.data.heatExchTemp > 80 else 0
-                    dieselHeatPage.jT5.val = 100 if dieselHeater.data.heatExchTemp > 100 else 0
-                    dieselHeatPage.jT6.val = 100 if dieselHeater.data.heatExchTemp > 120 else 0
+                    dieselHeatPage.vaHeaterTemp.val = dieselHeater.data.heatExchTemp
                     
             except Exception as e:
                 logging.error(f"updateDieselHeaterData - {e}")
