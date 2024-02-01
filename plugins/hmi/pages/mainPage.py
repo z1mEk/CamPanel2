@@ -5,6 +5,7 @@ from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
 from plugins import relays, wifiStatus, dalyBms, waterLevel, dieselHeater
 from general.logger import logging
+from plugins.hmi.pages.dialogInfoPage import dialogInfoPage
 
 class mainPage(TPage):
 
@@ -71,7 +72,10 @@ class mainPage(TPage):
         pass
 
     class jRSOC(TProgressBar):
-        pass
+        @classmethod
+        async def onTouch(cls):
+            dialogInfoPage.showMessage("To jest przykładowa wiadomość", mainPage.id)
+            return await super().onTouch()
 
     class tRSOC(TText):
         pass

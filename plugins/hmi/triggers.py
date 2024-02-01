@@ -10,6 +10,7 @@ components_touch_event = [
         {"page_id": 0, "component_id": 0, "touch_event": 1, "call_back": mainPage.onTouch},
         {"page_id": 0, "component_id": 0, "touch_event": 2, "call_back": mainPage.onShow},
         {"page_id": 0, "component_id": 0, "touch_event": 3, "call_back": mainPage.onExit},
+        {"page_id": 0, "component_id": 2, "touch_event": 1, "call_back": mainPage.jRSOC.onTouch},
         {"page_id": 0, "component_id": 5, "touch_event": 0, "call_back": mainPage.btWaterPump.onRelease},
         {"page_id": 0, "component_id": 6, "touch_event": 0, "call_back": mainPage.btACInverter.onRelease},
         {"page_id": 0, "component_id": 7, "touch_event": 0, "call_back": mainPage.btHeater.onRelease},
