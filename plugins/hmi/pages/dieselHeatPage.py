@@ -70,3 +70,6 @@ class dieselHeatPage(TPage):
 
     class vaHeaterTemp(TVariable):
         pass
+
+    class vaPump(TVariable):
+        pass

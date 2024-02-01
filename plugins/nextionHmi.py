@@ -125,6 +125,9 @@ class plugin:
                     dieselHeatPage.tHeaterTemp.txt = "{:.0f}°C".format(dieselHeater.data.heatExchTemp)
                     dieselHeatPage.tGlowPlugCurr.txt = "{:.2f}A".format(dieselHeater.data.glowPlugCurrent)
                     dieselHeatPage.tError.txt = dieselHeater.data.errorDisplay
+
+                    dieselHeatPage.vaWent.val = dieselHeater.data.fanRpm
+                    dieselHeatPage.vaPump.val = dieselHeater.data.actualPumpFreq
                     dieselHeatPage.vaHeaterTemp.val = dieselHeater.data.heatExchTemp
                     
             except Exception as e:
