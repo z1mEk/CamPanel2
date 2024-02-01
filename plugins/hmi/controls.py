@@ -52,10 +52,10 @@ class BasePage(type, object):
     name = __name__
 
     def getAtrr(self, attr):
-        return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
+        return asyncio.run(hmiMethods.getProperty(self.name, attr))
 
     def setAttr(self, attr, value):
-        asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
+        asyncio.run(hmiMethods.setProperty(self.name, attr, value))
 
     @classmethod
     async def Show(cls):
