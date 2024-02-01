@@ -9,7 +9,7 @@ class solarWaterPage(TPage):
 
     @classmethod
     async def onShow(cls):
-        return await super().onShow()
+        pass
     
     @classmethod
     async def onExit(cls):

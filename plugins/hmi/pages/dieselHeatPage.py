@@ -9,11 +9,11 @@ class dieselHeatPage(TPage):
 
     @classmethod
     async def onShow(cls):
-        return await super().onShow()
+        pass
     
     @classmethod
     async def onExit(cls):      
-        return await super().onExit()
+        pass
 
     class btHeater(TDualStateButton):
         @classmethod
