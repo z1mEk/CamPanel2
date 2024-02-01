@@ -130,7 +130,7 @@ class plugin:
                     dieselHeatPage.vaPump.val = int(dieselHeater.data.actualPumpFreq * 10)
                     dieselHeatPage.vaHeaterTemp.val = dieselHeater.data.heatExchTemp
 
-                    c = dieselHeatPage.id
+                    logging.info(f"pobranie id page = {dieselHeatPage.id}")
                     
             except Exception as e:
                 logging.error(f"updateDieselHeaterData - {e}")

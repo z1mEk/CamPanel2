@@ -9,24 +9,22 @@ nest_asyncio.apply()
 #region Base Control
 class BaseControl(type, object):
 
-    #name = __name__
-
     def __new__(cls, name, bases, dct):
         module = sys.modules[dct['__module__']]
         module_name = os.path.splitext(os.path.basename(module.__file__))[0]
         base_class_name = bases[0].__name__ if bases else None
 
         dct["page"] = module_name
-        dct["fullname"] = f"{module_name}.{name}"
+        dct["name"] = name
         dct["type_name"] = base_class_name
 
         return super().__new__(cls, name, bases, dct)
 
     def getAtrr(self, attr):
-        return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
+        return asyncio.run(hmiMethods.getProperty(f"{self.page}.{self.name}", attr))
 
     def setAttr(self, attr, value):
-        asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
+        asyncio.run(hmiMethods.setProperty(f"{self.page}.{self.name}", attr, value))
 
     @property
     def type(self):
@@ -55,7 +53,6 @@ class BasePage(type, object):
         base_class_name = bases[0].__name__ if bases else None
 
         dct["name"] = module_name
-        dct["fullname"] = module_name
         dct["type_name"] = base_class_name
 
         return super().__new__(cls, name, bases, dct)    
