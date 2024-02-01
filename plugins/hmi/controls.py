@@ -63,10 +63,10 @@ class BasePage(type, object):
         return super().__new__(cls, name, bases, dct)    
 
     def getAtrr(self, attr):
-        return asyncio.run(hmiMethods.getProperty(self.name, attr))
+        return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
 
     def setAttr(self, attr, value):
-        asyncio.run(hmiMethods.setProperty(self.name, attr, value))
+        asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
 
     @classmethod
     async def Show(cls):
