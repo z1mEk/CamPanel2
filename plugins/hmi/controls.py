@@ -62,7 +62,7 @@ class BasePage(type, object):
         return super().__new__(cls, name, bases, dct)    
 
     def getAtrr(self, attr):
-        logging.info(f"fullname = {self.fullname}")
+        logging.info(f"fullname = {self.name}")
         return asyncio.run(hmiMethods.getProperty(self.fullname, attr))
 
     def setAttr(self, attr, value):
