@@ -74,8 +74,8 @@ class mainPage(TPage):
     class jRSOC(TProgressBar):
         @classmethod
         async def onTouch(cls):
-            dialogInfoPage.showMessage("To jest przykładowa wiadomość", mainPage.id)
-            return await super().onTouch()
+            await dialogInfoPage.showMessage("To jest przykładowa wiadomość", 0)
+            
 
     class tRSOC(TText):
         pass
