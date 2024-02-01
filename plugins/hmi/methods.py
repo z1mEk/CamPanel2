@@ -71,7 +71,7 @@ async def setProperty(component:str, property:str, val):
         logging.error(f"Nextion: {e}")
 
 async def showPageId(page_id:int):
-    logging.debug(f"methods.show({page_id})")
+    logging.info(f"methods.show({page_id})")
     await command(f"page {page_id}")
 
 async def showPageName(page_name:str):

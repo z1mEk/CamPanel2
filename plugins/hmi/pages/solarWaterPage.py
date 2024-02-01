@@ -27,7 +27,6 @@ class solarWaterPage(TPage):
 
         solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
         solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt        
-        return await super().onExit()
 
     class btActive(TDualStateButton):
         pass
