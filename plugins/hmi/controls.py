@@ -70,11 +70,6 @@ class BasePage(type, object):
     def setAttr(self, attr, value):
         asyncio.run(hmiMethods.setProperty(self.fullname, attr, value))
 
-    @classmethod
-    async def Show(cls):
-        logging.info(f"wlazło w Show")
-        await hmiMethods.showPageName(cls.fullname)
-
 #endregion
         
 #region Page Properies
@@ -552,6 +547,11 @@ class PageControlMethods:
     @classmethod
     async def onRelease(cls):
         pass
+
+    @classmethod
+    async def Show(cls):
+        logging.info(f"wlazło w Show")
+        await hmiMethods.showPageName(cls.fullname)
 #endregion
 
 #region MetaClass combine
