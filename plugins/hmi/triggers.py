@@ -2,6 +2,7 @@ from plugins.hmi.pages.mainPage import mainPage
 from plugins.hmi.pages.dieselHeatPage import dieselHeatPage
 from plugins.hmi.pages.solarWaterPage import solarWaterPage
 from plugins.hmi.pages.settingsPage import settingsPage
+from plugins.hmi.pages.dialogInfoPage import dialogInfoPage
 
 ### definition of call name for nextion's components. "call_back" ###
 components_touch_event = [
@@ -34,4 +35,6 @@ components_touch_event = [
         {"page_id": 3, "component_id": 0, "touch_event": 1, "call_back": settingsPage.onTouch},
         {"page_id": 3, "component_id": 0, "touch_event": 2, "call_back": settingsPage.onShow},
         {"page_id": 3, "component_id": 0, "touch_event": 3, "call_back": settingsPage.onExit},
+        #dialogInfoPAge
+        {"page_id": 4, "component_id": 3, "touch_event": 1, "call_back": dialogInfoPage.bOK.onTouch},
     ]
