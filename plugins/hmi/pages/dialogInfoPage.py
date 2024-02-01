@@ -13,8 +13,8 @@ class dialogInfoPage(TPage):
     async def showMessage(cls, message, previusPage):
         cls.previusPage = previusPage
         cls.tMessage.txt = message
-        logging.info(f"pobranie id page = {dialogInfoPage.id}")
-        await methodsHmi.showPageId(dialogInfoPage.id)
+        logging.info(f"pobranie id page = {dialogInfoPage.name}")
+        await methodsHmi.showPageName(dialogInfoPage.name)
 
     class tMessage(TText):
         pass
