@@ -41,7 +41,7 @@ class mainPage(TPage):
                 else:
                     await dieselHeater.plugin.stop()
             except Exception as e:
-                logging.info(f"btHeater onRelease - {e}")
+                logging.error(f"btHeater onRelease - {e}")
 
             await hmiMethods.showPageName("dieselHeatPage")
 
@@ -74,7 +74,7 @@ class mainPage(TPage):
     class jRSOC(TProgressBar):
         @classmethod
         async def onTouch(cls):
-            await dialogInfoPage.showMessage("Nie klikaj w baterię bo kurwa wyjebie ją w kosmos. Tak tak przyjacielu!", 0)
+            await dialogInfoPage.showMessage("Nie klikaj w baterię bo kurwa wyjebie ją w kosmos.", 0)
             
 
     class tRSOC(TText):

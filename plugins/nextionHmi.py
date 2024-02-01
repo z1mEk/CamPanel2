@@ -118,7 +118,7 @@ class plugin:
                     dieselHeatPage.btHeater.val = relays.data.relay2.val
                     dieselHeatPage.btThermostat.val = dieselHeater.transmitPacket.thermostatMode
 
-                    dieselHeatPage.tStatus.txt = "{:.0f}".format(dieselHeater.data.runState)
+                    dieselHeatPage.tStatus.txt = dieselHeater.data.runStateString #"{:.0f}".format(dieselHeater.data.runState)
                     dieselHeatPage.tVoltage.txt = "{:.1f}V".format(dieselHeater.data.supplyVoltage)
                     dieselHeatPage.tRpm.txt = "{:.0f}".format(dieselHeater.data.fanRpm)
                     dieselHeatPage.tFrequency.txt = "{:.1f}Hz".format(dieselHeater.data.actualPumpFreq)
