@@ -27,7 +27,7 @@ def git_pull(repo_path):
         print("File tft not changed")
         return False
 
-def upload_tft_to_nextion(tft_path):
+async def upload_tft_to_nextion(tft_path):
     print(f"Read tft file: {tft_path}")
     try:
 
@@ -38,13 +38,13 @@ def upload_tft_to_nextion(tft_path):
         print("create Nextion object")
         nextion_client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
         print("Nextion Connect")
-        asyncio.run(nextion_client.connect())
+        await nextion_client.connect()
 
         with open(tft_path, 'rb') as file:
             file_buffered = file.read()
 
         print(f"upload txt file: {tft_path}")
-        nextion_client.upload_firmware(file_buffered, 115200)
+        await nextion_client.upload_firmware(file_buffered, 115200)
         print(f"file uploaded")
     except Exception as e:
         print(f"upload tft file error: {e}")
@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
     # Sprawdzanie, czy są nowe zmiany w repozytorium dla pliku .tft
     if git_pull("./"):
-        upload_tft_to_nextion(tft_path)
+        asyncio.run(upload_tft_to_nextion(tft_path))
 
     # Restartowanie określonej usługi
     print("Start CamPanel.service")
