@@ -25,8 +25,6 @@ class mainPage(TPage):
         @classmethod
         async def onRelease(cls):
             relays.data.relay0.val = cls.val
-            await dialogInfoPage.showMessage("To jest test messageboxa", 0)
-
 
     class btACInverter(TDualStateButton): 
         @classmethod
