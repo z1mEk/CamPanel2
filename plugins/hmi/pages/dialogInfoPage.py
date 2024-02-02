@@ -16,7 +16,8 @@ class dialogInfoPage(TPage):
         await methodsHmi.showPageName(dialogInfoPage.name)
         if autoCloseTime > 0:
             await asyncio.sleep(autoCloseTime)
-            if methodsHmi.getCurrentPageId() == 4:
+            logging.info(f"ccurr = {await methodsHmi.getCurrentPageId() }")
+            if await methodsHmi.getCurrentPageId() == 4:
                 await methodsHmi.showPageId(dialogInfoPage.returnPageId)
 
     class tMessage(TText):
