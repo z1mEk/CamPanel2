@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import io
 import subprocess
 from git import Repo
@@ -9,7 +10,7 @@ from nest_asyncio import asyncio
 nest_asyncio.apply()
 
 def git_pull(repo_path):
-    print(f"Pull data from https://github.com/z1mEk/CamPanel2.git")
+    print(f"Pull data from git")
     repo = Repo(repo_path)
     origin = repo.remotes.origin
     
