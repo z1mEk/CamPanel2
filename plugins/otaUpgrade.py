@@ -13,7 +13,7 @@ from plugins.hmi import hmi, helper, methods as methodsHmi
 class plugin:
 
     repo_path = "./"
-    tft_path = "plugins/hmi/NextionInterface.tft"
+    tft_path = "./plugins/hmi/NextionInterface.tft"
 
     def git_pull(cls):
         logging.info(f"Pull data from https://github.com/z1mEk/CamPanel2.git")
