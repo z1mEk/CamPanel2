@@ -52,14 +52,13 @@ class plugin:
         pass   
 
     async def upgrade():
-        logging.info(f"Stop CamPanel.service")
-        subprocess.run(['sudo', 'systemctl', 'stop', 'CamPanel.service'])
+        logging.info(f"Start upgrade nextion TFT")
 
         if plugin.git_pull():
             await plugin.upload_tft_to_nextion(plugin.tft_path)
 
-        logging.info(f"Start CamPanel.service")
-        subprocess.run(['sudo', 'systemctl', 'start', 'CamPanel.service'])
+        logging.info(f"Restart CamPanel.service")
+        subprocess.run(['sudo', 'systemctl', 'restart', 'CamPanel.service'])
 
     @classmethod
     async def initialize(cls, event_loop):
