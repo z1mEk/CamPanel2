@@ -18,9 +18,9 @@ def git_pull(repo_path):
 
     # Wypisanie informacji o zmienionych plikach
     for fetch_info in result:
+        print(f"Commit message: {fetch_info.commit.message}")
         for diff in repo.index.diff(fetch_info.commit):
             print(f"File changed: {diff}")
-        #print(f"Changed file: {fetch_info.commit.message}")
 
     return repo.git.diff('HEAD~1..HEAD', tft_path)
 
