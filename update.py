@@ -20,15 +20,10 @@ def git_pull(repo_path):
 
     # Wypisanie informacji o zmienionych plikach
     for fetch_info in result:
-        for diff in repo.index.diff(fetch_info.commit):
-            print(f"Changed file: {diff.a_path}")
+        #for diff in repo.index.diff(fetch_info.commit):
+        print(f"Changed file: {fetch_info.commit.message}")
 
-    if repo.git.diff('HEAD~1..HEAD', tft_path):
-        print(f"File {tft_path} is modified")
-        return True
-    else:
-        print(f"File {tft_path} is not modified")
-        return False
+    return repo.git.diff('HEAD~1..HEAD', tft_path)
 
 async def upload_tft_to_nextion(tft_path):
     print(f"Read tft file: {tft_path}")
