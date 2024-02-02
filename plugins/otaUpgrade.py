@@ -55,7 +55,7 @@ class plugin:
     async def upgrade():
         logging.info(f"Start upgrade nextion TFT")
 
-        if plugin.git_pull():
+        if plugin.git_pull(plugin):
             await plugin.upload_tft_to_nextion(plugin.tft_path)
 
         logging.info(f"Restart CamPanel.service")
