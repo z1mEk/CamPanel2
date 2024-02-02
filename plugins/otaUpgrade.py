@@ -3,11 +3,12 @@ import subprocess
 from git import Repo
 from general.configLoader import config
 from general.deviceManager import device
-from nextion import Nextion, client
+from plugins.hmi import hmi
 import nest_asyncio
 from nest_asyncio import asyncio
 from general.logger import logging
 nest_asyncio.apply()
+from plugins.hmi import hmi, helper, methods as methodsHmi
     
 class plugin:
 
@@ -33,18 +34,18 @@ class plugin:
         logging.info(f"Read TFT file: {tft_path}")
         try:
 
-            event_loop = asyncio.get_event_loop()
-            nextion_device = device.FindUsbDevice(config.nextion.device)
-            nextion_client = Nextion(nextion_device, config.nextion.baudrate, cls.eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
-            await nextion_client.connect()
+            # event_loop = asyncio.get_event_loop()
+            # nextion_device = device.FindUsbDevice(config.nextion.device)
+            # nextion_client = Nextion(nextion_device, config.nextion.baudrate, cls.eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
+            # await nextion_client.connect()
 
             with open(tft_path, 'rb') as file:
                 buffered_reader = io.BufferedReader(file)
                 logging.info(f"Upload file: {tft_path}")
-                await nextion_client.upload_firmware(buffered_reader, 115200)
+                await hmi.client.upload_firmware(buffered_reader, 115200)
 
             logging.info(f"File {tft_path} uploaded")
-            nextion_client.command("rest")
+            #hmi.client.command("rest")
         except Exception as e:
             logging.info(f"upload tft file error: {e}")
 
