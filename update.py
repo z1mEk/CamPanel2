@@ -1,4 +1,4 @@
-import os
+import os, io
 import subprocess
 from git import Repo
 import time
@@ -41,10 +41,10 @@ async def upload_tft_to_nextion(tft_path):
         await nextion_client.connect()
 
         with open(tft_path, 'rb') as file:
-            file_buffered = file.read()
+            buffered_reader = io.BufferedReader(file)
 
         print(f"upload txt file: {tft_path}")
-        await nextion_client.upload_firmware(file_buffered, 115200)
+        await nextion_client.upload_firmware(buffered_reader, 115200)
         print(f"file uploaded")
     except Exception as e:
         print(f"upload tft file error: {e}")
