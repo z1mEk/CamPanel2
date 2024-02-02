@@ -75,7 +75,6 @@ class mainPage(TPage):
         @classmethod
         async def onTouch(cls):
             await otaUpgrade.plugin.upgrade()
-            await dialogInfoPage.showMessage("Uruchamiam aktualizację urządzenia, proszę czekać", 0)
             
     class tRSOC(TText):
         pass

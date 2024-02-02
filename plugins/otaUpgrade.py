@@ -7,6 +7,7 @@ from plugins.hmi import hmi
 import nest_asyncio
 from nest_asyncio import asyncio
 from general.logger import logging
+from plugins.hmi.pages.dialogInfoPage import dialogInfoPage
 nest_asyncio.apply()
 from plugins.hmi import hmi, helper, methods as methodsHmi
     
@@ -33,19 +34,12 @@ class plugin:
     async def upload_tft_to_nextion(cls, tft_path):
         logging.info(f"Read TFT file: {tft_path}")
         try:
-
-            # event_loop = asyncio.get_event_loop()
-            # nextion_device = device.FindUsbDevice(config.nextion.device)
-            # nextion_client = Nextion(nextion_device, config.nextion.baudrate, cls.eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
-            # await nextion_client.connect()
-
             with open(tft_path, 'rb') as file:
                 buffered_reader = io.BufferedReader(file)
                 logging.info(f"Upload file: {tft_path}")
                 await hmi.client.upload_firmware(buffered_reader, 115200)
 
             logging.info(f"File {tft_path} uploaded")
-            #hmi.client.command("rest")
         except Exception as e:
             logging.info(f"upload tft file error: {e}")
 
@@ -53,11 +47,12 @@ class plugin:
         pass   
 
     async def upgrade():
-        logging.info(f"Start upgrade nextion TFT")
+        logging.info(f"Start upgrade CamPanel")
 
         if plugin.git_pull(plugin):
             await plugin.upload_tft_to_nextion(plugin.tft_path)
 
+        await dialogInfoPage.showMessage("Aktualizacja zakończona.", 0)
         logging.info(f"Restart CamPanel.service")
         subprocess.run(['sudo', 'systemctl', 'restart', 'CamPanel.service'])
 
