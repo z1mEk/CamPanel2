@@ -1,80 +1,69 @@
 import os
 import subprocess
 from git import Repo
-import serial
-from tqdm import tqdm
 import time
 from general.configLoader import config
 from general.deviceManager import device
+from nextion import Nextion, client
+import nest_asyncio
+from nest_asyncio import asyncio
+nest_asyncio.apply()
 
 def git_pull(repo_path):
-    print("git pull")
+    print("Pull data from git")
     repo = Repo(repo_path)
     origin = repo.remotes.origin
     
-    # Przechwycenie wyniku polecenia git pull
     result = origin.pull()
     
-    # Wypisanie wyniku za pomocą print
     print("Git Pull Result:")
     for info in result:
         print(info)
 
-    # Sprawdzanie, czy są zmiany w pliku .tft
-    changes = repo.git.diff('HEAD~1..HEAD', tft_path)
-    if changes:
+    if repo.git.diff('HEAD~1..HEAD', tft_path):
         print("File tft changed")
         return True
     else:
         print("File tft not changed")
         return False
 
-def check_for_new_tft(tft_path):
-    return os.path.exists(tft_path)
-
-def upload_tft_to_nextion(serial_port, tft_path):
+def upload_tft_to_nextion(tft_path):
+    print(f"Read tft file: {tft_path}")
     try:
-        with serial.Serial(serial_port, 115200, timeout=1) as ser:
-            print(f"Connected to {serial_port}")
+        with open(tft_path, 'rb') as file:
+            file_buffered = file.read()
 
-            # Reading the content of the tft file
-            with open(tft_path, 'rb') as f:
-                tft_data = f.read()
+        print(f"upload txt file: {tft_path}")
+        nextion_client.upload_firmware(file_buffered, 115200)
+        print(f"file uploaded")
+    except Exception as e:
+        print(f"upload tft file error: {e}")
 
-                # Pasek postępu dla wgrywania pliku tft
-                with tqdm(total=len(tft_data), desc="Uploading TFT File", unit="B", unit_scale=True) as pbar:
-                    # Wysyłanie pliku tft do Nextion
-                    ser.write(tft_data)
-                    pbar.update(len(tft_data))
-
-            print(f"File {tft_path} sent successfully.")
-
-    except serial.SerialException as e:
-        print(f"Error: {e}")
-
-def restart_service(service_name):
-    subprocess.run(['sudo', 'systemctl', 'restart', service_name])
+def eventHandler(type_, data):
+    pass
 
 if __name__ == "__main__":
-    # Replace with the path to your git repository
-    repo_path = './'
 
     # Replace with the path to your tft file
     tft_path = './plugins/hmi/NextionInterface.tft'
 
-    # Replace 'COMx' with the appropriate serial port of your Nextion display
-    nextion_device = config.nextion.device
-    serial_port = device.FindUsbDevice(nextion_device)
+    print("Stop CamPanel.service")
+    subprocess.run(['sudo', 'systemctl', 'stop', 'CamPanel.service'])
 
-    # Replace 'Campanel.service' with the name of your service
-    service_name = 'CamPanel.service'
+    event_loop = asyncio.get_event_loop()
+    print("Find nextion device")
+    nextion_device = device.FindUsbDevice(config.nextion.device)
+    print("Nextion device is: {nextion_device}")
+    global nextion_client
+    print("create Nextion object")
+    nextion_client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
+    print("Nextion Connect")
+    nextion_client.connect()
 
     # Sprawdzanie, czy są nowe zmiany w repozytorium dla pliku .tft
-    if git_pull(repo_path):
-        # Sprawdzanie, czy jest nowy plik tft
-        if check_for_new_tft(tft_path):
-            # Wgrywanie pliku tft na wyświetlacz Nextion
-            upload_tft_to_nextion(serial_port, tft_path)
+    if git_pull("./"):
+        upload_tft_to_nextion(tft_path)
 
-            # Restartowanie określonej usługi
-            restart_service(service_name)
+    # Restartowanie określonej usługi
+    print("Start CamPanel.service")
+    subprocess.run(['sudo', 'systemctl', 'start', 'CamPanel.service'])
