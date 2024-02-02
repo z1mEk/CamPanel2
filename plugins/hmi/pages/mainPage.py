@@ -1,6 +1,7 @@
 import nest_asyncio
 from nest_asyncio import asyncio
 nest_asyncio.apply()
+from general import methods as generalMethods
 from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
 from plugins import relays, dieselHeater
@@ -74,7 +75,8 @@ class mainPage(TPage):
     class jRSOC(TProgressBar):
         @classmethod
         async def onTouch(cls):
-            await dialogInfoPage.showMessage("Nie klikaj w baterię bo ją zepsujesz!\nTest entera.", 0, 5)
+            await dialogInfoPage.showMessage("Uruchamiam aktualizację urządzenia, proszę czekać", 0)
+            generalMethods.Upgrade()
             
     class tRSOC(TText):
         pass

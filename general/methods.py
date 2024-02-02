@@ -9,3 +9,6 @@ def RestartCamPanel():
 
 def RestartSystem():
     subprocess.run(["sudo", "restart"])
+
+def Upgrade():
+    subprocess.run(["python", "./update.py"])
