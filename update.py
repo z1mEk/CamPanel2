@@ -53,12 +53,12 @@ if __name__ == "__main__":
     event_loop = asyncio.get_event_loop()
     print("Find nextion device")
     nextion_device = device.FindUsbDevice(config.nextion.device)
-    print("Nextion device is: {nextion_device}")
+    print(f"Nextion device is: {nextion_device}")
     global nextion_client
     print("create Nextion object")
     nextion_client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
     print("Nextion Connect")
-    nextion_client.connect()
+    asyncio.run(nextion_client.connect())
 
     # Sprawdzanie, czy są nowe zmiany w repozytorium dla pliku .tft
     if git_pull("./"):
