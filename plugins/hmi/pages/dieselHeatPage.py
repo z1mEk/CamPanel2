@@ -9,7 +9,7 @@ class dieselHeatPage(TPage):
 
     @classmethod
     async def onShow(cls):
-        pass
+        pass #test
     
     @classmethod
     async def onExit(cls):      
