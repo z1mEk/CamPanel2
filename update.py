@@ -1,7 +1,6 @@
 import os, io
 import subprocess
 from git import Repo
-import time
 from general.configLoader import config
 from general.deviceManager import device
 from nextion import Nextion, client
@@ -25,10 +24,10 @@ def git_pull(repo_path):
             print(f"Changed file: {diff.a_path}")
 
     if repo.git.diff('HEAD~1..HEAD', tft_path):
-        print(f"File tft modified")
+        print(f"File {tft_path} is modified")
         return True
     else:
-        print(f"File tft not modified")
+        print(f"File {tft_path} is not modified")
         return False
 
 async def upload_tft_to_nextion(tft_path):
@@ -36,20 +35,16 @@ async def upload_tft_to_nextion(tft_path):
     try:
 
         event_loop = asyncio.get_event_loop()
-        print(f"Find nextion device")
         nextion_device = device.FindUsbDevice(config.nextion.device)
-        print(f"Nextion device is: {nextion_device}")
-        print(f"create Nextion object")
         nextion_client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
-        print(f"Nextion Connect")
         await nextion_client.connect()
 
         with open(tft_path, 'rb') as file:
             buffered_reader = io.BufferedReader(file)
-            print(f"upload txt file: {tft_path}")
+            print(f"Upload file: {tft_path}")
             await nextion_client.upload_firmware(buffered_reader, 115200)
 
-        print(f"file uploaded")
+        print(f"file {tft_path} uploaded")
     except Exception as e:
         print(f"upload tft file error: {e}")
 
