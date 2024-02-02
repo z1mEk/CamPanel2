@@ -7,14 +7,17 @@ from general.deviceManager import device
 from nextion import Nextion, client
 import nest_asyncio
 from nest_asyncio import asyncio
+from general.logger import logging
 nest_asyncio.apply()
 
 def git_pull(repo_path):
-    print("Pull data from git")
+    print(f"Pull data from git")
     repo = Repo(repo_path)
     origin = repo.remotes.origin
     
     result = origin.pull()
+
+    print(f"{result}")
 
     # Wypisanie informacji o zmienionych plikach
     for fetch_info in result:
@@ -22,10 +25,10 @@ def git_pull(repo_path):
             print(f"Changed file: {diff.a_path}")
 
     if repo.git.diff('HEAD~1..HEAD', tft_path):
-        print("File tft modified")
+        print(f"File tft modified")
         return True
     else:
-        print("File tft not modified")
+        print(f"File tft not modified")
         return False
 
 async def upload_tft_to_nextion(tft_path):
@@ -33,12 +36,12 @@ async def upload_tft_to_nextion(tft_path):
     try:
 
         event_loop = asyncio.get_event_loop()
-        print("Find nextion device")
+        print(f"Find nextion device")
         nextion_device = device.FindUsbDevice(config.nextion.device)
         print(f"Nextion device is: {nextion_device}")
-        print("create Nextion object")
+        print(f"create Nextion object")
         nextion_client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
-        print("Nextion Connect")
+        print(f"Nextion Connect")
         await nextion_client.connect()
 
         with open(tft_path, 'rb') as file:
@@ -58,7 +61,7 @@ if __name__ == "__main__":
     # Replace with the path to your tft file
     tft_path = './plugins/hmi/NextionInterface.tft'
 
-    print("Stop CamPanel.service")
+    print(f"Stop CamPanel.service")
     subprocess.run(['sudo', 'systemctl', 'stop', 'CamPanel.service'])
 
     # Sprawdzanie, czy są nowe zmiany w repozytorium dla pliku .tft
@@ -66,5 +69,5 @@ if __name__ == "__main__":
         asyncio.run(upload_tft_to_nextion(tft_path))
 
     # Restartowanie określonej usługi
-    print("Start CamPanel.service")
+    print(f"Start CamPanel.service")
     subprocess.run(['sudo', 'systemctl', 'start', 'CamPanel.service'])
