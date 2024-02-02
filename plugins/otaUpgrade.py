@@ -28,6 +28,8 @@ class plugin:
             for changed_file in changed_files:
                 logging.info(f"{changed_file}")
 
+        logging.info(f"Result count s{result.count}")
+
         return repo.git.diff('HEAD~1..HEAD', cls.tft_path)
 
     async def upload_tft_to_nextion(cls, tft_path):
