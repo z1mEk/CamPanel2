@@ -21,7 +21,7 @@ class data:
         pvPowerControl = config.solarWaterHeating.pvPowerControl
         minPVPower = config.solarWaterHeating.minPVPower
 
-        hourControl = config.solarWaterHeating.pvPowerControl
+        hourControl = config.solarWaterHeating.hourControl
         onHour = config.solarWaterHeating.onHour
         offHour = config.solarWaterHeating.offHour
 
