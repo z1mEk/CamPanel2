@@ -7,7 +7,6 @@ from plugins.hmi import hmi
 import nest_asyncio
 from nest_asyncio import asyncio
 from general.logger import logging
-from plugins.hmi.pages.mainPage import mainPage
 nest_asyncio.apply()
 from plugins.hmi import hmi, helper, methods as methodsHmi
     
@@ -52,7 +51,6 @@ class plugin:
         if plugin.git_pull(plugin):
             await plugin.upload_tft_to_nextion(plugin.tft_path)
 
-        mainPage.tTime.txt = "UPDATE"
         logging.info(f"Restart CamPanel.service")
         subprocess.run(['sudo', 'systemctl', 'restart', 'CamPanel.service'])
 
