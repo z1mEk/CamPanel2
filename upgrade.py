@@ -20,7 +20,7 @@ def git_pull():
     return False
 
 async def upload_tft_to_nextion(tft_path):
-    print(f"TFT file update required, this may take a few minutes. Progress will be visible on the Nextion display")
+    print(f"Nextion display firmware update required. This may take a few minutes.\nProgress will be visible on the Nextion display")
     try:
         event_loop = asyncio.get_event_loop()
         nextion_device = device.FindUsbDevice(config.nextion.device)
