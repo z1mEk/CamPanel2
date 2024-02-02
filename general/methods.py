@@ -9,10 +9,3 @@ def RestartCamPanel():
 
 def RestartSystem():
     subprocess.run(["sudo", "restart"])
-
-def Upgrade():
-    logging.info("Rozpoczynam aktualizację urządzenia.")
-    try:
-        subprocess.run(["python", "./update.py"])
-    except Exception as e:
-        logging.error(f"Proces aktualizacji: {e}")

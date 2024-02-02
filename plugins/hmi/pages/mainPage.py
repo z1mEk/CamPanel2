@@ -1,10 +1,9 @@
 import nest_asyncio
 from nest_asyncio import asyncio
 nest_asyncio.apply()
-from general import methods as generalMethods
 from plugins.hmi import methods as hmiMethods
 from plugins.hmi.controls import TPage, TButton, TProgressBar, TText, TDualStateButton, TPicture
-from plugins import relays, dieselHeater
+from plugins import relays, dieselHeater, otaUpgrade
 from general.logger import logging
 from plugins.hmi.pages.dialogInfoPage import dialogInfoPage
 
@@ -75,7 +74,7 @@ class mainPage(TPage):
     class jRSOC(TProgressBar):
         @classmethod
         async def onTouch(cls):
-            generalMethods.Upgrade()
+            await otaUpgrade.plugin.upgrade()
             await dialogInfoPage.showMessage("Uruchamiam aktualizację urządzenia, proszę czekać", 0)
             
     class tRSOC(TText):
