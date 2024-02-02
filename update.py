@@ -19,7 +19,7 @@ def git_pull(repo_path):
     # Wypisanie informacji o zmienionych plikach
     for fetch_info in result:
         print(f"Commit message: {fetch_info.commit.message}")
-        changed_files = [item.a_path for item in fetch_info.commit.diff('HEAD~1') if item.change_type in ('M', 'A', 'D')]
+        changed_files = [f"{item.file} ({item.change_type})" for item in fetch_info.commit.diff('HEAD~1') if item.change_type in ('M', 'A', 'D')]
         print(f"Changed files: {changed_files}")
 
     return repo.git.diff('HEAD~1..HEAD', tft_path)
