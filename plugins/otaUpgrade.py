@@ -28,8 +28,6 @@ class plugin:
             for changed_file in changed_files:
                 logging.info(f"{changed_file}")
 
-        logging.info(f"Result count s{result.count}")
-
         return repo.git.diff('HEAD~1..HEAD', cls.tft_path)
 
     async def upload_tft_to_nextion(cls, tft_path):
@@ -51,10 +49,11 @@ class plugin:
         logging.info(f"Start upgrade CamPanel")
 
         if plugin.git_pull(plugin):
+            logging.info(f"plugin.tft {plugin.tft_path}")
             await plugin.upload_tft_to_nextion(plugin.tft_path)
 
         logging.info(f"Restart CamPanel.service")
-        subprocess.run(['sudo', 'systemctl', 'restart', 'CamPanel.service'])
+        #subprocess.run(['sudo', 'systemctl', 'restart', 'CamPanel.service'])
 
     @classmethod
     async def initialize(cls, event_loop):
