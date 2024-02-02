@@ -22,6 +22,7 @@ def git_pull(repo_path):
     for fetch_info in result:
         #for diff in repo.index.diff(fetch_info.commit):
         print(f"Changed file: {fetch_info.commit.message}")
+        print(f"Changed file: {fetch_info.commit.abspath}")
 
     return repo.git.diff('HEAD~1..HEAD', tft_path)
 
