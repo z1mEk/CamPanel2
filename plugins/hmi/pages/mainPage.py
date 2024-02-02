@@ -1,4 +1,5 @@
 import nest_asyncio
+from nest_asyncio import asyncio
 import subprocess
 nest_asyncio.apply()
 from plugins.hmi import methods as hmiMethods
@@ -74,7 +75,8 @@ class mainPage(TPage):
     class jRSOC(TProgressBar):
         @classmethod
         async def onTouch(cls):
-            process = subprocess.Popen(['python', '/home/campanel/CamPanel2/update.py'])
+            subprocess.Popen(['python', 'update.py'])
+            await asyncio.sleep(3)
 
     class tRSOC(TText):
         pass
