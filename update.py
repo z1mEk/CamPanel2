@@ -11,7 +11,7 @@ from general.logger import logging
 nest_asyncio.apply()
 
 def git_pull(repo_path):
-    print(f"Pull data from git")
+    print(f"Pull data from https://github.com/z1mEk/CamPanel2.git")
     repo = Repo(repo_path)
     origin = repo.remotes.origin
     
