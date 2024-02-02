@@ -41,6 +41,7 @@ async def upload_tft_to_nextion(tft_path):
             await nextion_client.upload_firmware(buffered_reader, 115200)
 
         logging.info(f"File {tft_path} uploaded")
+        nextion_client.command("rest")
     except Exception as e:
         logging.info(f"upload tft file error: {e}")
 
