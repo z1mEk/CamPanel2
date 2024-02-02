@@ -10,7 +10,7 @@ from general.logger import logging
 nest_asyncio.apply()
 
 def git_pull(repo_path):
-    print(f"Pull data from https://github.com/z1mEk/CamPanel2.git")
+    logging.info(f"Pull data from https://github.com/z1mEk/CamPanel2.git")
     repo = Repo(repo_path)
     origin = repo.remotes.origin
     
@@ -18,16 +18,16 @@ def git_pull(repo_path):
 
     # Wypisanie informacji o zmienionych plikach
     for fetch_info in result:
-        print(f"Commit message: {fetch_info.commit.message}")
+        logging.info(f"Commit message: {fetch_info.commit.message}")
         changed_files = [f"[{item.change_type}] {item.a_path}" for item in fetch_info.commit.diff('HEAD~1') if item.change_type in ('M', 'A', 'D')]
-        print("Changed files:")
+        logging.info("Changed files:")
         for changed_file in changed_files:
-            print(f"{changed_file}")
+            logging.info(f"{changed_file}")
 
     return repo.git.diff('HEAD~1..HEAD', tft_path)
 
 async def upload_tft_to_nextion(tft_path):
-    print(f"Read TFT file: {tft_path}")
+    logging.info(f"Read TFT file: {tft_path}")
     try:
 
         event_loop = asyncio.get_event_loop()
@@ -37,12 +37,12 @@ async def upload_tft_to_nextion(tft_path):
 
         with open(tft_path, 'rb') as file:
             buffered_reader = io.BufferedReader(file)
-            print(f"Upload file: {tft_path}")
+            logging.info(f"Upload file: {tft_path}")
             await nextion_client.upload_firmware(buffered_reader, 115200)
 
-        print(f"File {tft_path} uploaded")
+        logging.info(f"File {tft_path} uploaded")
     except Exception as e:
-        print(f"upload tft file error: {e}")
+        logging.info(f"upload tft file error: {e}")
 
 def eventHandler(type_, data):
     pass
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # Replace with the path to your tft file
     tft_path = './plugins/hmi/NextionInterface.tft'
 
-    print(f"Stop CamPanel.service")
+    logging.info(f"Stop CamPanel.service")
     subprocess.run(['sudo', 'systemctl', 'stop', 'CamPanel.service'])
 
     # Sprawdzanie, czy są nowe zmiany w repozytorium dla pliku .tft
@@ -60,5 +60,5 @@ if __name__ == "__main__":
         asyncio.run(upload_tft_to_nextion(tft_path))
 
     # Restartowanie określonej usługi
-    print(f"Start CamPanel.service")
+    logging.info(f"Start CamPanel.service")
     subprocess.run(['sudo', 'systemctl', 'start', 'CamPanel.service'])
