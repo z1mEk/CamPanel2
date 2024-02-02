@@ -74,7 +74,7 @@ class mainPage(TPage):
     class jRSOC(TProgressBar):
         @classmethod
         async def onTouch(cls):
-            process = subprocess.Popen(['python', './update.py'])
+            process = subprocess.Popen(['python', 'update.py'])
 
     class tRSOC(TText):
         pass
