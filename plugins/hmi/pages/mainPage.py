@@ -75,8 +75,8 @@ class mainPage(TPage):
     class jRSOC(TProgressBar):
         @classmethod
         async def onTouch(cls):
-            await dialogInfoPage.showMessage("Uruchamiam aktualizację urządzenia, proszę czekać", 0)
             generalMethods.Upgrade()
+            await dialogInfoPage.showMessage("Uruchamiam aktualizację urządzenia, proszę czekać", 0)
             
     class tRSOC(TText):
         pass
