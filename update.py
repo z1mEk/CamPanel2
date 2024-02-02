@@ -22,10 +22,10 @@ def git_pull(repo_path):
             print(f"Changed file: {diff.a_path}")
 
     if repo.git.diff('HEAD~1..HEAD', tft_path):
-        print("File tft changed")
+        print("File tft modified")
         return True
     else:
-        print("File tft not changed")
+        print("File tft not modified")
         return False
 
 async def upload_tft_to_nextion(tft_path):
