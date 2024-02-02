@@ -16,7 +16,9 @@ class settingsPage(TPage):
         wifiStatus.data.wifiStatus = cls.btWifi.val
 
     class btWifi(TDualStateButton):
-        pass
+        @classmethod
+        async def onRelease(cls):
+            wifiStatus.plugin.wlanUpDown(cls.val)
 
     class nScreenSaver(TText):
         pass
