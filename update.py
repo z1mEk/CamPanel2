@@ -4,8 +4,11 @@ from git import Repo
 import serial
 from tqdm import tqdm
 import time
+from general.configLoader import config
+from general.deviceManager import device
 
 def git_pull(repo_path):
+    print("git pull")
     repo = Repo(repo_path)
     origin = repo.remotes.origin
     
@@ -60,7 +63,8 @@ if __name__ == "__main__":
     tft_path = './plugins/hmi/NextionInterface.tft'
 
     # Replace 'COMx' with the appropriate serial port of your Nextion display
-    serial_port = '/dev/ttyUSB1'
+    nextion_device = config.nextion.device
+    serial_port = device.FindUsbDevice(nextion_device)
 
     # Replace 'Campanel.service' with the name of your service
     service_name = 'CamPanel.service'
