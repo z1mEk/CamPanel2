@@ -25,7 +25,7 @@ def git_pull(repo_path):
     return repo.git.diff('HEAD~1..HEAD', tft_path)
 
 async def upload_tft_to_nextion(tft_path):
-    print(f"Read tft file: {tft_path}")
+    print(f"Read TFT file: {tft_path}")
     try:
 
         event_loop = asyncio.get_event_loop()
