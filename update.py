@@ -30,6 +30,16 @@ def git_pull(repo_path):
 def upload_tft_to_nextion(tft_path):
     print(f"Read tft file: {tft_path}")
     try:
+
+        event_loop = asyncio.get_event_loop()
+        print("Find nextion device")
+        nextion_device = device.FindUsbDevice(config.nextion.device)
+        print(f"Nextion device is: {nextion_device}")
+        print("create Nextion object")
+        nextion_client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
+        print("Nextion Connect")
+        asyncio.run(nextion_client.connect())
+
         with open(tft_path, 'rb') as file:
             file_buffered = file.read()
 
@@ -49,16 +59,6 @@ if __name__ == "__main__":
 
     print("Stop CamPanel.service")
     subprocess.run(['sudo', 'systemctl', 'stop', 'CamPanel.service'])
-
-    event_loop = asyncio.get_event_loop()
-    print("Find nextion device")
-    nextion_device = device.FindUsbDevice(config.nextion.device)
-    print(f"Nextion device is: {nextion_device}")
-    global nextion_client
-    print("create Nextion object")
-    nextion_client = Nextion(nextion_device, config.nextion.baudrate, eventHandler, event_loop, reconnect_attempts=5, encoding="utf-8")
-    print("Nextion Connect")
-    asyncio.run(nextion_client.connect())
 
     # Sprawdzanie, czy są nowe zmiany w repozytorium dla pliku .tft
     if git_pull("./"):
