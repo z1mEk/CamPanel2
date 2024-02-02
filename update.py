@@ -16,13 +16,11 @@ def git_pull(repo_path):
     
     result = origin.pull()
 
-    print(f"{result}")
-
     # Wypisanie informacji o zmienionych plikach
     for fetch_info in result:
-        #for diff in repo.index.diff(fetch_info.commit):
-        print(f"Changed file: {fetch_info.commit.message}")
-        print(f"Changed file: {fetch_info.commit.abspath}")
+        for diff in repo.index.diff(fetch_info.commit):
+            print(f"File changed: {diff}")
+        #print(f"Changed file: {fetch_info.commit.message}")
 
     return repo.git.diff('HEAD~1..HEAD', tft_path)
 
