@@ -9,7 +9,20 @@ class solarWaterPage(TPage):
 
     @classmethod
     async def onShow(cls):
-        pass
+        solarWaterPage.btActive.val =  solarWaterHeating.data.activeHeating
+        solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
+        solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl 
+        solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
+        solarWaterPage.btHour.val = solarWaterHeating.data.hourControl
+
+        solarWaterPage.nOnBatRsoc.val = solarWaterHeating.data.onRsoc
+        solarWaterPage.nOffBatRsoc.val = solarWaterHeating.data.offRsoc
+        solarWaterPage.nOnPvVoltage.val = solarWaterHeating.data.onPvVoltage
+        solarWaterPage.nOffPvVoltage.val = solarWaterHeating.data.offPvVoltage
+        solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
+
+        solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
+        solarWaterPage.tOffHour.txt =solarWaterHeating.data.offHour
     
     @classmethod
     async def onExit(cls):
