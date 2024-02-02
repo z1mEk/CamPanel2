@@ -20,8 +20,7 @@
         "baudrate": 115200,
         "startup_commands" : [
             "thsp=300",
-            "thup=1",
-            "dims=30"
+            "thup=1"
         ]
     },
     "relays": {
@@ -50,14 +49,14 @@
     "solarWaterHeating": {
         "activeHeating": 1,
         "RsocControl": 1,
-        "onRsoc": 85,
+        "onRsoc": 95,
         "offRsoc": 80,
         "pvVoltageControl": 0,
         "onPvVoltage": 34,
         "offPvVoltage": 18,
         "pvPowerControl": 0,
         "minPVPower": 100,
-        "hourControl": 0,
+        "hourControl": 1,
         "onHour": "9.30",
         "offHour": "19.30"
     },

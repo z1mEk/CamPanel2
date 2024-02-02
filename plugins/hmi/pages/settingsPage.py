@@ -1,7 +1,7 @@
 import nest_asyncio
 from nest_asyncio import asyncio
 nest_asyncio.apply()
-from plugins.hmi.controls import TPage, TText, TDualStateButton, TNumber
+from plugins.hmi.controls import TPage, TDualStateButton, TText
 from plugins import wifiStatus
 from general.logger import logging
 
@@ -16,4 +16,7 @@ class settingsPage(TPage):
         wifiStatus.data.wifiStatus = cls.btWifi.val
 
     class btWifi(TDualStateButton):
+        pass
+
+    class nScreenSaver(TText):
         pass
