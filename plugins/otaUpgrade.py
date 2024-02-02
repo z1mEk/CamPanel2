@@ -51,12 +51,12 @@ class plugin:
     def eventHandler(type_, data):
         pass   
 
-    async def upgrade(cls):
+    async def upgrade():
         logging.info(f"Stop CamPanel.service")
         subprocess.run(['sudo', 'systemctl', 'stop', 'CamPanel.service'])
 
-        if cls.git_pull():
-            await cls.upload_tft_to_nextion(cls.tft_path)
+        if plugin.git_pull():
+            await plugin.upload_tft_to_nextion(plugin.tft_path)
 
         logging.info(f"Start CamPanel.service")
         subprocess.run(['sudo', 'systemctl', 'start', 'CamPanel.service'])
