@@ -19,4 +19,4 @@ class settingsPage(TPage):
         pass
 
     class nScreenSaver(TText):
-        pass
+        pass #to jest test
