@@ -42,9 +42,9 @@ async def upload_tft_to_nextion(tft_path):
 
         with open(tft_path, 'rb') as file:
             buffered_reader = io.BufferedReader(file)
-
-        print(f"upload txt file: {tft_path}")
-        await nextion_client.upload_firmware(buffered_reader, 115200)
+            print(f"upload txt file: {tft_path}")
+            await nextion_client.upload_firmware(buffered_reader, 115200)
+            
         print(f"file uploaded")
     except Exception as e:
         print(f"upload tft file error: {e}")
