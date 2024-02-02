@@ -15,10 +15,11 @@ def git_pull(repo_path):
     origin = repo.remotes.origin
     
     result = origin.pull()
-    
-    print("Git Pull Result:")
-    for info in result:
-        print(info)
+
+    # Wypisanie informacji o zmienionych plikach
+    for fetch_info in result:
+        for diff in repo.index.diff(fetch_info.commit):
+            print(f"Chamged file: {diff.a_path}")
 
     if repo.git.diff('HEAD~1..HEAD', tft_path):
         print("File tft changed")
@@ -44,7 +45,7 @@ async def upload_tft_to_nextion(tft_path):
             buffered_reader = io.BufferedReader(file)
             print(f"upload txt file: {tft_path}")
             await nextion_client.upload_firmware(buffered_reader, 115200)
-            
+
         print(f"file uploaded")
     except Exception as e:
         print(f"upload tft file error: {e}")
