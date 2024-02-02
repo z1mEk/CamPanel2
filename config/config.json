@@ -49,7 +49,7 @@
     "solarWaterHeating": {
         "activeHeating": 1,
         "RsocControl": 1,
-        "onRsoc": 99,
+        "onRsoc": 95,
         "offRsoc": 80,
         "pvVoltageControl": 0,
         "onPvVoltage": 34,
