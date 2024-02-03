@@ -45,11 +45,11 @@ class plugin:
     async def start_bluetooth_server(cls, event_loop):
         try:
             server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-            server_sock.bind(("", 1)) #bluetooth.PORT_ANY))
+            server_sock.bind("", bluetooth.PORT_ANY)
             server_sock.listen(1)
             port = server_sock.getsockname()[1]
 
-            bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS])
+            bluetooth.advertise_service(server_sock, "CamPanel2", service_classes=[bluetooth.SERIAL_PORT_CLASS])
 
             logging.info(f"Czekam na połączenie na porcie {port}...")
 
