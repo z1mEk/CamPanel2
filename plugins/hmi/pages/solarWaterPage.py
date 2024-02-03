@@ -22,7 +22,7 @@ class solarWaterPage(TPage):
         solarWaterPage.nPvPower.val = solarWaterHeating.data.minPVPower
 
         solarWaterPage.tOnHour.txt = solarWaterHeating.data.onHour
-        solarWaterPage.tOffHour.txt =solarWaterHeating.data.offHour
+        solarWaterPage.tOffHour.txt = solarWaterHeating.data.offHour
     
     @classmethod
     async def onExit(cls):
