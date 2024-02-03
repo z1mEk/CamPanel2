@@ -68,6 +68,6 @@ class plugin:
     async def initialize(cls, event_loop):
         subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
         await asyncio.sleep(2)
-        thread = Thread(target=cls.tart_bluetooth_server(event_loop))
+        thread = Thread(target=cls.start_bluetooth_server(event_loop))
         thread.daemon = True
         thread.start()
