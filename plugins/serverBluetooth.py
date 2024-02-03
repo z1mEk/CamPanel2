@@ -68,7 +68,7 @@ class plugin:
             logging.error(f"start_bluetooth_server - {e}")
 
     @classmethod
-    def initialize(cls):
+    def initialize(cls, event_loop):
         subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
         Thread(target=cls.start_bluetooth_server).start()
 
