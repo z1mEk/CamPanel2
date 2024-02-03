@@ -10,8 +10,8 @@ import random
 from general.logger import logging
 
 class data:
-    inTemp = 0
-    outTemp = 0
+    inTemp = 18
+    outTemp = 4
 
 class plugin:
 

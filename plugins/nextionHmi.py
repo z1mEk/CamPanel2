@@ -91,7 +91,7 @@ class plugin:
     @classmethod
     async def UpdateSolarWaterHeating(cls, interval):
         while True:
-            if await methodsHmi.getCurrentPageId() == 0:
+            if await methodsHmi.getCurrentPageId() != 1:
                 solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
                 solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
                 solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl 
