@@ -8,8 +8,7 @@
         "wifiStatus",
         "solarWaterHeating",
         "nextionHmi",
-        "dieselHeater",
-        "serverBluetooth"
+        "dieselHeater"
     ],
     "logger" :{
         "fileName": "CamPanel.log",
