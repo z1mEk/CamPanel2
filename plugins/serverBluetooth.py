@@ -53,8 +53,6 @@ class plugin:
             port = server_sock.getsockname()[1]
 
             bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS])
-            #bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS], profiles=[bluetooth.SERIAL_PORT_PROFILE])
-            #bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS], profiles=[bluetooth.SERIAL_PORT_PROFILE], advertisement_id=1)
 
             logging.info(f"Czekam na połączenie na porcie {port}...")
 
