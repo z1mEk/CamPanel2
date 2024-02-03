@@ -1,22 +1,18 @@
-# bluetooth_server.py
-import bluetooth
+#! /usr/bin/python
 
-server_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+import bluetooth
+import uuid
+
+server_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
 
 port = 1
-server_socket.bind(("", port))
+server_socket.bind(("",port))
 server_socket.listen(1)
 
-print("Waiting for connection on RFCOMM channel", port)
+uuID = uuid.uuid4()
 
-client_socket, client_info = server_socket.accept()
-print("Accepted connection from", client_info)
+bluetooth.advertise_service( server_socket, "test", service_id=uuID )
 
-while True:
-    data = client_socket.recv(1024)
-    if not data:
-        break
-    print("Received:", data.decode("utf-8"))
-
-client_socket.close()
-server_socket.close()
+client_socket, client_address = server_socket.accept()
+print(client_socket)
+print(client_address)
