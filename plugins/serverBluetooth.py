@@ -1,5 +1,8 @@
 '''
 pip3 install pybluez
+
+https://stackoverflow.com/questions/37913796/bluetooth-error-no-advertisable-device
+https://forums.raspberrypi.com/viewtopic.php?t=132470
 '''
 import nest_asyncio
 from nest_asyncio import asyncio
@@ -42,20 +45,15 @@ class plugin:
     async def start_bluetooth_server(cls, event_loop):
         try:
             server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-            logging.info(f"1")
-            server_sock.bind(("", bluetooth.PORT_ANY))
-            logging.info(f"2")
+            server_sock.bind(("", 1)) #bluetooth.PORT_ANY))
             server_sock.listen(1)
-            logging.info(f"3")
             port = server_sock.getsockname()[1]
-            logging.info(f"4")
 
             bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS])
-            logging.info(f"5")
+
             logging.info(f"Czekam na połączenie na porcie {port}...")
 
             while True:
-                logging.info(f"6")
                 client_sock, client_info = await event_loop.sock_accept(server_sock)
                 logging.info(f"Połączono z {client_info}")
 
