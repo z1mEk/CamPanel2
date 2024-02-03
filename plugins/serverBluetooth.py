@@ -52,8 +52,8 @@ class plugin:
             server_sock.listen(1)
             port = server_sock.getsockname()[1]
 
-            #bluetooth.advertise_service(server_sock, "CamPanel2", service_classes=[bluetooth.SERIAL_PORT_CLASS])
-            bluetooth.advertise_service(server_sock, "CamPanel2", service_classes=[bluetooth.SERIAL_PORT_CLASS], profiles=[bluetooth.SERIAL_PORT_PROFILE])
+            bluetooth.advertise_service(server_sock, "CamPanel2", service_classes=[bluetooth.SERIAL_PORT_CLASS])
+            #bluetooth.advertise_service(server_sock, "CamPanel2", service_classes=[bluetooth.SERIAL_PORT_CLASS], profiles=[bluetooth.SERIAL_PORT_PROFILE])
 
             logging.info(f"Czekam na połączenie na porcie {port}...")
 
@@ -74,8 +74,8 @@ class plugin:
     @classmethod
     async def initialize(cls, event_loop):
         # await asyncio.sleep(5)
-        # subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
-        # await asyncio.sleep(2)
+        subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
+        await asyncio.sleep(2)
         thread = Thread(target=cls.start_fbt_server)
         thread.daemon = True
         thread.start()
