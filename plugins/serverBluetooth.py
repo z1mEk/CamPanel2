@@ -8,6 +8,7 @@ import nest_asyncio
 from nest_asyncio import asyncio
 nest_asyncio.apply()
 import bluetooth
+import subprocess
 import json
 from general.logger import logging
 
@@ -63,4 +64,6 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
+        subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
+        asyncio.sleep(2)
         event_loop.create_task(cls.start_bluetooth_server(event_loop))
