@@ -9,7 +9,7 @@ class solarWaterPage(TPage):
 
     @classmethod
     async def onShow(cls):
-        if len(solarWaterPage.tOnHour.txt) < 2: #if not edit on Page
+        if  solarWaterPage.tOnHour.txt is None: #if not edit on Page
             solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
             solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
             solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl 
