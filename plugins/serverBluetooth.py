@@ -60,13 +60,14 @@ class plugin:
                 logging.info(f"Połączono z {client_info}")
 
                 asyncio.create_task(cls.handle_client(client_sock, event_loop))
+                await asyncio.sleep(0.1)
         except Exception as e:
             logging.error(f"start_bluetooth_server - {e}")
 
     @classmethod
     async def initialize(cls, event_loop):
         subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
-        asyncio.sleep(2)
+        await asyncio.sleep(2)
         thread = Thread(target=cls.tart_bluetooth_server(event_loop))
         thread.daemon = True
         thread.start()
