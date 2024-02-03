@@ -88,6 +88,7 @@ class plugin:
                 mainPage.btBoiler.val = relays.data.relay3.val
             await asyncio.sleep(interval) 
 
+    @classmethod
     async def UpdateSolarWaterHeating(cls, interval):
         while True:
             if await methodsHmi.getCurrentPageId() == 0:
