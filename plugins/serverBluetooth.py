@@ -44,11 +44,9 @@ class plugin:
             client_sock.close()
 
     @classmethod
-    def start_bluetooth_server(cls):
-        event_loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(event_loop)
-
+    async def start_bluetooth_server(cls):
         try:
+            event_loop = asyncio.get_event_loop()
             server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
             server_sock.bind(("", bluetooth.PORT_ANY))
             server_sock.listen(1)
@@ -59,16 +57,25 @@ class plugin:
             logging.info(f"Czekam na połączenie na porcie {port}...")
 
             while True:
-                client_sock, client_info = event_loop.run_until_complete(event_loop.sock_accept(server_sock))
+                client_sock, client_info = await event_loop.sock_accept(server_sock)
                 logging.info(f"Połączono z {client_info}")
 
                 asyncio.create_task(cls.handle_client(client_sock, event_loop))
-
         except Exception as e:
             logging.error(f"start_bluetooth_server - {e}")
 
+
     @classmethod
-    def initialize(cls, event_loop):
+    def start_fbt_server(cls):
+        asyncio.run(cls.start_bluetooth_server())
+
+
+    @classmethod
+    async def initialize(cls, event_loop):
+        await asyncio.sleep(5)
         subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
-        Thread(target=cls.start_bluetooth_server).start()
+        await asyncio.sleep(2)
+        thread = Thread(target=cls.start_fbt_server)
+        thread.daemon = True
+        thread.start()
 
