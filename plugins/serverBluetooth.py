@@ -48,7 +48,7 @@ class plugin:
         try:
             event_loop = asyncio.get_event_loop()
             server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-            server_sock.bind(("", bluetooth.PORT_ANY))
+            server_sock.bind(("", 1))
             server_sock.listen(1)
             port = server_sock.getsockname()[1]
 
