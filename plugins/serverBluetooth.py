@@ -57,10 +57,11 @@ class plugin:
             logging.info(f"Czekam na połączenie na porcie {port}...")
 
             while True:
+                logging.info(f"Czekam na cwaniaka")
                 client_sock, client_info = await event_loop.sock_accept(server_sock)
                 logging.info(f"Połączono z {client_info}")
-
                 asyncio.create_task(cls.handle_client(client_sock, event_loop))
+
         except Exception as e:
             logging.error(f"start_bluetooth_server - {e}")
 
