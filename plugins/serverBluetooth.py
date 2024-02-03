@@ -46,6 +46,7 @@ class plugin:
     @classmethod
     async def start_bluetooth_server(cls, event_loop):
         try:
+            event_loop = asyncio.get_event_loop()
             server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
             server_sock.bind(("", bluetooth.PORT_ANY))
             server_sock.listen(1)
