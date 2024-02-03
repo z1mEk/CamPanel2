@@ -24,7 +24,7 @@ class plugin:
 
                 # Przetwarzanie odebranych danych w formie JSON
                 received_json = json.loads(data.decode('utf-8'))
-                logging.debug("Otrzymano dane w formie JSON:", received_json)
+                logging.info("Otrzymano dane w formie JSON:", received_json)
 
                 # Przykładowa odpowiedź serwera
                 response_data = {"status": "success", "message": "Odebrano dane"}
@@ -33,7 +33,7 @@ class plugin:
 
         except (ConnectionResetError, BrokenPipeError):
             # Obsługa rozłączenia klienta
-            logging.debug("Rozłączono z klientem.")
+            logging.info("Rozłączono z klientem.")
 
         finally:
             client_sock.close()
@@ -48,11 +48,11 @@ class plugin:
 
         bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS])
 
-        logging.debug(f"Czekam na połączenie na porcie {port}...")
+        logging.info(f"Czekam na połączenie na porcie {port}...")
 
         while True:
             client_sock, client_info = await event_loop.sock_accept(server_sock)
-            logging.debug(f"Połączono z {client_info}")
+            logging.info(f"Połączono z {client_info}")
 
             asyncio.create_task(cls.handle_client(client_sock, event_loop))
 

@@ -46,8 +46,8 @@ class plugin:
                 data.lastUpdate = datetime.now()
             except Exception as e:
                 logging.error(f"MCP2221_readwrite: {e}")
-                data.whiteWaterLevel = 67
-                data.greyWaterLevel = 32
+                data.whiteWaterLevel = 0
+                data.greyWaterLevel = 0
 
             await asyncio.sleep(interval)       
 
