@@ -48,7 +48,7 @@ class plugin:
         try:
             event_loop = asyncio.get_event_loop()
             server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-            server_sock.bind(("", 1))
+            server_sock.bind(("", bluetooth.PORT_ANY))
             server_sock.listen(1)
             port = server_sock.getsockname()[1]
 
@@ -57,7 +57,6 @@ class plugin:
             logging.info(f"Czekam na połączenie na porcie {port}...")
 
             while True:
-                logging.info(f"Czekam na cwaniaka")
                 client_sock, client_info = await event_loop.sock_accept(server_sock)
                 logging.info(f"Połączono z {client_info}")
                 asyncio.create_task(cls.handle_client(client_sock, event_loop))
@@ -73,9 +72,9 @@ class plugin:
 
     @classmethod
     async def initialize(cls, event_loop):
-        await asyncio.sleep(5)
-        subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
-        await asyncio.sleep(2)
+        # await asyncio.sleep(5)
+        # subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
+        # await asyncio.sleep(2)
         thread = Thread(target=cls.start_fbt_server)
         thread.daemon = True
         thread.start()
