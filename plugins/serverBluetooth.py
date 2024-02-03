@@ -40,12 +40,17 @@ class plugin:
 
     @classmethod
     async def start_bluetooth_server(cls, event_loop):
+        logging.info(f"bluetooth.BluetoothSocket(bluetooth.RFCOMM)")
         server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+        logging.info(f"server_sock.bind(("", bluetooth.PORT_ANY))")
         server_sock.bind(("", bluetooth.PORT_ANY))
+        logging.info(f"server_sock.listen(1)")
         server_sock.listen(1)
-
+        logging.info(f"port = server_sock.getsockname()[1]")
         port = server_sock.getsockname()[1]
+        logging.info(f"port = server_sock.getsockname()[1]")
 
+        logging.info(f"bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS])")
         bluetooth.advertise_service(server_sock, "CamPanel", service_classes=[bluetooth.SERIAL_PORT_CLASS])
 
         logging.info(f"Czekam na połączenie na porcie {port}...")
