@@ -44,7 +44,7 @@ class plugin:
             client_sock.close()
 
     @classmethod
-    async def start_bluetooth_server(cls):
+    async def start_bluetooth_server(cls, event_loop):
         try:
             server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
             server_sock.bind(("", bluetooth.PORT_ANY))
@@ -54,8 +54,6 @@ class plugin:
             bluetooth.advertise_service(server_sock, "CamPanel2", service_classes=[bluetooth.SERIAL_PORT_CLASS])
 
             logging.info(f"Czekam na połączenie na porcie {port}...")
-
-            event_loop = asyncio.get_event_loop()
 
             while True:
                 client_sock, client_info = await event_loop.sock_accept(server_sock)
@@ -70,6 +68,5 @@ class plugin:
     async def initialize(cls, event_loop):
         subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
         await asyncio.sleep(2)
-        thread = Thread(target=cls.start_bluetooth_server)
-        thread.daemon = True
-        thread.start()
+        event_loop.create_task(cls.start_bluetooth_server(event_loop))  
+
