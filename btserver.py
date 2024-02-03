@@ -9,7 +9,7 @@ port = 1
 server_socket.bind(("",port))
 server_socket.listen(1)
 
-uuID = uuid.uuid4()
+uuID = 99
 
 bluetooth.advertise_service( server_socket, "test", service_id=uuID )
 
