@@ -28,7 +28,7 @@ def main():
     # Ustawienia BLE
     service_uuid = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"  # Przykładowa usługa Custom UART
     characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"  # Przykładowa charakterystyka TX
-
+    print(f"adress = {get_ble_address()}")
     peripheral_address = get_ble_address()  # Wstaw rzeczywisty adres MAC
     peripheral = Peripheral()  # Utwórz obiekt Peripheral bez podawania adresu na razie
     peripheral.setDelegate(BLEDelegate())
