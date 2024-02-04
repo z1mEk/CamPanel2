@@ -2,7 +2,7 @@ import bluetooth
 import json
 
 def run_ble_client():
-    server_address = "B8:27:EB:40:3E:40"  # Wstaw rzeczywisty adres MAC serwera Bluetooth
+    server_address = "02:11:23:34:86:E2"  # Wstaw rzeczywisty adres MAC serwera Bluetooth
     port = 1
 
     client_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
@@ -11,7 +11,7 @@ def run_ble_client():
     try:
         while True:
             # Przykładowe dane JSON do wysłania
-            data_to_send = {"request": "get_data"}
+            data_to_send = "D2:03:00:80:00:29:96:5F"
 
             # Wysyłanie danych do serwera
             client_sock.send(json.dumps(data_to_send).encode())
