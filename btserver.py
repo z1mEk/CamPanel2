@@ -1,5 +1,4 @@
-from bluepy.btle import Peripheral, DefaultDelegate, UUID
-import json
+from bluepy.btle import Peripheral, DefaultDelegate, UUID, ADDR_TYPE_PUBLIC
 
 class BLEServerDelegate(DefaultDelegate):
     def __init__(self, peripheral):
@@ -18,11 +17,11 @@ def run_ble_server():
     characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
 
     # Utwórz serwer BLE
-    peripheral = Peripheral()
-    peripheral.setDelegate(BLEServerDelegate(peripheral))
+    peripheral = Peripheral(ADDR_TYPE_PUBLIC)
 
     try:
-        peripheral.connect()  # Nawiązanie połączenia
+        peripheral.setDelegate(BLEServerDelegate(peripheral))
+        peripheral.connect("B8:27:EB:40:3E:40")  # Wstaw rzeczywisty adres MAC serwera BLE
 
         # Utwórz usługę i charakterystykę
         service = peripheral.getServiceByUUID(UUID(service_uuid))
