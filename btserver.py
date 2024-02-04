@@ -1,22 +1,42 @@
-from bluepy.btle import Peripheral, UUID
+from bluepy.btle import Peripheral, DefaultDelegate, UUID
+import json
 
-# Define the BLE device address and service UUID
-device_address = "02:11:23:34:86:E2"  # Replace with your BLE device address
-service_uuid = "D2:03:00:80:00:29:96:5F"  # Example: Battery Service UUID
+class BLEServerDelegate(DefaultDelegate):
+    def __init__(self, peripheral):
+        DefaultDelegate.__init__(self)
+        self.peripheral = peripheral
 
-# Connect to the BLE device
-peripheral = Peripheral(device_address)
+    def handleNotification(self, cHandle, data):
+        print(f"Odebrano dane BLE: {data.decode()}")
+        response_data = {"nazwisko": "Gabriel Zima"}
+        response_json = json.dumps(response_data)
+        self.peripheral.writeCharacteristic(cHandle, response_json.encode(), withResponse=True)
 
-# Get the service by UUID
-service = peripheral.getServiceByUUID(UUID(service_uuid))
+def run_ble_server():
+    # Ustawienia BLE
+    service_uuid = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
+    characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
 
-# Iterate through characteristics in the service
-for characteristic in service.getCharacteristics():
-    print(f"Characteristic UUID: {characteristic.uuid}")
+    # Utwórz serwer BLE
+    peripheral = Peripheral()
+    peripheral.setDelegate(BLEServerDelegate(peripheral))
 
-    # Read the value of the characteristic
-    value = characteristic.read()
-    print(f"Characteristic Value: {value}")
+    try:
+        # Utwórz usługę i charakterystykę
+        service = peripheral.getServiceByUUID(UUID(service_uuid))
+        characteristic = service.getCharacteristics(UUID(characteristic_uuid))[0]
 
-# Disconnect from the BLE device
-peripheral.disconnect()
+        print("Oczekiwanie na dane BLE...")
+
+        while True:
+            if peripheral.waitForNotifications(1.0):
+                continue
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        peripheral.disconnect()
+
+if __name__ == "__main__":
+    run_ble_server()
