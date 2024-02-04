@@ -1,40 +1,28 @@
-from bluepy.btle import Peripheral, DefaultDelegate, UUID
+from gatt import Device, constants
 
-class BLEServerDelegate(DefaultDelegate):
-    def __init__(self, peripheral):
-        DefaultDelegate.__init__(self)
-        self.peripheral = peripheral
-
-    def handleNotification(self, cHandle, data):
-        print(f"Odebrano dane BLE: {data.decode()}")
+class BLEServer(Device):
+    def read_by_handle(self, handle):
+        print("Odebrano zapytanie o dane BLE.")
         response_data = {"nazwisko": "Gabriel Zima"}
         response_json = json.dumps(response_data)
-        self.peripheral.writeCharacteristic(cHandle, response_json.encode(), withResponse=True)
+        return bytearray(response_json.encode())
 
-def run_ble_server():
-    # Ustawienia BLE
-    service_uuid = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
-    characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
+server = BLEServer(adapter_name='hci0', device_name='MyBLEServer')
 
-    # Utwórz serwer BLE
-    peripheral = Peripheral()
+try:
+    server.add_service(uuid='6e400001-b5a3-f393-e0a9-e50e24dcca9e', primary=True)
+    server.add_characteristic(uuid='6e400002-b5a3-f393-e0a9-e50e24dcca9e',
+                              value="",
+                              permissions=(constants.PERMISSION_READ |
+                                           constants.PERMISSION_WRITE),
+                              properties=(constants.PROPERTY_READ |
+                                          constants.PROPERTY_WRITE),
+                              secure=False)
 
-    try:
-        peripheral.setDelegate(BLEServerDelegate(peripheral))
-        service = peripheral.getServiceByUUID(UUID(service_uuid))
-        characteristic = service.getCharacteristics(UUID(characteristic_uuid))[0]
+    print("Oczekiwanie na połączenie...")
 
-        print("Oczekiwanie na dane BLE...")
-
-        while True:
-            if peripheral.waitForNotifications(1.0):
-                continue
-
-    except KeyboardInterrupt:
-        pass
-
-    finally:
-        peripheral.disconnect()
-
-if __name__ == "__main__":
-    run_ble_server()
+    server.run()
+except KeyboardInterrupt:
+    pass
+finally:
+    server.stop()
