@@ -1,4 +1,4 @@
-from bluepy.btle import Peripheral, DefaultDelegate, UUID, ADDR_TYPE_PUBLIC
+from bluepy.btle import Peripheral, DefaultDelegate, UUID
 
 class BLEServerDelegate(DefaultDelegate):
     def __init__(self, peripheral):
@@ -17,7 +17,7 @@ def run_ble_server():
     characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
 
     # Utwórz serwer BLE
-    peripheral = Peripheral(ADDR_TYPE_PUBLIC)
+    peripheral = Peripheral()
 
     try:
         peripheral.setDelegate(BLEServerDelegate(peripheral))
