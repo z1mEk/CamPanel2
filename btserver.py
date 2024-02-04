@@ -30,11 +30,11 @@ def main():
     characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"  # Przykładowa charakterystyka TX
 
     peripheral_address = get_ble_address()  # Wstaw rzeczywisty adres MAC
-    peripheral = Peripheral(peripheral_address)
+    peripheral = Peripheral()  # Utwórz obiekt Peripheral bez podawania adresu na razie
     peripheral.setDelegate(BLEDelegate())
 
     try:
-        peripheral.connect()  # Nawiązanie połączenia
+        peripheral.connect(peripheral_address)  # Nawiązanie połączenia z podanym adresem
 
         # Przykładowe dane JSON
         sample_data = {"key": "value", "temperature": 25.5, "status": "OK"}
