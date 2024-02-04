@@ -1,34 +1,30 @@
-from bluepy.btle import Peripheral, UUID
+import bluetooth
+import json
 
 def run_ble_client():
-    # Ustawienia BLE
-    service_uuid = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
-    characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
+    server_address = "B8:27:EB:40:3E:40"  # Wstaw rzeczywisty adres MAC serwera Bluetooth
+    port = 1
 
-    peripheral_address = "B8:27:EB:40:3E:40"  # Wstaw rzeczywisty adres MAC serwera BLE
-
-    # Utwórz klienta BLE i nawiąż połączenie
-    peripheral = Peripheral(peripheral_address)
+    client_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    client_sock.connect((server_address, port))
 
     try:
-        # Pobierz usługę i charakterystykę
-        service = peripheral.getServiceByUUID(UUID(service_uuid))
-        characteristic = service.getCharacteristics(UUID(characteristic_uuid))[0]
+        while True:
+            # Przykładowe dane JSON do wysłania
+            data_to_send = {"request": "get_data"}
 
-        # Wyślij zapytanie do serwera
-        characteristic.write(b"Pytanie")
+            # Wysyłanie danych do serwera
+            client_sock.send(json.dumps(data_to_send).encode())
 
-        # Czekaj na odpowiedź od serwera
-        if peripheral.waitForNotifications(10.0):
-            print("Otrzymano odpowiedź od serwera.")
-        else:
-            print("Przekroczono czas oczekiwania na odpowiedź od serwera.")
+            # Oczekiwanie na odpowiedź od serwera
+            response_data = client_sock.recv(1024)
+            print(f"Odebrano odpowiedź od serwera: {response_data.decode()}")
 
     except Exception as e:
-        print(f"Błąd podczas komunikacji z serwerem: {e}")
+        print(f"Wystąpił błąd: {e}")
 
     finally:
-        peripheral.disconnect()
+        client_sock.close()
 
 if __name__ == "__main__":
     run_ble_client()
