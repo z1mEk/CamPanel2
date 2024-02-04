@@ -9,7 +9,7 @@ server_socket.bind(("",port))
 server_socket.listen(1)
 
 
-bluetooth.advertise_service( server_socket, "test" )
+bluetooth.advertise_service( server_socket, "CamPanel" )
 
 client_socket, client_address = server_socket.accept()
 print(client_socket)

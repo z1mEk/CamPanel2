@@ -74,7 +74,7 @@ class plugin:
     async def initialize(cls, event_loop):
         # await asyncio.sleep(5)
         subprocess.run(['sudo', 'chmod', 'o+rw', '/var/run/sdp'])
-        subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
+        #subprocess.run(["sudo", "hciconfig", "hci0", "piscan"])
         await asyncio.sleep(2)
         thread = Thread(target=cls.start_fbt_server)
         thread.daemon = True
