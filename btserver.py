@@ -2,7 +2,7 @@ from bluepy.btle import Peripheral, UUID
 
 # Define the BLE device address and service UUID
 device_address = "02:11:23:34:86:E2"  # Replace with your BLE device address
-service_uuid = "f000ffc0-0451-4000-b000-000000000000"  # Example: Battery Service UUID
+service_uuid = "f000ffc1-0451-4000-b000-000000000000"  # Example: Battery Service UUID
 
 # Connect to the BLE device
 peripheral = Peripheral(device_address)
