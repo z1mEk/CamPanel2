@@ -1,47 +1,22 @@
-from bluepy.btle import Peripheral, UUID, DefaultDelegate
-import json
-import time
-import subprocess
+from bluepy.btle import Peripheral, UUID
 
-class BLEDelegate(DefaultDelegate):
-    def handleNotification(self, cHandle, data):
-        print("Odebrano dane BLE:", data.decode())
+# Define the BLE device address and service UUID
+device_address = "B8:27:EB:40:3E:40"  # Replace with your BLE device address
+service_uuid = "0000180f-0000-1000-8000-00805f9b34fb"  # Example: Battery Service UUID
 
-def send_json_data(peripheral, characteristic, data):
-    json_data = json.dumps(data)
-    characteristic.write(json_data.encode())
+# Connect to the BLE device
+peripheral = Peripheral(device_address)
 
-def main():
-    # Ustawienia BLE
-    service_uuid = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"  # Przykładowa usługa Custom UART
-    characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"  # Przykładowa charakterystyka TX
-    peripheral_address = "B8:27:EB:40:3E:40"  # Wstaw rzeczywisty adres MAC
-    peripheral = Peripheral()  # Utwórz obiekt Peripheral bez podawania adresu na razie
-    peripheral.setDelegate(BLEDelegate())
+# Get the service by UUID
+service = peripheral.getServiceByUUID(UUID(service_uuid))
 
-    try:
-        peripheral.connect(peripheral_address)  # Nawiązanie połączenia z podanym adresem
+# Iterate through characteristics in the service
+for characteristic in service.getCharacteristics():
+    print(f"Characteristic UUID: {characteristic.uuid}")
 
-        # Przykładowe dane JSON
-        sample_data = {"key": "value", "temperature": 25.5, "status": "OK"}
+    # Read the value of the characteristic
+    value = characteristic.read()
+    print(f"Characteristic Value: {value}")
 
-        # Pobranie usługi i charakterystyki
-        service = peripheral.getServiceByUUID(UUID(service_uuid))
-        characteristic = service.getCharacteristics(UUID(characteristic_uuid))[0]
-
-        print("Oczekiwanie na dane BLE...")
-
-        while True:
-            # Wysłanie danych JSON przez Bluetooth
-            send_json_data(peripheral, characteristic, sample_data)
-
-            time.sleep(1)  # Poczekaj przed kolejnym wysłaniem
-
-    except KeyboardInterrupt:
-        pass
-
-    finally:
-        peripheral.disconnect()  # Rozłączenie po zakończeniu programu
-
-if __name__ == "__main__":
-    main()
+# Disconnect from the BLE device
+peripheral.disconnect()
