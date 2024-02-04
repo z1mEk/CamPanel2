@@ -2,8 +2,8 @@ from bluepy.btle import Peripheral, UUID
 
 def run_ble_client():
     # Ustawienia BLE
-    service_uuid = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
-    characteristic_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
+    service_uuid = "f000ffc0-0451-4000-b000-000000000000"
+    characteristic_uuid = "f000ffc1-0451-4000-b000-000000000000"
 
     peripheral_address = "02:11:23:34:86:E2"  # Wstaw rzeczywisty adres MAC serwera BLE
 
