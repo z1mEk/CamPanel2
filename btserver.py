@@ -1,16 +1,24 @@
-#! /usr/bin/python
-
 import bluetooth
 
-server_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+def handle_client(client_sock):
+    print("Urządzenie sparowane!")
+    client_sock.close()
 
-port = 1
-server_socket.bind(("",port))
-server_socket.listen(1)
+def main():
+    server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    port = 1  # Port RFCOMM (Bluetooth)
+    
+    server_sock.bind(("", port))
+    server_sock.listen(1)
+    
+    print("Oczekiwanie na połączenie Bluetooth...")
+    
+    client_sock, address = server_sock.accept()
+    print("Połączono z", address)
+    
+    handle_client(client_sock)
+    
+    server_sock.close()
 
-
-bluetooth.advertise_service( server_socket, "CamPanel" )
-
-client_socket, client_address = server_socket.accept()
-print(client_socket)
-print(client_address)
+if __name__ == "__main__":
+    main()
