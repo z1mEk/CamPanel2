@@ -22,6 +22,8 @@ def run_ble_server():
     peripheral.setDelegate(BLEServerDelegate(peripheral))
 
     try:
+        peripheral.connect()  # Nawiązanie połączenia
+
         # Utwórz usługę i charakterystykę
         service = peripheral.getServiceByUUID(UUID(service_uuid))
         characteristic = service.getCharacteristics(UUID(characteristic_uuid))[0]
