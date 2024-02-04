@@ -21,9 +21,6 @@ def run_ble_server():
 
     try:
         peripheral.setDelegate(BLEServerDelegate(peripheral))
-        peripheral.connect("B8:27:EB:40:3E:40", "public")  # Wstaw rzeczywisty adres MAC serwera BLE
-
-        # Utwórz usługę i charakterystykę
         service = peripheral.getServiceByUUID(UUID(service_uuid))
         characteristic = service.getCharacteristics(UUID(characteristic_uuid))[0]
 
