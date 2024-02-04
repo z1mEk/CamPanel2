@@ -20,7 +20,8 @@ def run_ble_client():
 
         # Czekaj na odpowiedź od serwera
         if peripheral.waitForNotifications(10.0):
-            print("Otrzymano odpowiedź od serwera.")
+            response_data = characteristic.read()
+            print("Otrzymano odpowiedź od serwera:", response_data.decode())
         else:
             print("Przekroczono czas oczekiwania na odpowiedź od serwera.")
 
