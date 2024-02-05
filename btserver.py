@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
 
+from gi.repository import GLib
 import dbus
+import dbus.exceptions
 import dbus.mainloop.glib
 import dbus.service
-from gi.repository import GObject
 import array
+from random import randint
+
+mainloop = None
 
 BLUEZ_SERVICE_NAME = 'org.bluez'
 GATT_MANAGER_IFACE = 'org.bluez.GattManager1'
 DBUS_OM_IFACE = 'org.freedesktop.DBus.ObjectManager'
 DBUS_PROP_IFACE = 'org.freedesktop.DBus.Properties'
+
 GATT_SERVICE_IFACE = 'org.bluez.GattService1'
 GATT_CHRC_IFACE = 'org.bluez.GattCharacteristic1'
+GATT_DESC_IFACE = 'org.bluez.GattDescriptor1'
 
 class InvalidArgsException(dbus.exceptions.DBusException):
     _dbus_error_name = 'org.freedesktop.DBus.Error.InvalidArgs'
@@ -182,18 +188,19 @@ def main():
         return
 
     service_manager = dbus.Interface(
-            bus.get_object(BLUEZ_SERVICE_NAME, adapter),
-            GATT_MANAGER_IFACE)
+        bus.get_object(BLUEZ_SERVICE_NAME, adapter),
+        GATT_MANAGER_IFACE)
 
     app = Application(bus)
 
-    mainloop = GObject.MainLoop()
+    mainloop = GLib.MainLoop()
 
-    print('Registering GATT application...')
+    print('Registering CamPanel application...')
 
-    service_manager.RegisterApplication(app.get_path(), {},
-                                    reply_handler=register_app_cb,
-                                    error_handler=register_app_error_cb)
+    service_manager.RegisterApplication(
+        app.get_path(), {},
+        reply_handler=register_app_cb,
+        error_handler=register_app_error_cb)
 
     mainloop.run()
 
