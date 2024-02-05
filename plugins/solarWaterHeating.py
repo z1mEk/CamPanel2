@@ -36,7 +36,7 @@ class plugin:
                 return True
             if dalyBms.data.RSOC <= data.offRsoc:
                 return False
-            return data.activeHeating
+            return data.currentHeating
         else:
             return True
         
@@ -47,12 +47,12 @@ class plugin:
                 return True
             if epeverTracer.pv.voltage <= data.offPvVoltage:
                 return False
-            return data.activeHeating
+            return data.currentHeating
         return True
     
     @classmethod
     def isPvPowerControl(cls):
-        if data.pvPowerControl == 1 and data.activeHeating:
+        if data.pvPowerControl == 1 and data.currentHeating:
             if epeverTracer.pv.power >= data.minPVPower:
                 return True
             else:
