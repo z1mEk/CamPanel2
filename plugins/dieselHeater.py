@@ -167,9 +167,9 @@ class plugin:
                 await asyncio.sleep(0.1)
                 #frame_receive = cls.srl.read(48) # 48?
 
-                frame_receive = b'\x76\x16\x05\x01\x00\x83\x06\x90\x00\x85\x00\x6A\x00\x82\x03\x85\x0e\x01\x00\x0e\x00\x00\x00\x00\x00'
+                frame_receive = bytearray([0x76, 0x16, 0x05, 0x01, 0x00, 0x83, 0x06, 0x90, 0x00, 0x85, 0x00, 0x6A, 0x00, 0x82, 0x03, 0x85, 0x0e, 0x01, 0x00, 0x0e, 0x00, 0x00, 0x00, 0x00, 0x00])
 
-                frame_receive[16] = (17).to_bytes(1, 'big') 
+                #frame_receive[16] = (17).to_bytes(1, 'big') 
 
                 await cls.translateReceivePacket(frame_receive[:24])
                 data.lastSend = time.time()
