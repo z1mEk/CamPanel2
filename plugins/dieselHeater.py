@@ -193,8 +193,6 @@ class plugin:
                 cmd[22] = 0
                 cmd[23] = 0
 
-                
-
                 frame_receive = bytes(cmd)
 
                 await cls.translateReceivePacket(frame_receive[:24])
