@@ -24,19 +24,18 @@ class plugin:
     mcp = None
 
     @classmethod
-    async def reconnect(cls):
+    def reconnect(cls):
         try:
             cls.mcp = EasyMCP2221.Device()
         except Exception as e:
             logging.error(f"MCP2221_connect: {e}") 
-            await asyncio.sleep(0.1)
 
     @classmethod
-    async def readData(cls, interval):
+    def readData(cls, interval):
         while True:
             try:
                 if cls.mcp == None:
-                    await cls.reconnect()
+                    cls.reconnect()
                 cls.mcp.set_pin_function(gp0="GPIO_OUT", gp1='ADC', gp2="ADC", gp3="GPIO_IN")
                 cls.mcp.ADC_config(ref="VDD")
                 cls.mcp.GPIO_write(gp0=True)     
