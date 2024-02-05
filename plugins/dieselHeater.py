@@ -11,10 +11,10 @@ import crcmod
 class helper:
     @classmethod
     def calculateFrequency(cls):
-        return transmitPacket.pumpFreqMin \
+        return int(transmitPacket.pumpFreqMin \
             + (transmitPacket.tempDesired - transmitPacket.tempDesiredMin) \
             / (transmitPacket.tempDesiredMax - transmitPacket.tempDesiredMin) \
-            * (transmitPacket.pumpFreqMax - transmitPacket.pumpFreqMin)
+            * (transmitPacket.pumpFreqMax - transmitPacket.pumpFreqMin))
     
     @classmethod
     def getErrorDescription(cls, errorState):
@@ -88,7 +88,7 @@ class data:
     errorDescription = ""
     fixedModePumpFreq = 0
     valueDisplay = ""
-    calculateFreq = helper.calculateFrequency()
+    calculateFreq = helper.calculateFrequency() / 10
     lastSend = time.time()
 
 class plugin:
@@ -116,7 +116,8 @@ class plugin:
             cmd[18], cmd[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
             cmd[20], cmd[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
 
-            frame = b''.join(x.to_bytes(1, 'big') for x in cmd)            
+            #frame = b''.join(x.to_bytes(1, 'big') for x in cmd)
+            frame = bytes(cmd)
 
             crc_func = crcmod.predefined.mkPredefinedCrcFun('modbus')
             checksum = crc_func(frame)
@@ -166,10 +167,35 @@ class plugin:
                 #cls.srl.write(frame_transmit)
                 await asyncio.sleep(0.1)
                 #frame_receive = cls.srl.read(48) # 48?
+                cmd = [0] * 24
+                cmd[0] = 118
+                cmd[1] = 22
+                cmd[2] = 5
+                cmd[3] = 1
+                cmd[4] = 0
+                cmd[5] = 131
+                cmd[6] = 6
+                cmd[7] = 144
+                cmd[8] = 0
+                cmd[9] = 133
+                cmd[10] = 0
+                cmd[11] = 106
+                cmd[12] = 0
+                cmd[13] = 130
+                cmd[14] = 3
+                cmd[15] = 133
+                cmd[16] = helper.calculateFrequency() #14
+                cmd[17] = 1
+                cmd[18] = 0
+                cmd[19] = 14
+                cmd[20] = 0
+                cmd[21] = 0
+                cmd[22] = 0
+                cmd[23] = 0
 
-                frame_receive = bytearray([0x76, 0x16, 0x05, 0x01, 0x00, 0x83, 0x06, 0x90, 0x00, 0x85, 0x00, 0x6A, 0x00, 0x82, 0x03, 0x85, 0x0e, 0x01, 0x00, 0x0e, 0x00, 0x00, 0x00, 0x00, 0x00])
+                
 
-                frame_receive[16] = 0xff
+                frame_receive = bytes(cmd)
 
                 await cls.translateReceivePacket(frame_receive[:24])
                 data.lastSend = time.time()
