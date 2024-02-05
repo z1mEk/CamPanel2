@@ -147,7 +147,6 @@ class relayMethod(metaclass=relayMeta):
     def onRelayChange(cls, relayIndex, value):
         influxDBLog.plugin.logRelay(relayIndex, value)
         logging.debug(f"onRelayChange({relayIndex}, {value})")
-        asyncio.run(methodsHmi.wakeUp())
         
 class TRelay(relayMethod):
     pass
@@ -176,6 +175,7 @@ class data:
 
         @classmethod
         def onRelayChange(cls, relayIndex, value):
+            asyncio.run(methodsHmi.wakeUp())
             return super().onRelayChange(relayIndex, value)
 
     class relay3(TRelay):
