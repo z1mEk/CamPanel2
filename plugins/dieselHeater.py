@@ -169,6 +169,8 @@ class plugin:
 
                 frame_receive = b'\x76\x16\x05\x01\x00\x83\x06\x90\x00\x85\x00\x6A\x00\x82\x03\x85\x0e\x01\x00\x0e\x00\x00\x00\x00\x00'
 
+                frame_receive[16] = int(helper.calculateFrequency() * 10)
+
                 await cls.translateReceivePacket(frame_receive[:24])
                 data.lastSend = time.time()
 
