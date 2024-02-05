@@ -93,7 +93,7 @@ class data:
 
 class plugin:
     @classmethod
-    def createTransmitPacket(cls):
+    async def createTransmitPacket(cls):
         frame = b''
         try:
             cmd = [0] * 24
@@ -130,7 +130,7 @@ class plugin:
         return frame
        
     @classmethod
-    def translateReceivePacket(cls, frame):
+    async def translateReceivePacket(cls, frame):
         try:
             data.runState = frame[2]
             data.runStateString = helper.getRunStateString(data.runState)
@@ -162,14 +162,14 @@ class plugin:
                 # if cls.srl.closed:
                 #     cls.srl.open()
 
-                frame_transmit = cls.createTransmitPacket()
+                frame_transmit = await cls.createTransmitPacket()
                 #cls.srl.write(frame_transmit)
                 await asyncio.sleep(0.1)
                 #frame_receive = cls.srl.read(48) # 48?
 
                 frame_receive = b'\x76\x16\x05\x01\x00\x83\x06\x90\x00\x85\x00\x6A\x00\x82\x03\x85\x0e\x01\x00\x0e\x00\x00\x00\x00\x00'
 
-                cls.translateReceivePacket(frame_receive[:24])
+                await cls.translateReceivePacket(frame_receive[:24])
                 data.lastSend = time.time()
 
         except Exception as e:
