@@ -29,6 +29,7 @@ class plugin:
             cls.mcp = EasyMCP2221.Device()
         except Exception as e:
             logging.error(f"MCP2221_connect: {e}") 
+            await asyncio.sleep(0.1)
 
     @classmethod
     async def readData(cls, interval):
