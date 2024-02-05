@@ -11,7 +11,7 @@ class BLEServer(Peripheral):
 
             # Utwórz charakterystykę w ramach usługi
             characteristic_uuid = "00002a29-0000-1000-8000-00805f9b34fb"  # Przykładowa charakterystyka Manufacturer Name String
-            self.manufacturer_name_characteristic = Characteristic(characteristic_uuid, 2, self.device_info_service, 0)
+            self.manufacturer_name_characteristic = Characteristic(characteristic_uuid, 0x02, self.device_info_service)
 
             # Ustaw wartość domyślną
             self.manufacturer_name_characteristic.write("MyBLEDevice")
