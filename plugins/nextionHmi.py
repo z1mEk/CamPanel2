@@ -140,7 +140,7 @@ class plugin:
         event_loop.create_task(cls.updateTemperatures(5))   
         event_loop.create_task(cls.updateDalyBMS(2))
         event_loop.create_task(cls.updateEpeverTracer(5))
-        event_loop.create_task(cls.updateWaterLevel(10))
+        event_loop.create_task(cls.updateWaterLevel(2))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
         event_loop.create_task(cls.UpdateSolarWaterHeating(2))
         event_loop.create_task(cls.updateDieselHeaterData(1))
