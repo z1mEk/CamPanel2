@@ -24,7 +24,7 @@ class plugin:
     mcp = None
 
     @classmethod
-    def reconnect(cls):
+    async def reconnect(cls):
         try:
             cls.mcp = EasyMCP2221.Device()
         except Exception as e:
@@ -35,7 +35,7 @@ class plugin:
         while True:
             try:
                 if cls.mcp == None:
-                    cls.reconnect()
+                    await cls.reconnect()
                 cls.mcp.set_pin_function(gp0="GPIO_OUT", gp1='ADC', gp2="ADC", gp3="GPIO_IN")
                 cls.mcp.ADC_config(ref="VDD")
                 cls.mcp.GPIO_write(gp0=True)     

@@ -158,7 +158,7 @@ class GabrielCharacteristic(Characteristic):
                 service)
 
 def register_app_cb():
-    print('GATT application registered')
+    print('CamPanel application registered')
 
 def register_app_error_cb(error):
     print('Failed to register application: ' + str(error))
