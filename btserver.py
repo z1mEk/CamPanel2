@@ -1,32 +1,30 @@
-import pygatt
-import time
+import asyncio
+from bleak import BleakServer, BleakCharacteristic
 
-def handle_data(handle, value):
-    print("Received data:", value.decode())
+CHARACTERISTIC_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
 
-adapter = pygatt.GATTToolBackend()
+async def handle_write(sender: int, data: bytearray):
+    print(f"Received data: {data.decode()}")
 
-try:
-    adapter.start()
+async def run_ble_server():
+    # Utwórz serwer BLE
+    server = BleakServer()
 
-    # Utwórz serwer GATT
-    server = adapter.add_service(uuid="6e400001-b5a3-f393-e0a9-e50e24dcca9e")
-
-    # Utwórz charakterystykę w ramach usługi
-    characteristic = server.add_characteristic(
-        uuid="6e400002-b5a3-f393-e0a9-e50e24dcca9e",
-        properties=["notify", "write"]
+    # Utwórz charakterystykę
+    characteristic = BleakCharacteristic(
+        uuid=CHARACTERISTIC_UUID,
+        description="Custom Characteristic",
+        notify=True,
+        write=True,
+        write_callback=handle_write,
     )
 
-    characteristic.on_write = handle_data
+    # Dodaj charakterystykę do serwera
+    await server.add_characteristic(characteristic)
 
-    print("BLE server started. Waiting for connections...")
+    # Uruchom serwer
+    await server.start()
 
-    while True:
-        time.sleep(1)
-
-except KeyboardInterrupt:
-    print("BLE server stopped.")
-
-finally:
-    adapter.stop()
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(run_ble_server())
