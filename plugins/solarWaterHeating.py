@@ -25,6 +25,8 @@ class data:
         onHour = config.solarWaterHeating.onHour
         offHour = config.solarWaterHeating.offHour
 
+        currentHeating = False
+
 class plugin:
 
     @classmethod
@@ -34,6 +36,7 @@ class plugin:
                 return True
             if dalyBms.data.RSOC <= data.offRsoc:
                 return False
+            return data.activeHeating
         else:
             return True
         
@@ -44,11 +47,12 @@ class plugin:
                 return True
             if epeverTracer.pv.voltage <= data.offPvVoltage:
                 return False
+            return data.activeHeating
         return True
     
     @classmethod
     def isPvPowerControl(cls):
-        if data.pvPowerControl == 1:
+        if data.pvPowerControl == 1 and data.activeHeating:
             if epeverTracer.pv.power >= data.minPVPower:
                 return True
             else:
@@ -74,12 +78,16 @@ class plugin:
     @classmethod
     async def autoWaterHeating(cls, interval):
         while True:
-            if data.activeHeating == 1 \
+            data.currentHeating = (
+                data.activeHeating == 1 \
                 and cls.isRsocControl() \
                 and cls.isRsocControl() \
                 and cls.isPvVoltageControl() \
                 and cls.isPvPowerControl() \
-                and cls.isHourControl():
+                and cls.isHourControl()
+            )
+
+            if data.currentHeating:
                 if relays.data.relay1.val == 0:
                     relays.data.relay1.on() #set on inverter 230V
             
