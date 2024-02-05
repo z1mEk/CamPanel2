@@ -1,40 +1,32 @@
-from gatt import Device, Service, Characteristic, Application
+import pygatt
+import time
 
-class MyCharacteristic(Characteristic):
-    def __init__(self, service):
-        Characteristic.__init__(
-            self,
-            service,
-            uuid="6e400002-b5a3-f393-e0a9-e50e24dcca9e",
-            properties=["notify", "write"]
-        )
-        self.addDescriptor(MyDescriptor(self))
+def handle_data(handle, value):
+    print("Received data:", value.decode())
 
-    def WriteValue(self, value, options):
-        print("WriteValue:", value)
-        return True
+adapter = pygatt.GATTToolBackend()
 
-class MyDescriptor(Descriptor):
-    def __init__(self, characteristic):
-        Descriptor.__init__(
-            self,
-            characteristic,
-            uuid="2901",
-            value="My Custom Characteristic"
-        )
+try:
+    adapter.start()
 
-class MyService(Service):
-    def __init__(self, application):
-        Service.__init__(self, application=application, uuid="6e400001-b5a3-f393-e0a9-e50e24dcca9e")
-        self.addCharacteristic(MyCharacteristic(self))
+    # Utwórz serwer GATT
+    server = adapter.add_service(uuid="6e400001-b5a3-f393-e0a9-e50e24dcca9e")
 
-class MyApp(Application):
-    def __init__(self):
-        Application.__init__(self)
+    # Utwórz charakterystykę w ramach usługi
+    characteristic = server.add_characteristic(
+        uuid="6e400002-b5a3-f393-e0a9-e50e24dcca9e",
+        properties=["notify", "write"]
+    )
 
-    def start(self):
-        super().start()
+    characteristic.on_write = handle_data
 
-app = MyApp()
-app.addService(MyService(app))
-app.start()
+    print("BLE server started. Waiting for connections...")
+
+    while True:
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    print("BLE server stopped.")
+
+finally:
+    adapter.stop()
