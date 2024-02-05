@@ -9,7 +9,6 @@ from flask import Flask, jsonify, render_template, send_from_directory
 from threading import Thread
 from plugins import waterLevel, dalyBms, epeverTracer, relays, temperatures
 from general.configLoader import config
-from plugins.hmi import methods as methodsHmi
 import logging
 import logging.handlers
 
@@ -98,5 +97,4 @@ def getFonts(file_name):
 @app.route('/setrelay/relay<relay>/toggle')
 def set_relay(relay):
     relays.data.relays[int(relay)].toggle()
-    asyncio.run(methodsHmi.wakeUp())
     return jsonify({"success": True})
