@@ -8,6 +8,7 @@ from serial import Serial
 from plugins import influxDBLog
 from datetime import datetime
 from general.logger import logging
+from plugins.hmi import methods as methodsHmi
 
 class modbusCRC:
     CRCTableHigh = [
@@ -146,6 +147,7 @@ class relayMethod(metaclass=relayMeta):
     def onRelayChange(cls, relayIndex, value):
         influxDBLog.plugin.logRelay(relayIndex, value)
         logging.debug(f"onRelayChange({relayIndex}, {value})")
+        asyncio.run(methodsHmi.wakeUp())
         
 class TRelay(relayMethod):
     pass
