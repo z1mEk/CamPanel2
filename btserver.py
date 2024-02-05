@@ -1,52 +1,40 @@
-from bluepy.btle import Peripheral, Characteristic, Service, DefaultDelegate
+from gatt import Device, Service, Characteristic, Application
 
-class BLEServer:
+class MyCharacteristic(Characteristic):
+    def __init__(self, service):
+        Characteristic.__init__(
+            self,
+            service,
+            uuid="6e400002-b5a3-f393-e0a9-e50e24dcca9e",
+            properties=["notify", "write"]
+        )
+        self.addDescriptor(MyDescriptor(self))
+
+    def WriteValue(self, value, options):
+        print("WriteValue:", value)
+        return True
+
+class MyDescriptor(Descriptor):
+    def __init__(self, characteristic):
+        Descriptor.__init__(
+            self,
+            characteristic,
+            uuid="2901",
+            value="My Custom Characteristic"
+        )
+
+class MyService(Service):
+    def __init__(self, application):
+        Service.__init__(self, application=application, uuid="6e400001-b5a3-f393-e0a9-e50e24dcca9e")
+        self.addCharacteristic(MyCharacteristic(self))
+
+class MyApp(Application):
     def __init__(self):
-        try:
-            # Utwórz obiekt Peripheral
-            self.peripheral = Peripheral()
+        Application.__init__(self)
 
-            # Utwórz usługę GATT
-            service_uuid = "0000180a-0000-1000-8000-00805f9b34fb"  # Przykładowa usługa Device Information
-            self.device_info_service = Service(service_uuid, 1)
+    def start(self):
+        super().start()
 
-            # Utwórz charakterystykę w ramach usługi
-            characteristic_uuid = "00002a29-0000-1000-8000-00805f9b34fb"  # Przykładowa charakterystyka Manufacturer Name String
-            self.manufacturer_name_characteristic = Characteristic(characteristic_uuid, 0x02, self.device_info_service)
-
-            # Ustaw wartość domyślną
-            self.manufacturer_name_characteristic.write("MyBLEDevice")
-
-            # Dodaj charakterystykę do usługi
-            self.device_info_service.addCharacteristic(self.manufacturer_name_characteristic)
-
-            # Dodaj usługę do urządzenia
-            self.peripheral.addService(self.device_info_service)
-
-        except Exception as e:
-            print(f"Błąd inicjalizacji serwera BLE: {e}")
-            raise
-
-    def run_server(self):
-        try:
-            print("Uruchomiono serwer BLE. Oczekiwanie na połączenia...")
-
-            # Pozostań w pętli głównej, aby serwer działał ciągle
-            while True:
-                if self.peripheral.waitForNotifications(1.0):
-                    continue
-
-        except KeyboardInterrupt:
-            print("Zatrzymano serwer BLE.")
-
-        finally:
-            self.peripheral.disconnect()
-
-if __name__ == "__main__":
-    try:
-        # Utwórz instancję serwera BLE
-        server = BLEServer()
-        server.run_server()
-
-    except KeyboardInterrupt:
-        print("Zatrzymano program.")
+app = MyApp()
+app.addService(MyService(app))
+app.start()
