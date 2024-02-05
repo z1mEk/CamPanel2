@@ -52,7 +52,7 @@ class plugin:
     
     @classmethod
     def isPvPowerControl(cls):
-        if data.pvPowerControl == 1 and data.currentHeating:
+        if data.pvPowerControl == 1:
             if epeverTracer.pv.power >= data.minPVPower:
                 return True
             else:
