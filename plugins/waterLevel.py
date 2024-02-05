@@ -31,7 +31,7 @@ class plugin:
             logging.error(f"MCP2221_connect: {e}") 
 
     @classmethod
-    def readData(cls, interval):
+    async def readData(cls, interval):
         while True:
             try:
                 if cls.mcp == None:
