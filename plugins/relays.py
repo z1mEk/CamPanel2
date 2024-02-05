@@ -83,7 +83,6 @@ class relayMeta(type):
     @val.setter
     def val(self, value):
         self.setRelayState(value)
-        asyncio.run(methodsHmi.wakeUp())
 
 class relayMethod(metaclass=relayMeta):
 
@@ -114,7 +113,6 @@ class relayMethod(metaclass=relayMeta):
             srl.write(cmd)
             srl.close()
             data.relaysState[cls.address.value[1]] = value
-            cls.onRelayChange(cls.address.value[1], value)
         except Exception as e:
             logging.error(f"Relays set: {e}")
 
@@ -148,6 +146,7 @@ class relayMethod(metaclass=relayMeta):
     def onRelayChange(cls, relayIndex, value):
         influxDBLog.plugin.logRelay(relayIndex, value)
         logging.debug(f"onRelayChange({relayIndex}, {value})")
+        asyncio.run(methodsHmi.wakeUp())
         
 class TRelay(relayMethod):
     pass
