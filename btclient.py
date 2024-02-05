@@ -5,7 +5,7 @@ def run_ble_client():
     service_uuid = "12345678-1234-5678-1234-56789abcdef0"
     characteristic_uuid = "12345678-1234-5678-1234-56789abcdef1"
 
-    peripheral_address = "02:11:23:34:86:E2"  # Wstaw rzeczywisty adres MAC serwera BLE
+    peripheral_address = "B8:27:EB:40:3E:40"  # Wstaw rzeczywisty adres MAC serwera BLE
 
     # Utwórz klienta BLE i nawiąż połączenie
     peripheral = Peripheral(peripheral_address)
