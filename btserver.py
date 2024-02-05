@@ -1,10 +1,15 @@
 import asyncio
 from bleak import BleakServer, BleakCharacteristic, BleakAdvertisingData
 
-CHARACTERISTIC_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
+CHARACTERISTIC_UUID = "f000ffc1-0451-4000-b000-000000000000"
 
-async def handle_write(sender: int, data: bytearray):
-    print(f"Received data: {data.decode()}")
+async def send_data(characteristic):
+    count = 0
+    while True:
+        data = f"Dane od serwera: {count}"
+        await asyncio.sleep(1)  # Emulacja pracy serwera
+        await characteristic.write_value(data.encode())
+        count += 1
 
 async def run_ble_server():
     # Utwórz serwer BLE
@@ -15,12 +20,14 @@ async def run_ble_server():
         uuid=CHARACTERISTIC_UUID,
         description="Custom Characteristic",
         notify=True,
-        write=True,
-        write_callback=handle_write,
+        write=False,
     )
 
     # Dodaj charakterystykę do serwera
     await server.add_characteristic(characteristic)
+
+    # Uruchom wątek wysyłający dane
+    asyncio.create_task(send_data(characteristic))
 
     # Skonfiguruj dane reklamowe
     advertising_data = BleakAdvertisingData(service_uuids=[CHARACTERISTIC_UUID])
