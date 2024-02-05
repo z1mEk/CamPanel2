@@ -16,8 +16,14 @@ def run_ble_client():
         characteristic = service.getCharacteristics(UUID(characteristic_uuid))[0]
 
         # Wyślij zapytanie do serwera
-        value = characteristic.read()
-        print("Otrzymano odpowiedź od serwera:", value.decode())
+        characteristic.write(b"Pytanie")
+
+        # Czekaj na odpowiedź od serwera
+        if peripheral.waitForNotifications(10.0):
+            response_data = characteristic.read()
+            print("Otrzymano odpowiedź od serwera:", response_data.decode())
+        else:
+            print("Przekroczono czas oczekiwania na odpowiedź od serwera.")
 
     except Exception as e:
         print(f"Błąd podczas komunikacji z serwerem: {e}")
