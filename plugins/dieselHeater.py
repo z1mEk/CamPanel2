@@ -81,7 +81,7 @@ class data:
     fanVoltage = 0
     heatExchTemp = 0
     glowPlugVoltage = 0
-    glowPlugCurrent = 0
+    glowPlugCurrent = 0.0
     actualPumpFreq = 0
     errorCode = 0
     errorDisplay = ""
@@ -181,7 +181,7 @@ class plugin:
                 cmd[12] = 0
                 cmd[13] = 130
                 cmd[14] = 3
-                cmd[15] = 133
+                cmd[15] = 125
                 cmd[16] = helper.calculateFrequency() #14
                 cmd[17] = 1
                 cmd[18] = 0
