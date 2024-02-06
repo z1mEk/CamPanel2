@@ -57,6 +57,11 @@ class plugin:
                 mainPage.tPvVoltage.txt = '{:.0f}V'.format(epeverTracer.data.pv.voltage)
                 mainPage.tPvCurrent.txt = '{:.0f}A'.format(epeverTracer.data.pv.current)
                 mainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.data.pv.power)
+                mainPage.pPvStatus.pic = (
+                    14 if epeverTracer.data.pv.voltage < 5 else #moon
+                    15 if epeverTracer.data.pv.voltage < 25 else #cloud
+                    16 #sun
+                )
             await asyncio.sleep(interval)
 
     @classmethod
@@ -128,6 +133,7 @@ class plugin:
                     dieselHeatPage.vaWent.val = dieselHeater.data.fanRpm
                     dieselHeatPage.vaPump.val = int(dieselHeater.data.actualPumpFreq * 10)
                     dieselHeatPage.vaHeaterTemp.val = dieselHeater.data.heatExchTemp
+                    dieselHeatPage.vaGlow.val = dieselHeater.data.glowPlugCurrent
                     
             except Exception as e:
                 logging.error(f"updateDieselHeaterData - {e}")
