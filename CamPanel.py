@@ -15,12 +15,14 @@ def startCampanel():
         event_loop.create_task(pluginsLoader.pluginsInit(event_loop))
         event_loop.run_forever()
 
-daemon_thread = threading.Thread(target=startCampanel)
-daemon_thread.daemon = True
-daemon_thread.start()
 
-try:
-    while True:
-        time.sleep(1)
-except KeyboardInterrupt:
-    logging.info("Main thread interrupted. Exiting...")
+if __name__ == '__main__':
+    daemon_thread = threading.Thread(target=startCampanel)
+    daemon_thread.daemon = True
+    daemon_thread.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        logging.info("Main thread interrupted. Exiting...")
