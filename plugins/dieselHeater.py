@@ -94,7 +94,6 @@ class data:
 class plugin:
     @classmethod
     async def createTransmitPacket(cls):
-        frame = b''
         try:
             cmd = [0] * 24
             cmd[0] = 0x76 #Start of Frame - 0x76 for LCD
@@ -116,7 +115,6 @@ class plugin:
             cmd[18], cmd[19] = 0xEB, 0x47 #unknown 0xEB MSB and 0x47 LSB for LCD controller
             cmd[20], cmd[21] = transmitPacket.altitude.to_bytes(2, byteorder='big') #Altitude MSB, LSB
 
-            #frame = b''.join(x.to_bytes(1, 'big') for x in cmd)
             frame = bytes(cmd)
 
             crc_func = crcmod.predefined.mkPredefinedCrcFun('modbus')
@@ -213,12 +211,12 @@ class plugin:
 
     @classmethod
     async def start(cls):
-            transmitPacket.command = 160
+            transmitPacket.command = 160 #0xA0
             await cls.sendPacket()
 
     @classmethod
     async def stop(cls):
-            transmitPacket.command = 5
+            transmitPacket.command = 5 #0x05
             await cls.sendPacket()
 
     @classmethod
