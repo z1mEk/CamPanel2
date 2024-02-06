@@ -48,7 +48,7 @@ class plugin:
         while True:
             try:
                 #pv
-                data.pv.voltage = 34 #tracer.get_solar_voltage()
+                data.pv.voltage = tracer.get_solar_voltage()
                 data.pv.current = tracer.get_solar_current()
                 data.pv.power = tracer.get_solar_power()
 

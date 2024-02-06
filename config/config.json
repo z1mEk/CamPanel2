@@ -4,6 +4,7 @@
         "dalyBms",
         "waterLevel",
         "temperatures",
+        "ePeverTracer",
         "serverHttp",
         "wifiStatus",
         "solarWaterHeating",
