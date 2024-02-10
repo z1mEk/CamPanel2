@@ -38,6 +38,8 @@ class mainPage(TPage):
                 await dieselHeater.plugin.start()
             else:
                 await dieselHeater.plugin.stop()
+                
+            dieselHeater.data.onOff = cls.val
 
     class btBoiler(TDualStateButton):
         @classmethod
