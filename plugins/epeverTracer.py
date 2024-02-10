@@ -77,7 +77,7 @@ class plugin:
             except Exception as e:
                 logging.error(f"ePeverTracer: {e}")
                 #pv
-                data.pv.voltage = 20
+                data.pv.voltage = 35
                 data.pv.current = 0
                 data.pv.power = 0
 
