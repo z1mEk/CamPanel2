@@ -99,6 +99,8 @@ class plugin:
                 relays.data.relay1.on() #set on inverter 230V
                 relays.data.relay3.on() #set on boiler 230V
             else:
+                if data.currentHeating:
+                    data.currentHeatingTime = time.time()    
                 data.currentHeating = False
                 relays.data.relay3.off() #set off boiler 230V
                 if data.inverterAutoOff == 1:
