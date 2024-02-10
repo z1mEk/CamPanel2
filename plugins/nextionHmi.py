@@ -93,7 +93,7 @@ class plugin:
             if data.currentPage == 0:
                 mainPage.btWaterPump.val = relays.data.relay0.val
                 mainPage.btACInverter.val = relays.data.relay1.val
-                mainPage.btHeater.val = relays.data.relay2.val
+                mainPage.btHeater.val = dieselHeater.data.onOff
                 mainPage.btBoiler.val = relays.data.relay3.val
             await asyncio.sleep(interval) 
 
@@ -123,7 +123,7 @@ class plugin:
             try:
                 if data.currentPage == 2:
                     dieselHeatPage.tValue.txt = dieselHeater.data.valueDisplay
-                    dieselHeatPage.btHeater.val = relays.data.relay2.val
+                    dieselHeatPage.btHeater.val = dieselHeater.data.onOff
                     dieselHeatPage.btThermostat.val = dieselHeater.transmitPacket.thermostatMode
 
                     dieselHeatPage.tStatus.txt = dieselHeater.data.runStateString

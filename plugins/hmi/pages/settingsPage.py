@@ -9,7 +9,7 @@ class settingsPage(TPage):
 
     @classmethod
     async def onShow(cls):
-        cls.btWifi.val = wifiStatus.data.wifiStatus
+        cls.btWifi.val = wifiStatus.data.wifiStatus   
     
     @classmethod
     async def onExit(cls):      

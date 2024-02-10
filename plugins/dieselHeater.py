@@ -73,6 +73,7 @@ class transmitPacket:
 
 class data:
     srl:Serial = None
+    onOff = 0
     runState = 0
     runStateString = ""
     errorState = 0

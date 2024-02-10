@@ -18,7 +18,7 @@ class dieselHeatPage(TPage):
     class btHeater(TDualStateButton):
         @classmethod
         async def onRelease(cls):
-            relays.data.relay2.val = cls.val
+            dieselHeater.data.onOff = cls.val
             if cls.val == 1:
                 await dieselHeater.plugin.start()
             else:
