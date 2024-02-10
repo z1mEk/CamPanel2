@@ -144,7 +144,7 @@ class plugin:
         event_loop.create_task(hmi.create(event_loop))
         event_loop.create_task(cls.updateTime(1))
         event_loop.create_task(cls.updateTemperatures(5))   
-        event_loop.create_task(cls.updateDalyBMS(2))
+        event_loop.create_task(cls.updateDalyBMS(1))
         event_loop.create_task(cls.updateEpeverTracer(5))
         event_loop.create_task(cls.updateWaterLevel(5))
         event_loop.create_task(cls.updateDualStateButtonValue(1))
