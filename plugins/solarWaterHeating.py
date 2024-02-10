@@ -93,8 +93,9 @@ class plugin:
             )
 
             if data.awailableHeating:
-                data.currentHeating = True  
-                data.currentHeatingTime = time.time()             
+                if not data.currentHeating:
+                    data.currentHeatingTime = time.time()    
+                data.currentHeating = True           
                 relays.data.relay1.on() #set on inverter 230V
                 relays.data.relay3.on() #set on boiler 230V
             else:
