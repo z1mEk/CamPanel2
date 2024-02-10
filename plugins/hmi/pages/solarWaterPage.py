@@ -14,6 +14,7 @@ class solarWaterPage(TPage):
     @classmethod
     async def onExit(cls):
         solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
+        solarWaterHeating.data.inverterAutoOff = solarWaterPage.btInverter.val
         solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
         solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
         solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
@@ -29,6 +30,9 @@ class solarWaterPage(TPage):
         solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt        
 
     class btActive(TDualStateButton):
+        pass
+
+    class btInverter(TDualStateButton):
         pass
 
     class btBatRsoc(TDualStateButton):

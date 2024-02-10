@@ -10,22 +10,23 @@ from datetime import datetime
 from general.logger import logging
 from general.configLoader import config
 
-class plugin:
-
+class data:
     currentPage = 0
+
+class plugin:
 
     @classmethod
     async def updateTime(cls, interval):
         while True:
-            cls.currentPage = await methodsHmi.getCurrentPageId()
-            if cls.currentPage == 0:
+            data.currentPage = await methodsHmi.getCurrentPageId()
+            if data.currentPage == 0:
                 mainPage.tTime.txt = datetime.now().strftime("%-H:%M")
             await asyncio.sleep(interval)
 
     @classmethod
     async def updateTemperatures(cls, interval):
         while True:
-            if cls.currentPage == 0:
+            if data.currentPage == 0:
                 mainPage.tInTemp.txt = '{:.0f}'.format(temperatures.data.inTemp)
                 mainPage.tOutTemp.txt = '{:.0f}'.format(temperatures.data.outTemp)
             await asyncio.sleep(interval)
@@ -33,7 +34,7 @@ class plugin:
     @classmethod
     async def updateDalyBMS(cls, interval):
         while True:
-            if cls.currentPage == 0:
+            if data.currentPage == 0:
                 mainPage.jRSOC.val = dalyBms.data.RSOC
                 mainPage.tRSOC.txt = '{:.0f}'.format(dalyBms.data.RSOC)
                 mainPage.tVoltage.txt = '{:.2f}V'.format(dalyBms.data.totalVoltage)
@@ -56,7 +57,7 @@ class plugin:
     @classmethod
     async def updateEpeverTracer(cls, interval):
         while True:
-            if cls.currentPage == 0:
+            if data.currentPage == 0:
                 mainPage.tPvVoltage.txt = '{:.0f}V'.format(epeverTracer.data.pv.voltage)
                 mainPage.tPvCurrent.txt = '{:.0f}A'.format(epeverTracer.data.pv.current)
                 mainPage.tPvPower.txt = '{:.0f}W'.format(epeverTracer.data.pv.power)
@@ -70,7 +71,7 @@ class plugin:
     @classmethod
     async def updateWaterLevel(cls, interval):
         while True:
-            if cls.currentPage == 0:
+            if data.currentPage == 0:
                 mainPage.jWhiteWater.val = waterLevel.data.whiteWaterLevel 
                 mainPage.jWhiteWater.pco = (
                     helper.RGB2NextionColor(0, 130, 255) if waterLevel.data.whiteWaterLevel > 20 else
@@ -89,7 +90,7 @@ class plugin:
     @classmethod
     async def updateDualStateButtonValue(cls, interval):
         while True:
-            if cls.currentPage == 0:
+            if data.currentPage == 0:
                 mainPage.btWaterPump.val = relays.data.relay0.val
                 mainPage.btACInverter.val = relays.data.relay1.val
                 mainPage.btHeater.val = relays.data.relay2.val
@@ -99,7 +100,7 @@ class plugin:
     @classmethod
     async def UpdateSolarWaterHeating(cls, interval):
         while True:
-            if cls.currentPage != 1:
+            if data.currentPage != 1:
                 solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
                 solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
                 solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl 
@@ -120,7 +121,7 @@ class plugin:
     async def updateDieselHeaterData(cls, interval):
         while True:
             try:
-                if cls.currentPage == 2:
+                if data.currentPage == 2:
                     dieselHeatPage.tValue.txt = dieselHeater.data.valueDisplay
                     dieselHeatPage.btHeater.val = relays.data.relay2.val
                     dieselHeatPage.btThermostat.val = dieselHeater.transmitPacket.thermostatMode

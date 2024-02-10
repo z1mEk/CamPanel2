@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 class data:
         activeHeating = config.solarWaterHeating.activeHeating
 
+        inverterAutoOff = config.solarWaterHeating.inverterAutoOff
+
         RsocControl = config.solarWaterHeating.RsocControl
         onRsoc = config.solarWaterHeating.onRsoc
         offRsoc = config.solarWaterHeating.offRsoc
@@ -95,6 +97,9 @@ class plugin:
                     relays.data.relay3.on() #set on boiler 230V
             else:
                 relays.data.relay3.off() #set off boiler 230V
+
+                if data.inverterAutoOff == 1:
+                    relays.data.relay1.off() #set off inverter 230V
 
             await asyncio.sleep(interval)   
 

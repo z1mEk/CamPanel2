@@ -49,6 +49,7 @@
     },
     "solarWaterHeating": {
         "activeHeating": 1,
+        "inverterAutoOff": 1,
         "RsocControl": 1,
         "onRsoc": 95,
         "offRsoc": 80,
