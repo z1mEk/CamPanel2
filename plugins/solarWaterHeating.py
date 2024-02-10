@@ -55,7 +55,7 @@ class plugin:
     
     @classmethod
     def isPvPowerControl(cls): #sprawdzanie czy moc PV jest >= od ustalonej
-        if data.pvPowerControl == 1 and data.currentHeating:
+        if data.pvPowerControl == 1 and epeverTracer.pv.voltage >= 34:
             if epeverTracer.pv.power >= data.minPVPower:
                 return True
             else:
