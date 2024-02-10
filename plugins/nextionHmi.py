@@ -98,6 +98,7 @@ class plugin:
         while True:
             if await methodsHmi.getCurrentPageId() != 1:
                 solarWaterPage.btActive.val = solarWaterHeating.data.activeHeating
+                solarWaterPage.btInverter.val = solarWaterHeating.data.inverterAutoOff
                 solarWaterPage.btBatRsoc.val = solarWaterHeating.data.RsocControl
                 solarWaterPage.btPvVoltage.val = solarWaterHeating.data.pvVoltageControl 
                 solarWaterPage.btPvPower.val = solarWaterHeating.data.pvPowerControl
