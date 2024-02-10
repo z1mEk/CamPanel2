@@ -27,10 +27,8 @@ class data:
         onHour = config.solarWaterHeating.onHour
         offHour = config.solarWaterHeating.offHour
 
+        awailableHeating = False
         currentHeating = False
-
-        pv_condition_checked = False
-        initial_startup = True
 
 class plugin:
 
@@ -57,7 +55,7 @@ class plugin:
     
     @classmethod
     def isPvPowerControl(cls): #sprawdzanie czy moc PV jest >= od ustalonej
-        if data.pvPowerControl == 1:
+        if data.pvPowerControl == 1 and data.currentHeating:
             if epeverTracer.pv.power >= data.minPVPower:
                 return True
             else:
@@ -83,33 +81,24 @@ class plugin:
     @classmethod
     async def autoWaterHeating(cls, interval):
         while True:
-            # Sprawdź warunek mocy PV tylko jeśli jeszcze nie został sprawdzony w tej iteracji
-            if not data.pv_condition_checked:
-                data.currentHeating = (
-                    data.activeHeating == 1 \
-                    and cls.isRsocControl() \
-                    and cls.isRsocControl() \
-                    and cls.isPvVoltageControl() \
-                    and cls.isPvPowerControl() \
-                    and cls.isHourControl()
-                )
+            data.awailableHeating = (
+                data.activeHeating == 1 \
+                and cls.isRsocControl() \
+                and cls.isRsocControl() \
+                and cls.isPvVoltageControl() \
+                and cls.isPvPowerControl() \
+                and cls.isHourControl()
+            )
 
-                # Jeśli to jest początek uruchomienia systemu, ignoruj warunek mocy PV
-                if data.initial_startup:
-                    data.currentHeating = True
-                    data.initial_startup = False
-
-                # Jeśli grzanie zostało włączone i warunek mocy PV jest niezgodny, wyłącz grzanie wody
-                if data.currentHeating:
-                    if not cls.isPvPowerControl():
-                        data.currentHeating = False
-                        relays.data.relay1.off() #set off inverter 230V
-                        relays.data.relay3.off() #set off boiler 230V
-
-                # Ustaw flagę na True, aby oznaczyć, że warunek mocy PV został już sprawdzony w tej iteracji
-                data.pv_condition_checked = True
-
-            # W tym miejscu możemy wykonać inne czynności związane z grzaniem wody
+            if data.awailableHeating:
+                data.currentHeating = True                
+                relays.data.relay1.on() #set on inverter 230V
+                relays.data.relay3.on() #set on boiler 230V
+            else:
+                data.currentHeating = False
+                relays.data.relay3.off() #set off boiler 230V
+                if data.inverterAutoOff == 1:
+                    relays.data.relay1.off() #set off inverter 230V
 
             await asyncio.sleep(interval)   
 
