@@ -29,6 +29,7 @@ class data:
 
         awailableHeating = False
         currentHeating = False
+        currentHeatingStart = datetime.now().time()
 
 class plugin:
 
@@ -55,7 +56,8 @@ class plugin:
     
     @classmethod
     def isPvPowerControl(cls): #sprawdzanie czy moc PV jest >= od ustalonej
-        if data.pvPowerControl == 1 and epeverTracer.pv.voltage >= 34:
+        now = datetime.now().time()
+        if data.pvPowerControl == 1 and now - data.currentHeatingStart > 10:
             if epeverTracer.pv.power >= data.minPVPower:
                 return True
             else:
@@ -91,6 +93,8 @@ class plugin:
             )
 
             if data.awailableHeating:
+                if not data.currentHeating:
+                    data.currentHeatingStart = datetime.now().time()
                 data.currentHeating = True                
                 relays.data.relay1.on() #set on inverter 230V
                 relays.data.relay3.on() #set on boiler 230V
