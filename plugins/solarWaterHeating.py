@@ -6,6 +6,7 @@ from plugins import dalyBms, relays, epeverTracer
 from plugins.hmi import methods as methodsHmi
 from general.logger import logging
 from datetime import datetime, timedelta
+import time
     
 class data:
         activeHeating = config.solarWaterHeating.activeHeating
@@ -29,6 +30,7 @@ class data:
 
         awailableHeating = False
         currentHeating = False
+        currentHeatingTime = None
 
 class plugin:
 
@@ -55,7 +57,7 @@ class plugin:
     
     @classmethod
     def isPvPowerControl(cls): #sprawdzanie czy moc PV jest >= od ustalonej
-        if data.pvPowerControl == 1:
+        if data.pvPowerControl == 1 and data.currentHeatingTime is not None and time.time() - data.currentHeatingTime > 10:
             if epeverTracer.pv.power >= data.minPVPower:
                 return True
             else:
@@ -91,7 +93,8 @@ class plugin:
             )
 
             if data.awailableHeating:
-                data.currentHeating = True                
+                data.currentHeating = True  
+                data.currentHeatingTime = time.time()             
                 relays.data.relay1.on() #set on inverter 230V
                 relays.data.relay3.on() #set on boiler 230V
             else:
