@@ -211,12 +211,12 @@ class plugin:
 
     @classmethod
     async def start(cls):
-            transmitPacket.command = 160 #0xA0
+            transmitPacket.command = 0xA0
             await cls.sendPacket()
 
     @classmethod
     async def stop(cls):
-            transmitPacket.command = 5 #0x05
+            transmitPacket.command = 0x05
             await cls.sendPacket()
 
     @classmethod
