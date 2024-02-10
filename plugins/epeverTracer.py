@@ -40,43 +40,43 @@ class plugin:
     @classmethod
     async def readData(cls, interval):
 
-        tracer_device = device.FindUsbDevice(config.ePeverTracer.device)
-        try:
-            data.tracer = EpeverChargeController(tracer_device, 1)
-        except Exception as e:
-                logging.error(f"ePeverTracer_create: {e}")
+        # tracer_device = device.FindUsbDevice(config.ePeverTracer.device)
+        # try:
+        #     data.tracer = EpeverChargeController(tracer_device, 1)
+        # except Exception as e:
+        #         logging.error(f"ePeverTracer_create: {e}")
 
         while True:
-            try:
-                #pv
-                data.pv.voltage = data.tracer.get_solar_voltage()
-                data.pv.current = data.tracer.get_solar_current()
-                data.pv.power = data.tracer.get_solar_power()
+            # try:
+            #     #pv
+            #     data.pv.voltage = data.tracer.get_solar_voltage()
+            #     data.pv.current = data.tracer.get_solar_current()
+            #     data.pv.power = data.tracer.get_solar_power()
 
-                #battery
-                data.battery.voltage = data.tracer.get_battery_voltage()
-                data.battery.current = data.tracer.get_battery_current()
-                data.battery.soc = data.tracer.get_battery_state_of_charge()
-                data.battery.temp = data.tracer.get_battery_temperature()
-                data.battery.capacity = data.tracer.get_battery_capacity()
-                data.battery.charging_equipment_status = data.tracer.get_charging_equipment_status()['charging_status']
+            #     #battery
+            #     data.battery.voltage = data.tracer.get_battery_voltage()
+            #     data.battery.current = data.tracer.get_battery_current()
+            #     data.battery.soc = data.tracer.get_battery_state_of_charge()
+            #     data.battery.temp = data.tracer.get_battery_temperature()
+            #     data.battery.capacity = data.tracer.get_battery_capacity()
+            #     data.battery.charging_equipment_status = data.tracer.get_charging_equipment_status()['charging_status']
 
-                #charging_status = {
-                #   0: "NO_CHARGING",
-                #   1: "FLOAT",
-                #   2: "BOOST",
-                #   3: "EQUALIZATION",
-                #}
+            #     #charging_status = {
+            #     #   0: "NO_CHARGING",
+            #     #   1: "FLOAT",
+            #     #   2: "BOOST",
+            #     #   3: "EQUALIZATION",
+            #     #}
 
-                #load
-                data.load.voltage = data.tracer.get_load_voltage()
-                data.load.current = data.tracer.get_load_current()
-                data.load.power = data.tracer.get_load_power()
+            #     #load
+            #     data.load.voltage = data.tracer.get_load_voltage()
+            #     data.load.current = data.tracer.get_load_current()
+            #     data.load.power = data.tracer.get_load_power()
 
-                data.lastUpdate = datetime.now()   
+            #     data.lastUpdate = datetime.now()   
 
-            except Exception as e:
-                logging.error(f"ePeverTracer_getData: {e}")
+            #except Exception as e:
+                #logging.error(f"ePeverTracer_getData: {e}")
                 #pv
                 data.pv.voltage = 35
                 data.pv.current = 0
@@ -93,7 +93,7 @@ class plugin:
                 data.load.voltage = 0
                 data.load.current = 0
                 data.load.power = 0
-            await asyncio.sleep(interval)       
+                await asyncio.sleep(interval)       
 
     @classmethod
     async def initialize(cls, event_loop):
