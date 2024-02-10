@@ -86,7 +86,7 @@ class plugin:
                 and cls.isRsocControl() \
                 and cls.isRsocControl() \
                 and cls.isPvVoltageControl() \
-                #and cls.isPvPowerControl() \
+                and cls.isPvPowerControl() \
                 and cls.isHourControl()
             )
 
