@@ -29,6 +29,7 @@ class load:
     power = 0
 
 class data:
+    tracer = None
     pv = pv
     battery = battery
     load = load
@@ -41,24 +42,24 @@ class plugin:
 
         tracer_device = device.FindUsbDevice(config.ePeverTracer.device)
         try:
-            tracer = EpeverChargeController(tracer_device, 1)
+            data.tracer = EpeverChargeController(tracer_device, 1)
         except Exception as e:
-                logging.error(f"ePeverTracer: {e}")
+                logging.error(f"ePeverTracer_create: {e}")
 
         while True:
             try:
                 #pv
-                data.pv.voltage = tracer.get_solar_voltage()
-                data.pv.current = tracer.get_solar_current()
-                data.pv.power = tracer.get_solar_power()
+                data.pv.voltage = data.tracer.get_solar_voltage()
+                data.pv.current = data.tracer.get_solar_current()
+                data.pv.power = data.tracer.get_solar_power()
 
                 #battery
-                data.battery.voltage = tracer.get_battery_voltage()
-                data.battery.current = tracer.get_battery_current()
-                data.battery.soc = tracer.get_battery_state_of_charge()
-                data.battery.temp = tracer.get_battery_temperature()
-                data.battery.capacity = tracer.get_battery_capacity()
-                data.battery.charging_equipment_status = tracer.get_charging_equipment_status()['charging_status']
+                data.battery.voltage = data.tracer.get_battery_voltage()
+                data.battery.current = data.tracer.get_battery_current()
+                data.battery.soc = data.tracer.get_battery_state_of_charge()
+                data.battery.temp = data.tracer.get_battery_temperature()
+                data.battery.capacity = data.tracer.get_battery_capacity()
+                data.battery.charging_equipment_status = data.tracer.get_charging_equipment_status()['charging_status']
 
                 #charging_status = {
                 #   0: "NO_CHARGING",
@@ -68,14 +69,14 @@ class plugin:
                 #}
 
                 #load
-                data.load.voltage = tracer.get_load_voltage()
-                data.load.current = tracer.get_load_current()
-                data.load.power = tracer.get_load_power()
+                data.load.voltage = data.tracer.get_load_voltage()
+                data.load.current = data.tracer.get_load_current()
+                data.load.power = data.tracer.get_load_power()
 
                 data.lastUpdate = datetime.now()   
 
             except Exception as e:
-                logging.error(f"ePeverTracer: {e}")
+                logging.error(f"ePeverTracer_getData: {e}")
                 #pv
                 data.pv.voltage = 35
                 data.pv.current = 0
