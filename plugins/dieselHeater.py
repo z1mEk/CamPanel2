@@ -35,7 +35,7 @@ class helper:
         if errorState == 0:
             return "Idle"
         elif errorState == 1:
-            return "Normala praca"
+            return "Normalna praca"
         else:
             return errorMsg[errorState - 2]
         
@@ -99,7 +99,7 @@ class plugin:
         try:
             cmd = [0] * 24
             cmd[0] = 0x76 #Start of Frame - 0x76 for LCD
-            cmd[1] = 0x16 #Data Size 24bytes
+            cmd[1] = 0x16 #Data Size 22bytes
             cmd[2] = transmitPacket.command #command 00h / 05h (stop) / A0h (start)
             cmd[3] = transmitPacket.tempSensor if transmitPacket.thermostatMode == 1 else 0 #temp sensor
             cmd[4] = transmitPacket.tempDesired #desired temp
