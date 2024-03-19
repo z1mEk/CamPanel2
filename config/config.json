@@ -32,7 +32,7 @@
         "device": "1A86:7523"
     },
     "ePeverTracer": {
-        "device": "/dev/ttyUSB9" 
+        "device": "123:1123" 
     },    
     "httpServer": {
         "host": "0.0.0.0",

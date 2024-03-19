@@ -91,7 +91,6 @@ class data:
     valueDisplay = ""
     calculateFreq = helper.calculateFrequency() / 10
     lastSend = time.time()
-    errorCode = 0
 
 class plugin:
     @classmethod

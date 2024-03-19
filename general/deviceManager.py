@@ -4,15 +4,18 @@ from general.logger import logging
 class device():
     def FindUsbDevice(vid_pid):
 
-        if vid_pid[:4] == "/dev":
+        if vid_pid[:4] == "/dev" or vid_pid[:3] == "COM":
             logging.debug(f"FindUsbDevice({vid_pid}) -> {vid_pid}")
             return vid_pid
-
-        vid, pid = map(lambda x: int(x, 16), vid_pid.split(':'))
+        
+        devices = vid_pid.split(':')
+        vid, pid = devices[:2]
+        if len(devices) > 2:
+            snb = devices[3]
 
         for port in list(list_ports.comports()):
-            if port.vid == vid and port.pid == pid:
-                logging.debug(f"FindUsbDevice({vid_pid}) -> {port.device}")
+            if port.vid == vid and port.pid == pid and (port.serial_number == snb or snb is None):
+                logging.debug(f"FindUsbDevice({vid_pid}) -> {port.device} {port.serial_number}")
                 return port.device
 
-        return None
+        return None     
