@@ -14,8 +14,8 @@ class device():
             snb = devices[3]
 
         for port in list(list_ports.comports()):
-            if port.vid == vid and port.pid == pid and (port.serial_number == snb or snb is None):
-                logging.debug(f"FindUsbDevice({vid_pid}) -> {port.device} {port.serial_number}")
+            if port.vid == vid and port.pid == pid: # and (port.serial_number == snb or snb is None):
+                logging.debug(f"FindUsbDevice({vid_pid}) -> {port.device}")
                 return port.device
 
         return None     
