@@ -11,9 +11,10 @@ class device():
             return vid_pid
         
         devices = vid_pid.split(':')
-        vid, pid = devices[:2]
-        if len(devices) > 2:
-            snb = devices[3]
+        vid = devices[0]
+        pid = devices[1]
+        #if len(devices) > 2:
+        #    snb = devices[3]
 
         for port in list(list_ports.comports()):
             if port.vid == vid and port.pid == pid: # and (port.serial_number == snb or snb is None):
