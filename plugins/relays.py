@@ -155,7 +155,7 @@ class data:
 
     relaysState = None
     lastUpdate = None
-    relays_device = device.FindUsbDevice(config.relays.device)
+    relays_device = None
  
     class relay0(TRelay):
         address = RelayAddress.RELAY0
@@ -219,6 +219,7 @@ class plugin:
 
     @classmethod
     async def readData(cls, interval):
+        data.relays_device = device.FindUsbDevice(config.relays.device)
         relayMethod.getRelaysState()
 
     @classmethod
