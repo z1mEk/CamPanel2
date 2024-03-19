@@ -108,8 +108,8 @@ class relayMethod(metaclass=relayMeta):
         crc = modbusCRC.calculateCrc16(cmd[0:6])
         cmd[6], cmd[7] = crc & 0xFF, crc >> 8
         try:
-            relays_device = device.FindUsbDevice(config.relays.device)
-            srl = Serial(relays_device, config.relays.baudrate)
+            #relays_device = device.FindUsbDevice(config.relays.device)
+            srl = Serial(data.relays_device, config.relays.baudrate)
             srl.write(cmd)
             srl.close()
             data.relaysState[cls.address.value[1]] = value
@@ -155,7 +155,7 @@ class data:
 
     relaysState = None
     lastUpdate = None
-    relays_device = None
+    relays_device = device.FindUsbDevice(config.relays.device)
  
     class relay0(TRelay):
         address = RelayAddress.RELAY0
@@ -219,7 +219,6 @@ class plugin:
 
     @classmethod
     async def readData(cls, interval):
-        data.relays_device = device.FindUsbDevice(config.relays.device)
         relayMethod.getRelaysState()
 
     @classmethod
