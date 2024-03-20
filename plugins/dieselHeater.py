@@ -93,6 +93,9 @@ class data:
     lastSend = time.time()
 
 class plugin:
+    
+    dieselHeaterDevice = None
+    
     @classmethod
     async def createTransmitPacket(cls):
         try:
@@ -155,8 +158,8 @@ class plugin:
     async def sendPacket(cls):
         try:
             # if cls.srl is None:
-            #     dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
-            #     cls.srl = Serial(dieselHeaterDevice, 25000)
+            #     //dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
+            #     cls.srl = Serial(cls.dieselHeaterDevice, 25000)
             # if cls.srl.closed:
             #     cls.srl.open()
             frame_transmit = await cls.createTransmitPacket()
@@ -232,4 +235,5 @@ class plugin:
    
     @classmethod
     async def initialize(cls, event_loop):
+        cls.dieselHeaterDevice = device.FindUsbDevice(config.dieselHeater.device)
         event_loop.create_task(cls.sendPacketLoop())

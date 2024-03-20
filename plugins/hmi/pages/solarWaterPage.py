@@ -13,24 +13,27 @@ class solarWaterPage(TPage):
     
     @classmethod
     async def onExit(cls):
-        solarWaterHeating.data.activeHeating = solarWaterPage.btActive.val
-        solarWaterHeating.data.inverterAutoOff = solarWaterPage.btInverter.val
-        solarWaterHeating.data.RsocControl = solarWaterPage.btBatRsoc.val
-        solarWaterHeating.data.pvVoltageControl = solarWaterPage.btPvVoltage.val
-        solarWaterHeating.data.pvPowerControl = solarWaterPage.btPvPower.val
-        solarWaterHeating.data.hourControl = solarWaterPage.btHour.val
+        solarWaterHeating.data.activeHeating = cls.btActive.val
+        solarWaterHeating.data.inverterAutoOff = cls.btInverter.val
+        solarWaterHeating.data.RsocControl = cls.btBatRsoc.val
+        solarWaterHeating.data.pvVoltageControl = cls.btPvVoltage.val
+        solarWaterHeating.data.pvPowerControl = cls.btPvPower.val
+        solarWaterHeating.data.hourControl = cls.btHour.val
 
-        solarWaterHeating.data.onRsoc = solarWaterPage.nOnBatRsoc.val
-        solarWaterHeating.data.offRsoc = solarWaterPage.nOffBatRsoc.val
-        solarWaterHeating.data.onPvVoltage = solarWaterPage.nOnPvVoltage.val
-        solarWaterHeating.data.offPvVoltage = solarWaterPage.nOffPvVoltage.val
-        solarWaterHeating.data.minPVPower = solarWaterPage.nPvPower.val
+        solarWaterHeating.data.onRsoc = cls.nOnBatRsoc.val
+        solarWaterHeating.data.offRsoc = cls.nOffBatRsoc.val
+        solarWaterHeating.data.onPvVoltage = cls.nOnPvVoltage.val
+        solarWaterHeating.data.offPvVoltage = cls.nOffPvVoltage.val
+        solarWaterHeating.data.minPVPower = cls.nPvPower.val
 
-        solarWaterHeating.data.onHour = solarWaterPage.tOnHour.txt
-        solarWaterHeating.data.offHour = solarWaterPage.tOffHour.txt        
+        solarWaterHeating.data.onHour = cls.tOnHour.txt
+        solarWaterHeating.data.offHour = cls.tOffHour.txt        
 
     class btActive(TDualStateButton):
-        pass
+        @classmethod
+        def onRelease(cls):
+            if cls.btActive.val == 0:
+                cls.btInverter = 0
 
     class btInverter(TDualStateButton):
         pass

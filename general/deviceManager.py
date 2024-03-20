@@ -12,7 +12,7 @@ class device():
 
         for port in list(list_ports.comports()):
             if port.vid == vid and port.pid == pid:
-                logging.info(f"FindUsbDevice({vid_pid}) -> {port.device} {port}")
+                logging.info(f"FindUsbDevice({vid_pid}) -> {port.device}")
                 return port.device
 
         return None
