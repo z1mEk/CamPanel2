@@ -36,6 +36,7 @@ class mainPage(TPage):
         async def onRelease(cls):
             if cls.val == 1:
                 await dieselHeater.plugin.start()
+                await hmiMethods.showPageName("dieselHeatPage")
             else:
                 await dieselHeater.plugin.stop()
                 
